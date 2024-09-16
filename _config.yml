@@ -1,4 +1,4 @@
-theme: flexible-jekyll
+theme: jekyll-flexible-jekyll
 title: Mike Watson
 description: > # this means to ignore newlines until "baseurl:"
   I’m an IT and cybersecurity professional with a passion for network security, 
