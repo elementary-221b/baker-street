@@ -28,3 +28,15 @@ Open a browser to a device that is current connected, either directly with a eth
 * https://adguard-dns.io/en/public-dns.html
 * https://developers.cloudflare.com/1.1.1.1/setup/
 * https://quad9.net/service/service-addresses-and-features
+
+Good, better, and more better. Using filtering DNS servers to prevent accidentally going to a malicious website or phishing scam goes a long way to personal protection, but scammers (and even your ISP) can still see your searches. The better option is DNS-over-TLS (DoT) which encrypts the DNS queries. This has natively supported on recent android devices by entering the DoT entry in the 'private dns' setting, usually under the 'more connection settings' tab. What about more better? DNS-over-HTTPS takes the encryption of DNS queries but uses the HTTPS port 443. Why is this important? Plain DNS uses port 53 for the traffic and can be quickly filtered using a packet analyzer; DoT uses the port 853 and can be filtered, but the payload is encrypted and unreadable. If a threat actor wants to get around this, one method is to interrupt traffic on port 853 and have the DNS quaries fallback to the non-encrypted port 53. DoH traffic is obfuscated with all the other web traffic and blocking port 443 will quickly alert the target since web browsing and streaming will be blocked as well. Several companies provide apps to enable DoH on devices, but requires it to be installed on each device. 
+
+## Defense in depth
+
+This concept is a strategy of layered security protocols protecting assets. Take the time to configure your home router with a filtering DNS, this should catch IoT devices like smart bulbs that can't be directly configured. Configure your devices (laptops, phones, smart TV's) to prevent them from attempting to bypass the routers settings (Install the DoH apps on your devices that have that option).
+Next let's segment the devices on our network. Most home routers have an additional 'Guest WiFi' option, this can be used for devices that shouldn't have access to your PC, laptop, or router configuration. When setting up both the Guest and Personal WiFi, select the highest security that's supported (WPA3 is currently the most secure), change the default SSID name and set a strong password. While you're in the router settings, now is a good time to change the router's login credentials. Disable remote management, enable the firewall if the setting is available, and setup access control (MAC filtering)
+
+> Honorable mentions
+
+Free VPN's: keeping with the free theme, some providers like ProtonVPN have a free option, but often have a large asterisk. Limited servers, network throttling, no support for additional features. The first hardening feature I would suggest when willing to add a dollar value would be getting a VPN service. (VPN confusion, some routers say they support VPN, but don't mention if it's as a client or server.)
+Mobile carriers have some features to manage web content: T-Mobile Web Guard, Verizon Smart Family, AT&T Secure Family, etc. These can be found either on the company website or a pre-installed app.
