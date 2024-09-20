@@ -17,7 +17,6 @@ The tools, services, and apps that I will focus on in this post will use the typ
 ## DNS Servers
 
 Adjusting your default DNS in your device settings is a great start to configuring technical controls. The best place to start is your router. The router normally has a label with the default login information printed on it, or included in the manual if you purchased one yourself. I'll cover changing this later (you should). Common URLs for this are:
-![DNS Setup]({{site.baseurl}}/assets/img/Change-DNS-router-settings-Google-Public-DNS.png)
 
 * 192.168.0.1
 * 192.168.1.1
@@ -25,6 +24,7 @@ Adjusting your default DNS in your device settings is a great start to configuri
 * www.routerlogin.com
 
 Open a browser to a device that is current connected, either directly with a ethernet cable or if you've already setup and connected to it's WiFi network, and type in the URL. Go through the internet setup settings (searching you router model and dns will often give exact setup instructions) and change from the default to better DNS server. 
+![DNS Setup]({{site.baseurl}}/assets/img/Change-DNS-router-settings-Google-Public-DNS.png)
 * https://adguard-dns.io/en/public-dns.html
 * https://developers.cloudflare.com/1.1.1.1/setup/
 * https://quad9.net/service/service-addresses-and-features
