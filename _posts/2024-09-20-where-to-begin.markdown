@@ -13,6 +13,7 @@ tags: [Router, WiFi, DNS] # add tag
 The tools, services, and apps that I will focus on in this post will use the typical configuration that the internet service provider (ISP) or manufacturer would have setup as default. That will be my starting point for introducing network hardening in your home. The main objectives in cybersecurity is confidentiality, integrity, and availability. This is often shortened to the CIA Triad. You are already implementing a key cybersecurity measure by comparing your home network setup against the steps and tool that are listed here. Managerial Controls are one part of the implementation of security control processes. Taking an inventory of all your connected devices (or assets) and doing a risk assessment on the possible threats and vulnerabilities in their current state.
 
 > The tools
+
 ## DNS Servers
 
 Adjusting your default DNS in your device settings is a great start to configuring technical controls. The best place to start is your router. The router normally has a label with the default login information printed on it, or included in the manual if you purchased one yourself. I'll cover changing this later (you should). Common URLs for this are:
@@ -22,6 +23,7 @@ Adjusting your default DNS in your device settings is a great start to configuri
 * 192.168.1.1
 * www.routerlogin.net
 * www.routerlogin.com
+
 Open a browser to a device that is current connected, either directly with a ethernet cable or if you've already setup and connected to it's WiFi network, and type in the URL. Go through the internet setup settings (searching you router model and dns will often give exact setup instructions) and change from the default to better DNS server. 
 * https://adguard-dns.io/en/public-dns.html
 * https://developers.cloudflare.com/1.1.1.1/setup/
