@@ -27,6 +27,7 @@ Open a browser to a device that is current connected, either directly with a eth
 * https://adguard-dns.io/en/public-dns.html
 * https://developers.cloudflare.com/1.1.1.1/setup/
 * https://quad9.net/service/service-addresses-and-features
+  
 ![DNS Setup]({{site.baseurl}}/assets/img/Change-DNS-router-settings-Google-Public-DNS.png)
 
 Good, better, and more better. Using filtering DNS servers to prevent accidentally going to a malicious website or phishing scam goes a long way to personal protection, but scammers (and even your ISP) can still see your searches. The better option is DNS-over-TLS (DoT) which encrypts the DNS queries. This has natively supported on recent android devices by entering the DoT entry in the 'private dns' setting, usually under the 'more connection settings' tab. What about more better? DNS-over-HTTPS takes the encryption of DNS queries but uses the HTTPS port 443. Why is this important? Plain DNS uses port 53 for the traffic and can be quickly filtered using a packet analyzer; DoT uses the port 853 and can be filtered, but the payload is encrypted and unreadable. If a threat actor wants to get around this, one method is to interrupt traffic on port 853 and have the DNS quaries fallback to the non-encrypted port 53. DoH traffic is obfuscated with all the other web traffic and blocking port 443 will quickly alert the target since web browsing and streaming will be blocked as well. Several companies provide apps to enable DoH on devices, but requires it to be installed on each device. 
