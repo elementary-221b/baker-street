@@ -1,0 +1,37 @@
+title: Elementary, My Dear Watson
+description: > # this means to ignore newlines until "baseurl:"
+  I’m an IT and cybersecurity professional with a passion for network security,
+  ethical hacking, and cloud computing. This blog is your go-to resource for my
+  projects, insights, and industry updates.
+permalink: '/:title/'
+baseurl: "/baker-street" # the subpath of your site, e.g. /blog
+url: "https://elementary-221b.github.io" # the base hostname & protocol for your site, e.g. http://example.com
+site-twitter: #if your site has a twitter account, enter it here
+
+# Author Settings
+author: Mike Watson # add your name
+author-img: Elementary_Final.png # add your photo
+about-author: I am an Air Force veteran with a passion for tech on a journey to expand my knowledge towards CyberSecurity. # add description
+social-twitter: twitter # add your Twitter handle
+social-facebook: # add your Facebook handle
+social-github: elementary-221b # add your Github handle
+social-linkedin: my-dear-watson # add your Linkedin handle
+social-email: google@gmail.com # add your Email address
+
+# Disqus
+disqus-identifier: # add your discus identifier
+
+# Tracker
+analytics: # Google Analytics
+
+# Build Settings
+markdown: kramdown
+plugins:
+  - jekyll-sitemap
+  - jekyll-paginate
+  - jemoji
+
+paginate: 8
+paginate_path: "/page/:num"
+
+exclude: ["node_modules", "gulpfile.js", "package.json", "yarn.lock"]
