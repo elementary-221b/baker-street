@@ -11,15 +11,15 @@ site-twitter: #if your site has a twitter account, enter it here
 # Author Settings
 author: Mike Watson # add your name
 author-img: Elementary_Final.png # add your photo
-about-author: I am an Air Force veteran with a passion for tech on a journey to expand my knowledge towards CyberSecurity. # add description
-social-twitter: twitter # add your Twitter handle
-social-facebook: # add your Facebook handle
+about-author: I am an Air Force veteran with a passion for tech on a journey to expand my knowledge towards CyberSecurity # add description
+# social-twitter: twitter # add your Twitter handle
+# social-facebook: # add your Facebook handle
 social-github: elementary-221b # add your Github handle
 social-linkedin: my-dear-watson # add your Linkedin handle
-social-email: google@gmail.com # add your Email address
+# social-email: google@gmail.com # add your Email address
 
 # Disqus
-disqus-identifier: # add your discus identifier
+# disqus-identifier: # add your discus identifier
 
 # Tracker
 analytics: # Google Analytics
