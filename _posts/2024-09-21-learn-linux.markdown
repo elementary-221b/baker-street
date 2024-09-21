@@ -55,14 +55,14 @@ Here's some Linux commands when you don't know what command to use or how to use
 <b>curl</b> - downloader with user interactability. example `curl -sSL https://install.pi-hole.net | bash`
 <b>wget</b> - non-interactive downloader. example `wget -O basic-install.sh https://install.pi-hole.net`
 <b>touch</b> - create a file. example `touch example.txt`
-<b>nano</b> - this is a text editor. example `nano example.txt
-<b>mkdir</b> -
+<b>nano</b> - this is a text editor. example `nano example.txt`
+<b>mkdir</b> - this will create a new directory. example `mkdir /etc/emxample`
 
 > Get control of your stuff
 
-<p><b>chown</b> - change ownership of a file or directory. example `chown newowner:newgroup example.txt`</p>
-<p><b>chmod</b> - change who can read, write, or execute files and directories. example `chown u+rwx,g+w,o-r example.txt`</p>
-<p><b>mv</b> - move a file or directory (also has the ability to rename files or directories). example `mv example.txt test.txt`</p>
-<p><b>cp</b> - copy files or directories. example `cp test.txt /etc`</p>
-<p><b>sudo</b> temporarly elevates current user (with appropriate permission) to execute a command as root. example `sudo userdel nobody`</p>
+* <b>chown</b> - change ownership of a file or directory. example `chown newowner:newgroup example.txt`
+* <b>chmod</b> - change who can read, write, or execute files and directories. example `chown u+rwx,g+w,o-r example.txt`
+* <b>mv</b> - move a file or directory (also has the ability to rename files or directories). example `mv example.txt test.txt`
+* <b>cp</b> - copy files or directories. example `cp test.txt /etc`
+* <b>sudo</b> - temporarly elevates current user (with appropriate permission) to execute a command as root. example `sudo userdel nobody`
 
