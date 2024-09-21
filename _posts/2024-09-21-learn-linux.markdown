@@ -31,32 +31,32 @@ A good start to familiarizing yourself with the Linux command-line interface (CL
 
 > WHO? - WHAT? - WHERE?
 
-<b>whoami</b> - this displays the current user. usage `whoami`
-<b>uname</b> - this will give system information. usage `uname -a`
-<b>ip</b> - this will show you the network information. usage `ip address`
-<b>pwd</b> - 'print working directory' eturns the directory that you’re currently in. usage `pwd`
-<b>lsblk</b> - lists the block devices. usage `lsblk`
-<b>df</b> - lists file system disk space usage. usage `df -h`
-<b>ls</b> - displays the files and directories in the current directory. usage `ls -lah`
-<b>cd</b> - change directory. example `cd /etc`
-<b>find</b> - find files and directories. example `find / -iname resolv.conf`
+* <b>whoami</b> - this displays the current user. usage `whoami`
+* <b>uname</b> - this will give system information. usage `uname -a`
+* <b>ip</b> - this will show you the network information. usage `ip address`
+* <b>pwd</b> - 'print working directory' eturns the directory that you’re currently in. usage `pwd`
+* <b>lsblk</b> - lists the block devices. usage `lsblk`
+* <b>df</b> - lists file system disk space usage. usage `df -h`
+* <b>ls</b> - displays the files and directories in the current directory. usage `ls -lah`
+* <b>cd</b> - change directory. example `cd /etc`
+* <b>find</b> - find files and directories. example `find / -iname resolv.conf`
 
 > You can teach a man to fish, but you can't make him drink
 
 Here's some Linux commands when you don't know what command to use or how to use it.
 
-<b>whatis</b> - a short description for a command. example `whatis man`
-<b>man</b> - longer explination of a command and available options. example `man apropos`
-<b>apropos</b> - searches command descriptions for the specified keyword. example `apropos editor`
+* <b>whatis</b> - a short description for a command. example `whatis man`
+* <b>man</b> - longer explination of a command and available options. example `man apropos`
+* <b>apropos</b> - searches command descriptions for the specified keyword. example `apropos editor`
 
 > Let's get some more
 
-<b>apt</b> - 'advanced package tool' used for installing, updating and removing software. example `apt update -y && apt upgrade -y`
-<b>curl</b> - downloader with user interactability. example `curl -sSL https://install.pi-hole.net | bash`
-<b>wget</b> - non-interactive downloader. example `wget -O basic-install.sh https://install.pi-hole.net`
-<b>touch</b> - create a file. example `touch example.txt`
-<b>nano</b> - this is a text editor. example `nano example.txt`
-<b>mkdir</b> - this will create a new directory. example `mkdir /etc/emxample`
+* <b>apt</b> - 'advanced package tool' used for installing, updating and removing software. example `apt update -y && apt upgrade -y`
+* <b>curl</b> - downloader with user interactability. example `curl -sSL https://install.pi-hole.net | bash`
+* <b>wget</b> - non-interactive downloader. example `wget -O basic-install.sh https://install.pi-hole.net`
+* <b>touch</b> - create a file. example `touch example.txt`
+* <b>nano</b> - this is a text editor. example `nano example.txt`
+* <b>mkdir</b> - this will create a new directory. example `mkdir /etc/emxample`
 
 > Get control of your stuff
 
