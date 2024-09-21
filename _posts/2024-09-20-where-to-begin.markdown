@@ -37,6 +37,14 @@ Good, better, and more better. Using filtering DNS servers to prevent accidental
 This concept is a strategy of layered security protocols protecting assets. Take the time to configure your home router with a filtering DNS, this should catch IoT devices like smart bulbs that can't be directly configured. Configure your devices (laptops, phones, smart TV's) to prevent them from attempting to bypass the routers settings (Install the DoH apps on your devices that have that option).
 Next let's segment the devices on our network. Most home routers have an additional 'Guest WiFi' option, this can be used for devices that shouldn't have access to your PC, laptop, or router configuration. When setting up both the Guest and Personal WiFi, select the highest security that's supported (WPA3 is currently the most secure), change the default SSID name and set a strong password. While you're in the router settings, now is a good time to change the router's login credentials. Disable remote management, enable the firewall if the setting is available, and setup access control (MAC filtering)
 
+## Web tools
+
+There are times when you receive a link or file and would like to verify before navigating or using the program. Here are some free to use web-based scan tools:
+
+* https://urlscan.io/
+* https://virusscan.jotti.org/
+* https://www.virustotal.com/gui/home/upload
+
 > Honorable mentions
 
 Free VPN's: keeping with the free theme, some providers like ProtonVPN have a free option, but often have a large asterisk. Limited servers, network throttling, no support for additional features. The first hardening feature I would suggest when willing to add a dollar value would be getting a VPN service. (VPN confusion, some routers say they support VPN, but don't mention if it's as a client or server.)
