@@ -64,5 +64,5 @@ Here's some Linux commands when you don't know what command to use or how to use
 <b>chmod</b> - change who can read, write, or execute files and directories. example `chown u+rwx,g+w,o-r example.txt`
 <b>mv</b> - move a file or directory (also has the ability to rename files or directories). example `mv example.txt test.txt`
 <b>cp</b> - copy files or directories. example `cp test.txt /etc`
-<b>sudo<b/> temporarly elevates current user (with appropriate permission) to execute a command as root. example `sudo userdel nobody`
+<b>sudo</b> temporarly elevates current user (with appropriate permission) to execute a command as root. example `sudo userdel nobody`
 
