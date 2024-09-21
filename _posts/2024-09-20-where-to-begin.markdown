@@ -10,7 +10,7 @@ tags: [Router, WiFi, DNS] # add tag
 
 ## My favorite things in networking are free
 
-The tools, services, and apps that I will focus on in this post will use the typical configuration that the internet service provider (ISP) or manufacturer would have setup as default. That will be my starting point for introducing network hardening in your home. The main objectives in cybersecurity are confidentiality, integrity, and availability. This is often shortened to the CIA Triad. You are already implementing a key cybersecurity measure by comparing your home network setup against the steps and tool that are listed here. Managerial Controls are one part of the implementation of security control processes. Taking an inventory of all your connected devices (or assets) and doing a risk assessment on the possible threats and vulnerabilities in their current state.
+The tools, services and apps that I will focus on in this post will use the typical configuration that the internet service provider (ISP) or manufacturer would have setup as default. That will be my starting point for introducing network hardening in your home. The main objectives in cybersecurity are confidentiality, integrity, and availability. This is often shortened to the CIA Triad. You are already implementing a key cybersecurity measure by comparing your home network setup against the steps and tool that are listed here. Managerial Controls are one part of the implementation of security control processes. Taking an inventory of all your connected devices (or assets) and doing a risk assessment on the possible threats and vulnerabilities in their current state.
 
 > The tools
 
