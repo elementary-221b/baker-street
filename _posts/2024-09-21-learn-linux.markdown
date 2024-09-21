@@ -21,3 +21,48 @@ While you are waiting for your Raspberry Pi to be shipped (<i>everyone needs a R
  ![shell terminal]({{site.baseurl}}/assets/img/google-shell.jpg)
 
 The next method is installing Linux on your PC running Windows. This doesn't require any difficult setup like dual-boot or virtual machine. Open either PowerShell or Command Prompt as an administrator (the search options should have 'run as administrator' or right-click and select 'run as administrator'). Linux has many <i>distributions</i>, by default running `wsl --install` will enable the features necessary to run WSL and install the Ubuntu distribution of Linux. If you want to try other Linux distros or have a preference from the start run `wsl --install -d` followed by the distribution you want to install (e.g. `wsl --install -d kali-linux`). Note: to list available distros run `wsl -l -o`.
+
+Finally, Mac: I do not have a Mac to test this, but the Docker website has instructions for setting up Linux on Mac. Go to the Docker guide: https://docs.docker.com/desktop/install/mac-install/ and once installed, open the terminal and run `docker pull ubuntu` followed by `docker run -it ubuntu`.
+![MacOS]({{site.baseurl}}/assets/img/mac-docker.png)
+
+## Getting acquainted
+
+A good start to familiarizing yourself with the Linux command-line interface (CLI) is to take a look around. The upcoming commands will help set the stage to build on. 
+
+> WHO? - WHAT? - WHERE?
+
+<b>whoami</b> - this displays the current user. usage `whoami`
+<b>uname</b> - this will give system information. usage `uname -a`
+<b>ip</b> - this will show you the network information. usage `ip address`
+<b>pwd</b> - 'print working directory' eturns the directory that you’re currently in. usage `pwd`
+<b>lsblk</b> - lists the block devices. usage `lsblk`
+<b>df</b> - lists file system disk space usage. usage `df -h`
+<b>ls</b> - displays the files and directories in the current directory. usage `ls -lah`
+<b>cd</b> - change directory. example `cd /etc`
+<b>find</b> - find files and directories. example `find / -iname resolv.conf`
+
+> You can teach a man to fish, but you can't make him drink
+
+Here's some Linux commands when you don't know what command to use or how to use it.
+
+<b>whatis</b> - a short description for a command. example `whatis man`
+<b>man</b> - longer explination of a command and available options. example `man apropos`
+<b>apropos</b> - searches command descriptions for the specified keyword. example `apropos editor`
+
+> Let's get some more
+
+<b>apt</b> - 'advanced package tool' used for installing, updating and removing software. example `apt update -y && apt upgrade -y`
+<b>curl</b> - downloader with user interactability. example `curl -sSL https://install.pi-hole.net | bash`
+<b>wget</b> - non-interactive downloader. example `wget -O basic-install.sh https://install.pi-hole.net`
+<b>touch</b> - create a file. example `touch example.txt`
+<b>nano</b> - this is a text editor. example `nano example.txt
+<b>mkdir</b> -
+
+> Get control of your stuff
+
+<b>chown</b> - change ownership of a file or directory. example `chown newowner:newgroup example.txt
+<b>chmod</b> - change who can read, write, or execute files and directories. example `chown u+rwx,g+w,o-r example.txt`
+<b>mv</b> - move a file or directory (also has the ability to rename files or directories). example `mv example.txt test.txt`
+<b>cp</b> - copy files or directories. example `cp test.txt /etc
+<b>sudo<b/> temporarly elevates current user (with appropriate permission) to execute a command as root. example `sudo userdel nobody`
+
