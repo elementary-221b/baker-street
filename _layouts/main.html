@@ -10,6 +10,19 @@ layout: default
       </div>
       <div class="author-name">{{site.author}}</div>
       <p>{{site.about-author}}</p>
+      <script>
+  window.watsonAssistantChatOptions = {
+    integrationID: "21859c3d-6656-4c17-9b5a-b92f875472a2", // The ID of this integration.
+    region: "us-east", // The region your integration is hosted in.
+    serviceInstanceID: "2fa6d9b1-72f8-4420-b16b-3f02176fd7cd", // The ID of your service instance.
+    onLoad: async (instance) => { await instance.render(); }
+  };
+  setTimeout(function(){
+    const t=document.createElement('script');
+    t.src="https://web-chat.global.assistant.watson.appdomain.cloud/versions/" + (window.watsonAssistantChatOptions.clientVersion || 'latest') + "/WatsonAssistantChatEntry.js";
+    document.head.appendChild(t);
+  });
+    </script>
     </div>
   </header> <!-- End Header -->
   <footer>
