@@ -34,7 +34,7 @@ A good start to familiarizing yourself with the Linux command-line interface (CL
 * <b>whoami</b> - this displays the current user. usage `whoami`
 * <b>uname</b> - this will give system information. usage `uname -a`
 * <b>ip</b> - this will show you the network information. usage `ip address`
-* <b>pwd</b> - 'print working directory' eturns the directory that you’re currently in. usage `pwd`
+* <b>pwd</b> - 'print working directory' returns the directory that you’re currently in. usage `pwd`
 * <b>lsblk</b> - lists the block devices. usage `lsblk`
 * <b>df</b> - lists file system disk space usage. usage `df -h`
 * <b>ls</b> - displays the files and directories in the current directory. usage `ls -lah`
@@ -56,13 +56,27 @@ Here's some Linux commands when you don't know what command to use or how to use
 * <b>wget</b> - non-interactive downloader. example `wget -O basic-install.sh https://install.pi-hole.net`
 * <b>touch</b> - create a file. example `touch example.txt`
 * <b>nano</b> - this is a text editor. example `nano example.txt`
-* <b>mkdir</b> - this will create a new directory. example `mkdir /etc/emxample`
+* <b>mkdir</b> - this will create a new directory. example `mkdir /etc/example`
 
 > Get control of your stuff
 
 * <b>chown</b> - change ownership of a file or directory. example `chown newowner:newgroup example.txt`
 * <b>chmod</b> - change who can read, write, or execute files and directories. example `chown u+rwx,g+w,o-r example.txt`
 * <b>mv</b> - move a file or directory (also has the ability to rename files or directories). example `mv example.txt test.txt`
-* <b>cp</b> - copy files or directories. example `cp test.txt /etc`
+* <b>cp</b> - copy files or directories. example `cp test.txt /etc/example`
 * <b>sudo</b> - temporarly elevates current user (with appropriate permission) to execute a command as root. example `sudo userdel nobody`
+
+> Put it into practice
+
+Let's first ensure our repositories are up to date: `sudo apt update -y && sudo apt upgrade -y`. Then install uncommon firewall (UFW) `apt install ufw` so we can easliy create and remove firewall rules. Now before we configure UFW, lets see what ports our machine is currently using and what services are using them `ss -tulpn` or `netstat -tunlp`. Other ports you may want access are HTTPS '443', HTTP '80', SSH '22' for remote access, and SMB '139' and '445' for file shares. 
+* `ufw default deny incoming`
+* `ufw allow in on eth0 to any port 22`
+* `ufw allow in on eth0 to any port 139`
+* `ufw allow in on eth0 to any port 445`
+* `ufw allow 443`
+* `ufw allow 80`
+Be sure to add any other ports required for your services and adjust the local interface if using something different (i.e. wlan0). Now we can enable UFW with `ufw enable` and verify its configuration with `ufw status verbose`.
+
+This can be further locked down if you want only one other device on you network to have certain access (e.g. `ufw allow from 192.168.0.100 to any port 22`). This is one method incorperating the cybersecurity 'principle of least privilage' or PoLP.
+
 
