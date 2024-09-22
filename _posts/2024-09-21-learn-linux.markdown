@@ -66,7 +66,7 @@ Here's some Linux commands when you don't know what command to use or how to use
 * <b>cp</b> - copy files or directories. example `cp test.txt /etc/example`
 * <b>sudo</b> - temporarly elevates current user (with appropriate permission) to execute a command as root. example `sudo userdel nobody`
 
-> Put it into practice
+## Put it into practice
 
 Let's first ensure our repositories are up to date: `sudo apt update -y && sudo apt upgrade -y`. Then install uncommon firewall (UFW) `apt install ufw` so we can easliy create and remove firewall rules. Now before we configure UFW, lets see what ports our machine is currently using and what services are using them `ss -tulpn` or `netstat -tunlp`. Other ports you may want access are HTTPS '443', HTTP '80', SSH '22' for remote access, and SMB '139' and '445' for file shares. 
 * `ufw default deny incoming`
