@@ -68,6 +68,8 @@ Here's some Linux commands when you don't know what command to use or how to use
 
 ## Put it into practice
 
+-Ports and Firewalls-
+
 Let's first ensure our repositories are up to date: `sudo apt update -y && sudo apt upgrade -y`. Then install uncomplicated firewall (UFW) `apt install ufw` so we can easliy create and remove firewall rules. Now before we configure UFW, lets see what ports our machine is currently using and what services are using them `ss -tulpn` or `netstat -tunlp`. Other ports you may want access are HTTPS '443', HTTP '80', SSH '22' for remote access, and SMB '139' and '445' for file shares. 
 * `ufw default deny incoming`
 * `ufw allow in on eth0 to any port 22`
@@ -80,4 +82,12 @@ Be sure to add any other ports required for your services and adjust the local i
 
 This can be further locked down if you want only one other device on you network to have certain access (e.g. `ufw allow from 192.168.0.100 to any port 22`). This is one method incorperating the cybersecurity 'principle of least privilage' or PoLP.
 
+-Monitoring services and packages to identify any unusual process behavior and potential vulnerabilities with outdated packages-
 
+<b>top</b> and <b>htop</b> are commands to bring up running processes, cpu usage, and more. <b>htop</b> is a little easier to read; processes can be sorted to quick locate services that are using unusual amounts of resources and can be ended right from the interface. Using the `apt list --installed` command will <i>list</i> all the installed packages and the version information for each. Cleaning house to remove unused packages will limit the attack vectors a threat actor could exploit. Packages can be removed with `apt remove` followed with the package you want removed. Additionally, `apt autoremove` will remove the additional packages that were installed as dependencies of the removed package. A package can also be removed with `apt purge` which will also remove any configuration files along with the package.
+
+-Users and Groups-
+
+To check what users and groups are currently configured to the system run `cat /etc/passwd` for users or `cat /etc/group` for groups. If you know you no longer need a user or group, they can be removed with either `userdel` or `groupdel`. Performing audits on access management is a security measure to ensure there isn't a vulnerability from users having access when no longer needed. Using <b>usermod</b> can be used to lock users `usermod -L` and set an expiration for users who only require access for a set amount of time `usermod -e YYYY-MM-DD`.
+
+Now that our system has a clean initial configuration, it's time to start some projects. <i>Linux Projects post coming soon...</i>
