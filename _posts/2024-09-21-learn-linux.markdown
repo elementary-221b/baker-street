@@ -75,7 +75,7 @@ Let's first ensure our repositories are up to date: `sudo apt update -y && sudo 
 * `ufw allow in on eth0 to any port 445`
 * `ufw allow 443`
 * `ufw allow 80`
-* 
+
 Be sure to add any other ports required for your services and adjust the local interface if using something different (i.e. wlan0). Now we can enable UFW with `ufw enable` and verify its configuration with `ufw status verbose`.
 
 This can be further locked down if you want only one other device on you network to have certain access (e.g. `ufw allow from 192.168.0.100 to any port 22`). This is one method incorperating the cybersecurity 'principle of least privilage' or PoLP.
