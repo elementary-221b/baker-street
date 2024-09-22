@@ -8,6 +8,8 @@ fig-caption: # Add figcaption (optional)
 tags: [Linux, Encryption, Analyzer, Pimylifeup] # add tag
 ---
 
+>Placeholder
+
 ## PiHole
 ![pihole]({{site.baseurl}}/assets/img/pihole.png)
 
