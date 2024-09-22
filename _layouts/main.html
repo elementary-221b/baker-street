@@ -11,8 +11,7 @@ layout: default
       <div class="author-name">{{site.author}}</div>
       <p>{{site.about-author}}</p>
     </div>
-    <input type="text" id="search-input" placeholder="Sleuth...">
-    <div id="results-container"></div>
+    <div class="gcse-search"></div>
   </header> <!-- End Header -->
   <footer>
     <section class="contact">
@@ -48,30 +47,7 @@ layout: default
     <div class="copyright">
       <p>{{site.time | date: '%Y'}} &copy; {{site.author}}</p>
     </div>
-    <script>
-  async function fetchSearchResults(query) {
-    const apiKey = '92ac7b781e558c0575536670f0bc1b94a3b9f2a6';
-    const searchEngineId = 'cx=4155ef3ab996249ce';
-    const url = `https://www.googleapis.com/customsearch/v1?q=${query}&key=${apiKey}&cx=${searchEngineId}`;
-
-    const response = await fetch(url);
-    const data = await response.json();
-    return data.items;
-  }
-
-  document.getElementById('search-input').addEventListener('input', async (event) => {
-    const query = event.target.value;
-    if (query.length > 2) {
-      const results = await fetchSearchResults(query);
-      const resultsContainer = document.getElementById('results-container');
-      resultsContainer.innerHTML = results.map(result => `
-        <div>
-          <h3><a href="${result.link}">${result.title}</a></h3>
-          <p>${result.snippet}</p>
-        </div>
-      `).join('');
-    }
-  });
+<script async src="https://cse.google.com/cse.js?cx=4155ef3ab996249ce">
 </script>
   </footer> <!-- End Footer -->
 </aside> <!-- End Sidebar -->
