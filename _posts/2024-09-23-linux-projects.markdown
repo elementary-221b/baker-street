@@ -18,7 +18,7 @@ tags: [Linux, Encryption, Analyzer, Pimylifeup] # add tag
 `mkdir` `wireshark`
 `cd wireshark`
 `nano docker-compose.yml`
-{% include codeHeader.html %}
+{% capture code %}
 version: "3"
 
 services:
@@ -39,7 +39,7 @@ services:
       - "3000:3000"
       - "3001:3001"
     restart: unless-stopped
-{% end highlight %}
+{% endcapture %}
 >Usage
 
 ## PiHole
