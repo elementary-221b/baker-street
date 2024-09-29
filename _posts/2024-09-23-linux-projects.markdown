@@ -19,9 +19,6 @@ tags: [Linux, Encryption, Analyzer, Pimylifeup] # add tag
 `cd wireshark`
 `nano docker-compose.yml`
 {% include codeHeader.html %}
-.copy-code-button {
-  display: block;
-}
 version: "3"
 
 services:
