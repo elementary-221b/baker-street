@@ -12,13 +12,20 @@ tags: [Linux, Encryption, Analyzer, Pimylifeup] # add tag
 
 ## Wireshark
 >What is Wireshark
+
 >Install
+
 * Docker-Compose
 
-`mkdir` `wireshark`
+`mkdir` 
+
+`wireshark`
+
 `cd wireshark`
+
 `nano docker-compose.yml`
-{% capture code %}
+
+{% highlight ruby %}
 version: "3"
 
 services:
@@ -39,7 +46,7 @@ services:
       - "3000:3000"
       - "3001:3001"
     restart: unless-stopped
-{% endcapture %}
+{% endhighlight %}
 >Usage
 
 ## PiHole
