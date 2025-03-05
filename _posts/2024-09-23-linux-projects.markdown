@@ -47,7 +47,7 @@ services:
       - "3001:3001"
     restart: unless-stopped
 {% endhighlight %}
-{% include codeHeader.html %}
+
 >Usage
 
 ## Capture Traffic
