@@ -65,7 +65,7 @@ Before you hit enter, check if your prompt has:
 
 [ ] Format: (e.g., "Output as a Markdown table")
 
-Final Thoughts
+## Final Thoughts
 
 ### CONSTRAINTS
 - Format: [Markdown Table/Bullet Points/Email]
@@ -94,3 +94,4 @@ Google Research found that AI often trips over complex details. To solve this, u
 Wharton professor Ethan Mollick argues that we spend too much time on "Prompting" and not enough on "Problem Formulation."
 * **Don't just prompt:** Describe the *process* you want the AI to follow. 
 * **Chain of Density:** When asking for summaries, tell the AI to "Iteratively refine this, adding 3 new unique entities each time while keeping the word count the same."
+
