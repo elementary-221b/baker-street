@@ -59,6 +59,8 @@ Happy packet capturing!
 ---
 
 ## 2. Pi-hole: The Digital Sieve
+**The Deduction:** A network-wide DNS sinkhole. It intercepts and discards requests to known advertising and tracking domains before they can compromise your privacy or clutter your bandwidth.
+
 A detective must filter out the noise. Pi-hole acts as a DNS sinkhole, catching those pesky "Moriartys" of the advertising world before they ever reach your screen.
 ![pihole]({{site.baseurl}}/assets/img/pihole.png)
 
@@ -71,6 +73,8 @@ A detective must filter out the noise. Pi-hole acts as a DNS sinkhole, catching 
 ---
 
 ## 3. Pi.Alert: The Watchman
+**The Deduction:** A security monitor for your local network. It scans for "intruders" (new devices) and alerts you the moment an unrecognized MAC address enters your digital parlor.
+
 "How To Track All Devices with Raspberry Pi" is a common query, and **Pi.Alert** is the answer. It scans your network and alerts you the moment an unrecognized "guest" appears in your parlor.
 
 ### Quick Start (Debian/Docker)
@@ -82,6 +86,8 @@ We use Docker for a clean containment of this suspect:
 ---
 
 ## 4. Phoneinfoga: The Informant
+**The Deduction:** An advanced OSINT tool for phone numbers. Use it to scan a number's reputation, find its carrier, and hunt for its presence across the public web—useful for vetting a mysterious lead.
+
 OSINT is the backbone of any investigation. Phoneinfoga scans phone numbers to find leaks and social media presence—useful when a mysterious number calls your flat at midnight.
 
 ### Quick Start (Go-based)
@@ -93,6 +99,8 @@ OSINT is the backbone of any investigation. Phoneinfoga scans phone numbers to f
 ---
 
 ## 5. Urban Edge Smart Campus: The Orchestrator
+**The Deduction:** A comprehensive IoT framework designed for monitoring large estates. It provides the infrastructure to collect and visualize data from a "smart campus" of sensors, turning raw noise into actionable intelligence.
+
 For those monitoring larger estates, the **Urban Edge** IoT framework provides a dashboard for smart campus sensors. It is a masterwork of data synthesis for the modern "Smart City" detective.
 
 ### Quick Start (Node.js/Docker)
@@ -105,6 +113,8 @@ Usually deployed via Docker-Compose. Clone the repo first:
 ---
 
 ## 6. Tailscale VPN: The Hidden Passage
+**The Deduction:** A zero-config mesh VPN. It creates a private, encrypted "WireGuard" network between your devices, allowing you to access your home lab from the depths of a remote moor without exposing ports to the public internet.
+
 A detective needs a way to enter their home base securely from anywhere in the world. Tailscale creates a "mesh" network—a secret tunnel that even the Yard couldn't find.
 ![zero-trust]({{site.baseurl}}/assets/img/zero-trust.jpeg)
 
@@ -117,6 +127,8 @@ A detective needs a way to enter their home base securely from anywhere in the w
 ---
 
 ## 7. CrowdSec: The Scotland Yard of IPs
+**The Deduction:** A community-powered IDS/IPS. It analyzes your logs to detect aggressive behavior and blocks malicious IPs by leveraging a global database of known digital "thugs."
+
 Why fight alone when you can join a global network? CrowdSec parses your logs and shares information on malicious actors with a worldwide community. If an IP attacks me, you hear about it.
 
 ### Quick Start (Debian)
@@ -128,6 +140,8 @@ Why fight alone when you can join a global network? CrowdSec parses your logs an
 ---
 
 ## 8. NordVPN Meshnet: The Global Web
+**The Deduction:** A peer-to-peer encrypted tunnel. Unlike a standard VPN, it allows you to link specific devices directly over the internet for secure file sharing or gaming, as if they were on the same local network.
+
 While Tailscale is for your own devices, Meshnet allows you to link to friends' devices securely for file sharing or "detective collaborations" across the globe.
 
 ### Quick Start (Debian)
@@ -140,6 +154,8 @@ While Tailscale is for your own devices, Meshnet allows you to link to friends' 
 ---
 
 ## 9. Cowrie SSH Honeypot: The Decoy Flat
+**The Deduction:** A medium-interaction honeypot designed to mimic an SSH server. It lures in automated bots and attackers, logging their every move and "stolen" password to give you a front-row seat to their methods.
+
 At 221B, we occasionally leave a window open to see who tries to climb in. **Cowrie** is a medium-interaction SSH honeypot designed to log everything an intruder attempts.
 
 ### Quick Start (Debian)
@@ -149,4 +165,5 @@ At 221B, we occasionally leave a window open to see who tries to climb in. **Cow
    `pip install --upgrade pip && pip install -r requirements.txt`
 
 **The Creator's Estate:** [Cowrie.org](https://www.cowrie.org)
+
 
