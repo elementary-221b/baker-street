@@ -10,4 +10,87 @@ tags: [LLM, AI, WATSONX, IBM] # add tag
 
 ## "We marveled at our own magnificence as we gave birth to AI"
 
->Placeholder
+Prompting is the new coding. If you're just typing "Write a blog post about cats," you're leaving 90% of the AI's power on the table. To get "God-tier" results, we need to combine the structured logic from the industry leaders.
+
+## The Core Framework: SCOPE + 5 Pillars
+
+NetworkChuck argues that most people fail because they are too vague. Google teaches that you need a reusable framework. When we merge them, we get the **Master Prompt Template**:
+
+| Component | What it does | Example |
+| :--- | :--- | :--- |
+| **S**pecificity | Defined constraints (length, style). | "Keep it under 200 words." |
+| **C**ontext | The background story. | "I am presenting this to a board of directors." |
+| **O**bjective | The actual task. | "Analyze this spreadsheet for trends." |
+| **P**ersona | The role the AI plays. | "Act as a Senior Cyber Security Analyst." |
+| **E**xamples | "Few-shot" prompting. | "Format it like this: [Date] - [Issue]." |
+
+---
+
+## 1. The Persona (The "Who")
+Never start a prompt without telling the AI who it is. As NetworkChuck says, "If you don't give it a job, it'll just give you the average of the entire internet."
+
+> **Pro Tip:** Instead of "You are a writer," try: 
+> `You are an expert technical copywriter with 10 years of experience in simplifying complex DevOps concepts for beginners.`
+
+## 2. Setting the Scene (The "Why")
+Google’s framework emphasizes **Context**. AI doesn't know what's in your head. 
+* **Bad:** "Write an email about a meeting."
+* **Good:** "We just finished a 30-minute discovery call with a potential client, 'TechFlow'. They are worried about cloud costs. Write a follow-up email that addresses those specific fears."
+
+
+
+## 3. Advanced Techniques: Few-Shot & CoT
+To move beyond basic chat, use these two industry-standard methods:
+
+### Few-Shot Prompting
+Give the AI 2-3 examples of the style you want before asking for the result.
+```text
+Example 1: [Input] -> [Output]
+Example 2: [Input] -> [Output]
+Now do this: [Your Input]
+
+### Chain of Thought (CoT)
+Force the AI to "think out loud." This significantly reduces "hallucinations" (AI making things up).
+
+Add this to your prompt: "Let’s think through this step-by-step to ensure we don't miss any critical details."
+
+The "Perfect Prompt" Checklist
+Before you hit enter, check if your prompt has:
+
+[ ] A Role: (e.g., "Act as a Python Expert")
+
+[ ] A Clear Task: (e.g., "Debug this script")
+
+[ ] Constraints: (e.g., "Use only standard libraries")
+
+[ ] Format: (e.g., "Output as a Markdown table")
+
+Final Thoughts
+
+### CONSTRAINTS
+- Format: [Markdown Table/Bullet Points/Email]
+- Length: [Word count]
+- Tone: [Witty/Professional/Analytical]
+
+### CRITIQUE (Anti-Sycophancy)
+After providing the solution, list two reasons why this approach might fail in a real-world scenario.
+
+
+## Moving Beyond the Basics: Industry Secrets
+
+While the SCOPE method gets you in the door, industry leaders like **Andrej Karpathy** and **Ethan Mollick** suggest we look deeper into the "Mind" of the machine.
+
+### 1. Karpathy’s 'Shape-Shifter' Mental Model
+Andrej Karpathy (founding member of OpenAI) describes LLMs as "statistical imitators." They want to please you. This leads to **Sycophancy**—the AI agreeing with your wrong ideas just to be "helpful."
+
+> **The Fix:** Never ask "Is this a good idea?" Instead, ask: **"Identify three critical flaws in my logic that a skeptic would point out."** Force the AI to stop being a "yes-man."
+
+### 2. Google’s 'Step-Back' Prompting
+Google Research found that AI often trips over complex details. To solve this, use **Abstraction**.
+* **The Technique:** Ask the AI to identify the *underlying principle* before solving the specific problem.
+* **The Prompt:** "Before you answer the question about X, take a step back and explain the fundamental physics/concepts that govern this situation."
+
+### 3. Mollick’s 'Problem Formulation'
+Wharton professor Ethan Mollick argues that we spend too much time on "Prompting" and not enough on "Problem Formulation."
+* **Don't just prompt:** Describe the *process* you want the AI to follow. 
+* **Chain of Density:** When asking for summaries, tell the AI to "Iteratively refine this, adding 3 new unique entities each time while keeping the word count the same."
