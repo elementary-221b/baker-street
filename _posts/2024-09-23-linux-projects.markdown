@@ -8,47 +8,17 @@ fig-caption: # Add figcaption (optional)
 tags: [Linux, Encryption, Analyzer, Pimylifeup] # add tag
 ---
 
->Placeholder
+To the uninitiated, a server is a black box; to the detective, it is a crime scene waiting to be analyzed. 
 
-## Wireshark
->What is Wireshark
+## 1. Wireshark: The Magnifying Glass
+**The Deduction:** A packet-level forensic tool used to dissect network traffic. It reveals the secrets hidden in your data streams, allowing you to identify malicious exfiltration or misbehaving protocols.
+One cannot solve a mystery without observing the clues. Wireshark allows you to see the very heartbeat of your network, one packet at a time.
 
->Install
-
-* Docker-Compose
-
-`mkdir` 
-
-`wireshark`
-
-`cd wireshark`
-
-`nano docker-compose.yml`
-
-{% highlight ruby %}
-version: "3"
-
-services:
-  wireshark:
-    image: lscr.io/linuxserver/wireshark:latest
-    container_name: wireshark
-    cap_add:
-      - NET_ADMIN
-    security_opt:
-      - seccomp:unconfined
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/New_York
-    volumes:
-      - /path/to/config:/config
-    ports:
-      - "3000:3000"
-      - "3001:3001"
-    restart: unless-stopped
-{% endhighlight %}
-
->Usage
+### Quick Start (Debian)
+1. **Installation:**
+   `sudo apt update && sudo apt install wireshark -y`
+2. **Permission:** During install, select **Yes** to allow non-superusers to capture packets. Add yourself to the group:
+   `sudo usermod -aG wireshark $USER`
 
 ## Capture Traffic
 
@@ -84,22 +54,99 @@ In summary, Wireshark is a versatile and powerful tool that every aspiring cyber
 
 Happy packet capturing!
 
-## PiHole
+**The Creator's Estate:** [Wireshark Official Site](https://www.wireshark.org)
+
+---
+
+## 2. Pi-hole: The Digital Sieve
+A detective must filter out the noise. Pi-hole acts as a DNS sinkhole, catching those pesky "Moriartys" of the advertising world before they ever reach your screen.
 ![pihole]({{site.baseurl}}/assets/img/pihole.png)
 
-## How To Track All Devices with Raspberry Pi
 
-## Phoneinfoga
+### Quick Start (Debian)
+`curl -sSL https://install.pi-hole.net | bash`
 
-## Urban edge smart campus
+**The Creator's Estate:** [Pi-hole.net](https://pi-hole.net)
 
-## Tailscale VPN
+---
+
+## 3. Pi.Alert: The Watchman
+"How To Track All Devices with Raspberry Pi" is a common query, and **Pi.Alert** is the answer. It scans your network and alerts you the moment an unrecognized "guest" appears in your parlor.
+
+### Quick Start (Debian/Docker)
+We use Docker for a clean containment of this suspect:
+`docker run -d --name pialert --network=host -v pialert_data:/home/pialert/config jokob/pialert`
+
+**The Creator's Estate:** [Pi.Alert GitHub](https://github.com/jokob/Pi.Alert)
+
+---
+
+## 4. Phoneinfoga: The Informant
+OSINT is the backbone of any investigation. Phoneinfoga scans phone numbers to find leaks and social media presence—useful when a mysterious number calls your flat at midnight.
+
+### Quick Start (Go-based)
+`curl -sSL https://raw.githubusercontent.com/sundowndev/phoneinfoga/master/support/scripts/install | bash`
+`./phoneinfoga scan -n +1234567890`
+
+**The Creator's Estate:** [Phoneinfoga Documentation](https://sundowndev.github.io/phoneinfoga/)
+
+---
+
+## 5. Urban Edge Smart Campus: The Orchestrator
+For those monitoring larger estates, the **Urban Edge** IoT framework provides a dashboard for smart campus sensors. It is a masterwork of data synthesis for the modern "Smart City" detective.
+
+### Quick Start (Node.js/Docker)
+Usually deployed via Docker-Compose. Clone the repo first:
+`git clone https://github.com/Mihnea7/SmartCampus && cd SmartCampus`
+`docker-compose up -d`
+
+**The Creator's Estate:** [Mihnea7/SmartCampus GitHub](https://github.com/Mihnea7/SmartCampus)
+
+---
+
+## 6. Tailscale VPN: The Hidden Passage
+A detective needs a way to enter their home base securely from anywhere in the world. Tailscale creates a "mesh" network—a secret tunnel that even the Yard couldn't find.
 ![zero-trust]({{site.baseurl}}/assets/img/zero-trust.jpeg)
 
-## Crowdsec
+### Quick Start (Debian)
+`curl -fsSL https://tailscale.com/install.sh | sh`
+`sudo tailscale up`
 
-## NordVPN Meshnet
+**The Creator's Estate:** [Tailscale.com](https://tailscale.com)
 
-## SSH Honeypot
+---
 
-## Python
+## 7. CrowdSec: The Scotland Yard of IPs
+Why fight alone when you can join a global network? CrowdSec parses your logs and shares information on malicious actors with a worldwide community. If an IP attacks me, you hear about it.
+
+### Quick Start (Debian)
+`curl -s https://install.crowdsec.net | sudo sh`
+`sudo apt install crowdsec crowdsec-firewall-bouncer-iptables`
+
+**The Creator's Estate:** [CrowdSec.net](https://www.crowdsec.net)
+
+---
+
+## 8. NordVPN Meshnet: The Global Web
+While Tailscale is for your own devices, Meshnet allows you to link to friends' devices securely for file sharing or "detective collaborations" across the globe.
+
+### Quick Start (Debian)
+`sh <(curl -sSf https://downloads.nordcdn.com/apps/linux/install.sh)`
+`nordvpn login`
+`nordvpn set meshnet on`
+
+**The Creator's Estate:** [NordVPN Meshnet Guide](https://meshnet.nordvpn.com)
+
+---
+
+## 9. Cowrie SSH Honeypot: The Decoy Flat
+At 221B, we occasionally leave a window open to see who tries to climb in. **Cowrie** is a medium-interaction SSH honeypot designed to log everything an intruder attempts.
+
+### Quick Start (Debian)
+1. **Prerequisites:** `sudo apt install git python3-virtualenv libssl-dev`
+2. **Setup:** `git clone https://github.com/cowrie/cowrie`
+   `cd cowrie && virtualenv cowrie-env && source cowrie-env/bin/activate`
+   `pip install --upgrade pip && pip install -r requirements.txt`
+
+**The Creator's Estate:** [Cowrie.org](https://www.cowrie.org)
+
