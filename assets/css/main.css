@@ -1480,26 +1480,36 @@ a.newer-posts:hover {
   }
 }
 
-/* Target the specific class from your HTML */
+/* Target the code snippet itself */
 code.highlighter-rouge {
     position: relative !important;
-    display: inline-block !important; /* Allows the button to sit inside */
-    padding-right: 50px !important;   /* Makes room for the button */
-    vertical-align: middle;
+    display: inline-block !important;
+    padding: 4px 50px 4px 8px !important; /* Extra padding on the right for the button */
+    background-color: #f4f4f4 !important;
+    border-radius: 4px !important;
+    border: 1px solid #ddd !important;
+    vertical-align: middle !important;
 }
 
+/* The Button - Small and Unobtrusive */
 .copy-code-button {
     position: absolute !important;
+    right: 4px !important;
     top: 50% !important;
-    right: 5px !important;
-    transform: translateY(-50%) !important; /* Centers it vertically */
-    z-index: 999 !important;
-    background-color: #ce887b !important; 
+    transform: translateY(-50%) !important;
+    background-color: #ce887b !important;
     color: white !important;
     border: none !important;
-    border-radius: 4px !important;
+    border-radius: 3px !important;
     padding: 2px 6px !important;
-    font-size: 10px !important;
+    font-size: 9px !important;
+    text-transform: uppercase;
     cursor: pointer !important;
-    line-height: 1.2 !important;
+    z-index: 5 !important;
+    line-height: 1 !important;
+    height: 18px !important;
+}
+
+.copy-code-button:hover {
+    background-color: #263959 !important;
 }
