@@ -78,8 +78,80 @@ async function runLiveScan() {
                             "\n\nCheck browser console (F12) for network details.";
         console.error("VT Tool Error:", err);
     }
+	
+		if (stats) {
+            // Apply CySA+ Visual Triage Logic
+            if (stats.malicious > 0) {
+                display.style.borderColor = "#ff4d4d"; // Bright Red
+                display.style.color = "#ff4d4d";
+                display.innerText = `🚨 ALERT: ${stats.malicious} MALICIOUS ENGINES DETECTED\n`;
+            } else {
+                display.style.borderColor = "#00ff00"; // Clean Green
+                display.style.color = "#00ff00";
+                display.innerText = `✅ VERDICT: CLEAN / HARMLESS\n`;
+            }
+
+            // Append the rest of the data
+            display.innerText += `Status: ${attributes.status || 'Complete'}\n` +
+                                 `Stats: ${stats.malicious} Malicious / ${stats.harmless} Harmless\n\n` +
+                                 `Full JSON Data:\n` + JSON.stringify(data, null, 2);
+        }
 }
 </script>
+
+1. The Verdict Summary (stats)
+At the top of the attributes object, you’ll find the stats dictionary. This is your "Executive Summary."
+
+malicious: The number of engines that flagged the URL as a threat (Phishing, Malware, etc.).
+
+harmless: Engines that explicitly verified the URL as safe.
+
+undetected: Engines that scanned the site but found nothing suspicious.
+
+suspicious: Engines that didn't find a direct threat but flagged the URL for "unusual" behavior (like a new domain or suspicious redirects).
+
+[!TIP]
+The 2% Rule: In high-traffic environments, a single "Malicious" hit out of 70+ engines is often a False Positive. Analysts typically look for a consensus of 2 or more reputable engines (like Kaspersky, Fortinet, or Google) before escalating.
+
+2. Engine-Specific Results (results)
+This section lists every individual security vendor.
+
+category: The normalized result (e.g., harmless, malicious, undetected).
+
+result: The specific "Label" given by that vendor (e.g., clean, phishing, unrated).
+
+method: How they found it. Most use blacklist, which means they checked a known database of bad actors.
+
+3. Key Indicators of Compromise (IoCs)
+id: This is a unique tracking ID for this specific analysis.
+
+url: The canonicalized URL. VT normalizes URLs (removing extra parameters) to ensure it's comparing the same "root" resource.
+
+CySA+ Analysis Exercise: The "Gray" Area
+Look at the ZeroFox or SOCRadar entries in your JSON:
+
+JSON
+"ZeroFox": { "category": "undetected", "result": "unrated" }
+Why is it "Unrated"? This means the vendor has no current data on the site. As a CySA+, you should treat an "Unrated" site with the same caution as a "Suspicious" one if the domain was registered very recently (e.g., within the last 24 hours).
+
+---
+
+<div style="margin: 30px 0; text-align: center;">
+    <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 8px; border: 1px solid #333;">
+        <iframe 
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+            src="https://www.youtube.com/embed/b67h3U4OeAI" 
+            title="VirusTotal for Beginners" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            allowfullscreen>
+        </iframe>
+    </div>
+    <div style="margin-top: 10px; font-size: 0.85em; color: #888; font-style: italic;">
+        Video credit: <a href="https://www.youtube.com/@VirusTotalVideo" target="_blank" style="color: #007bff; text-decoration: none;">VirusTotal Official Channel</a> | 
+        Platform provided by <a href="https://www.virustotal.com" target="_blank" style="color: #007bff; text-decoration: none;">VirusTotal.com</a>
+    </div>
+</div>
 
 ---
 
@@ -104,5 +176,6 @@ A **Proxy Auto-Config (PAC)** file script can act as a traffic director. While P
 ### 3. Log Enrichment (Small Business Config)
 If you run a local log server (like ELK), create a sidecar script that monitors outbound 443 connections. If an IP appears that hasn't been seen in the last 30 days, have the script automatically query VirusTotal and send a **Pushbullet** or **Slack** notification if the reputation score is > 10.
 
-
+VirusTotal for Beginners
+This video is a great primer for anyone new to the platform, as it walks through the basic interface and explains why security professionals rely on these aggregated results.
 
