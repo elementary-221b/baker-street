@@ -32,9 +32,10 @@ VirusTotal is an aggregator that inspects items with over 70 antivirus scanners 
 
 <script>
 async function runLiveScan() {
-    const url = document.getElementById('userInput').value;
-    const display = document.getElementById('liveResult');
-    display.innerText = "Querying Cloudflare Proxy...";
+    const stats = data.data.attributes.stats; // Note: 'stats', not 'last_analysis_stats'
+    display.innerText = `Verdict: ${stats.malicious} Malicious / ${stats.harmless} Harmless\n` +
+						`Status: ${data.data.attributes.status}\n\n` +
+						`Full Report:\n` + JSON.stringify(data, null, 2);
 
     try {
         const response = await fetch('https://vt-proxy-api.michael-watson-26.workers.dev', {
