@@ -1,31 +1,40 @@
-// We use window.onload to ensure EVERYTHING (styles, themes, etc.) is ready
 window.onload = function() {
-    console.log("Sherlock's Script: The game is afoot. Scanning now...");
+    console.log("Sherlock's Script: Scanning for individual code snippets...");
     
-    // We search for the specific class you found, and any standard code tags
-    const suspects = document.querySelectorAll('code.highlighter-rouge, .highlight code, pre code');
+    // Target the code tags directly
+    const snippets = document.querySelectorAll('code.highlighter-rouge');
     
-    console.log("Sherlock's Script: Found " + suspects.length + " code elements.");
+    console.log("Sherlock's Script: Found " + snippets.length + " snippets.");
 
-    suspects.forEach(function(code, index) {
-        // Create the button
+    snippets.forEach(function(snippet, index) {
+        // 1. Make the snippet a relative container so the button stays inside it
+        snippet.style.position = 'relative';
+        snippet.style.display = 'inline-block'; // Essential for inline snippets
+        snippet.style.paddingRight = '45px';    // Make a small space for the button
+        snippet.style.margin = '2px';           // Prevent snippets from touching
+        
+        // 2. Create the button
         const button = document.createElement('button');
         button.className = 'copy-code-button';
         button.type = 'button';
         button.innerText = 'Copy';
 
-        // Anchor the button to the parent of the code tag
-        const container = code.parentElement;
-        container.style.position = 'relative';
-        
-        button.addEventListener('click', function() {
-            navigator.clipboard.writeText(code.innerText).then(function() {
-                button.innerText = 'Copied!';
-                setTimeout(() => { button.innerText = 'Copy'; }, 2000);
+        // 3. The Logic
+        button.addEventListener('click', function(e) {
+            e.preventDefault(); // Prevent any paragraph clicks
+            const textToCopy = snippet.innerText.replace('Copy', '').trim();
+            
+            navigator.clipboard.writeText(textToCopy).then(function() {
+                button.innerText = '✓';
+                button.style.background = '#4CAF50'; // Green for success
+                setTimeout(() => { 
+                    button.innerText = 'Copy'; 
+                    button.style.background = '#ce887b'; // Back to theme color
+                }, 1500);
             });
         });
 
-        container.appendChild(button);
-        console.log("Sherlock's Script: Button attached to suspect #" + (index + 1));
+        snippet.appendChild(button);
+        console.log("Sherlock's Script: Button attached to snippet #" + (index + 1));
     });
 };
