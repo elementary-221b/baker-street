@@ -1,7 +1,7 @@
 ---
 layout: post
 title: My Cybersecurity Journey
-date: 2024-09-18 00:00:00 +0600
+pinned: true
 description: Everyone's journey is different; here's mine # Add post description (optional)
 img: cybersecurity-journey.jpg # Add image post (optional)
 fig-caption: # Add figcaption (optional)
