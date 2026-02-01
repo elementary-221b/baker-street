@@ -136,6 +136,31 @@ table tfoot td {
   clear: both;
 }
 
+/* Position the Copy button inside the code block */
+pre {
+    position: relative;
+}
+
+.copy-code-button {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    padding: 4px 8px;
+    background-color: #2d333b; /* Dark like a London alleyway */
+    color: #adbac7;
+    border: 1px solid #444c56;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.copy-code-button:hover {
+    opacity: 1;
+    background-color: #444c56;
+}
+
 /* - - - - - - - - - - Home Page Styles - - - - - - - - - - */
 @import 'parts/home-page';
 
