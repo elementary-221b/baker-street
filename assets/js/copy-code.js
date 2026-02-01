@@ -1,25 +1,25 @@
 document.addEventListener('DOMContentLoaded', function() {
-  // We look for the 'pre' blocks that Jekyll's kramdown creates
-  document.querySelectorAll('pre').forEach(function(codeBlock) {
+    console.log("Sherlock's Script: Searching for code blocks...");
     
-    // Create the button
-    var button = document.createElement('button');
-    button.className = 'copy-code-button';
-    button.type = 'button';
-    button.innerText = 'Copy';
+    const codeBlocks = document.querySelectorAll('pre');
+    console.log("Sherlock's Script: Found " + codeBlocks.length + " blocks.");
 
-    // Click event to snatch the text
-    button.addEventListener('click', function() {
-      var code = codeBlock.querySelector('code').innerText;
-      navigator.clipboard.writeText(code).then(function() {
-        button.innerText = 'Copied!';
-        setTimeout(function() {
-          button.innerText = 'Copy';
-        }, 2000);
-      });
+    codeBlocks.forEach(function(codeBlock, index) {
+        const button = document.createElement('button');
+        button.className = 'copy-code-button';
+        button.type = 'button';
+        button.innerText = 'Copy';
+        button.style.border = "2px solid red"; // Temporary bright border for visibility
+
+        button.addEventListener('click', function() {
+            const code = codeBlock.querySelector('code').innerText;
+            navigator.clipboard.writeText(code).then(function() {
+                button.innerText = 'Copied!';
+                setTimeout(() => { button.innerText = 'Copy'; }, 2000);
+            });
+        });
+
+        codeBlock.appendChild(button);
+        console.log("Sherlock's Script: Button attached to block #" + index);
     });
-
-    // Append the button to the pre block
-    codeBlock.appendChild(button);
-  });
 });
