@@ -51,7 +51,7 @@ Here's some Linux commands when you don't know what command to use or how to use
 
 > Let's get some more
 
-* <b>apt</b> - 'advanced package tool' used for installing, updating and removing software. example `apt update -y && apt upgrade -y`
+* <b>apt</b> - 'advanced package tool' used for installing, updating and removing software. example apt update -y && apt upgrade -y
 * <b>curl</b> - downloader with user interactability. example `curl -sSL https://install.pi-hole.net | bash`
 * <b>wget</b> - non-interactive downloader. example `wget -O basic-install.sh https://install.pi-hole.net`
 * <b>touch</b> - create a file. example `touch example.txt`
@@ -91,6 +91,7 @@ This can be further locked down if you want only one other device on you network
 To check what users and groups are currently configured to the system run `cat /etc/passwd` for users or `cat /etc/group` for groups. If you know you no longer need a user or group, they can be removed with either `userdel` or `groupdel`. Performing audits on access management is a security measure to ensure there isn't a vulnerability from users having access when no longer needed. Using <b>usermod</b> can be used to lock users `usermod -L` and set an expiration for users who only require access for a set amount of time `usermod -e YYYY-MM-DD`.
 
 Now that our system has a clean initial configuration, it's time to start some projects. <i>Linux Projects post coming soon...</i>
+
 
 
 
