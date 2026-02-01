@@ -1,31 +1,31 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // We are now hunting for the specific class identified in the elements tab
-    const codeBlocks = document.querySelectorAll('.highlighter-rouge');
+// We use window.onload to ensure EVERYTHING (styles, themes, etc.) is ready
+window.onload = function() {
+    console.log("Sherlock's Script: The game is afoot. Scanning now...");
     
-    console.log("Sherlock's Script: Found " + codeBlocks.length + " code elements.");
+    // We search for the specific class you found, and any standard code tags
+    const suspects = document.querySelectorAll('code.highlighter-rouge, .highlight code, pre code');
+    
+    console.log("Sherlock's Script: Found " + suspects.length + " code elements.");
 
-    codeBlocks.forEach(function(block, index) {
+    suspects.forEach(function(code, index) {
         // Create the button
         const button = document.createElement('button');
         button.className = 'copy-code-button';
         button.type = 'button';
         button.innerText = 'Copy';
 
+        // Anchor the button to the parent of the code tag
+        const container = code.parentElement;
+        container.style.position = 'relative';
+        
         button.addEventListener('click', function() {
-            // Snatch the text directly from the block
-            const textToCopy = block.innerText;
-
-            navigator.clipboard.writeText(textToCopy).then(function() {
+            navigator.clipboard.writeText(code.innerText).then(function() {
                 button.innerText = 'Copied!';
                 setTimeout(() => { button.innerText = 'Copy'; }, 2000);
             });
         });
 
-        // The 'code' tag needs to be positioned for the button to anchor to it
-        block.style.position = 'relative';
-        block.style.display = 'inline-block'; // Or 'block' if it's a standalone line
-        
-        block.appendChild(button);
-        console.log("Sherlock's Script: Button attached to block #" + (index + 1));
+        container.appendChild(button);
+        console.log("Sherlock's Script: Button attached to suspect #" + (index + 1));
     });
-});
+};
