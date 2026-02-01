@@ -60,7 +60,7 @@ Here's some Linux commands when you don't know what command to use or how to use
 
 > Get control of your stuff
 
-* <b>chown</b> - change ownership of a file or directory. example <pre>`chown newowner:newgroup example.txt`</pre>
+* <b>chown</b> - change ownership of a file or directory. example `chown newowner:newgroup example.txt`
 * <b>chmod</b> - change who can read, write, or execute files and directories. example `chown u+rwx,g+w,o-r example.txt`
 * <b>mv</b> - move a file or directory (also has the ability to rename files or directories). example `mv example.txt test.txt`
 * <b>cp</b> - copy files or directories. example `cp test.txt /etc/example`
@@ -91,6 +91,7 @@ This can be further locked down if you want only one other device on you network
 To check what users and groups are currently configured to the system run `cat /etc/passwd` for users or `cat /etc/group` for groups. If you know you no longer need a user or group, they can be removed with either `userdel` or `groupdel`. Performing audits on access management is a security measure to ensure there isn't a vulnerability from users having access when no longer needed. Using <b>usermod</b> can be used to lock users `usermod -L` and set an expiration for users who only require access for a set amount of time `usermod -e YYYY-MM-DD`.
 
 Now that our system has a clean initial configuration, it's time to start some projects. <i>Linux Projects post coming soon...</i>
+
 
 
 
