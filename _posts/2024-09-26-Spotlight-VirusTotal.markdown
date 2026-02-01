@@ -32,23 +32,51 @@ VirusTotal is an aggregator that inspects items with over 70 antivirus scanners 
 
 <script>
 async function runLiveScan() {
-    const stats = data.data.attributes.stats; // Note: 'stats', not 'last_analysis_stats'
-    display.innerText = `Verdict: ${stats.malicious} Malicious / ${stats.harmless} Harmless\n` +
-						`Status: ${data.data.attributes.status}\n\n` +
-						`Full Report:\n` + JSON.stringify(data, null, 2);
+    // 1. Correctly define variables from the DOM
+    const urlInput = document.getElementById('userInput');
+    const display = document.getElementById('liveResult');
+    const url = urlInput.value.trim();
+
+    // 2. Validate input
+    if (!url) {
+        display.innerText = "Error: Please enter a URL first.";
+        return;
+    }
+
+    display.innerText = "Connecting to Cloudflare Proxy...";
 
     try {
+        // 3. Make the fetch request
         const response = await fetch('https://vt-proxy-api.michael-watson-26.workers.dev', {
             method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ urlToScan: url })
         });
+
+        if (!response.ok) {
+            throw new Error(`Proxy error: ${response.status} ${response.statusText}`);
+        }
+
         const data = await response.json();
-        
-        // Pretty print the malicious/harmless count
-        const stats = data.data.attributes.last_analysis_stats;
-        display.innerText = `Verdict: ${stats.malicious} Malicious / ${stats.harmless} Harmless\n\nFull JSON:\n` + JSON.stringify(data, null, 2);
+
+        // 4. Safely check for the new report structure (stats vs last_analysis_stats)
+        // Note: The /analyses/ endpoint uses .attributes.stats
+        const attributes = data.data?.attributes;
+        const stats = attributes?.stats || attributes?.last_analysis_stats;
+
+        if (stats) {
+            display.innerText = `Verdict: ${stats.malicious} Malicious / ${stats.harmless} Harmless\n` +
+                                `Status: ${attributes.status || 'Complete'}\n\n` +
+                                `Full JSON Data:\n` + JSON.stringify(data, null, 2);
+        } else {
+            display.innerText = "Error: Analysis results not found in response. Try again in a moment.\n\nRaw Data:\n" + JSON.stringify(data, null, 2);
+        }
+
     } catch (err) {
-        display.innerText = "Error: " + err.message;
+        // 5. Catch network or logic errors
+        display.innerText = "Technical Error: " + err.message + 
+                            "\n\nCheck browser console (F12) for network details.";
+        console.error("VT Tool Error:", err);
     }
 }
 </script>
