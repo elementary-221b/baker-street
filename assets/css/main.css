@@ -1480,18 +1480,6 @@ a.newer-posts:hover {
   }
 }
 
-/* Target the code snippet itself */
-code.highlighter-rouge {
-    position: relative !important;
-    display: inline-block !important;
-    padding: 4px 50px 4px 8px !important; /* Extra padding on the right for the button */
-    background-color: #f4f4f4 !important;
-    border-radius: 4px !important;
-    border: 1px solid #ddd !important;
-    vertical-align: middle !important;
-}
-
-/* The Button - Small and Unobtrusive */
 .copy-code-button {
     position: absolute !important;
     right: 4px !important;
@@ -1500,16 +1488,23 @@ code.highlighter-rouge {
     background-color: #ce887b !important;
     color: white !important;
     border: none !important;
-    border-radius: 3px !important;
-    padding: 2px 6px !important;
-    font-size: 9px !important;
-    text-transform: uppercase;
+    border-radius: 4px !important;
+    width: 28px !important;  /* Fixed width for square */
+    height: 24px !important; /* Fixed height */
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
     cursor: pointer !important;
     z-index: 5 !important;
-    line-height: 1 !important;
-    height: 18px !important;
+    transition: all 0.2s ease !important;
+    padding: 0 !important;
+}
+
+.copy-code-button svg {
+    pointer-events: none; /* Ensures the click hits the button, not the path */
 }
 
 .copy-code-button:hover {
     background-color: #263959 !important;
+    transform: translateY(-50%) scale(1.1) !important;
 }
