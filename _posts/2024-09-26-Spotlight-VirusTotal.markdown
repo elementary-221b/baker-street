@@ -99,7 +99,8 @@ async function runLiveScan() {
 }
 </script>
 
-`1 The Verdict Summary (stats)
+{% highlight ruby %}
+1. **The Verdict Summary (stats)
 At the top of the attributes object, you’ll find the stats dictionary. This is your "Executive Summary."
 
 malicious: The number of engines that flagged the URL as a threat (Phishing, Malware, etc.).
@@ -112,7 +113,7 @@ suspicious: Engines that didn't find a direct threat but flagged the URL for "un
 
 >The 2% Rule: In high-traffic environments, a single "Malicious" hit out of 70+ engines is often a False Positive. Analysts typically look for a consensus of 2 or more reputable engines (like Kaspersky, Fortinet, or Google) before escalating.
 
-2 Engine-Specific Results (results)
+2. **Engine-Specific Results (results)
 This section lists every individual security vendor.
 
 category: The normalized result (e.g., harmless, malicious, undetected).
@@ -121,10 +122,11 @@ result: The specific "Label" given by that vendor (e.g., clean, phishing, unrate
 
 method: How they found it. Most use blacklist, which means they checked a known database of bad actors.
 
-3 Key Indicators of Compromise (IoCs)
+3. **Key Indicators of Compromise (IoCs)
 id: This is a unique tracking ID for this specific analysis.
 
-url: The canonicalized URL. VT normalizes URLs (removing extra parameters) to ensure it's comparing the same "root" resource.`
+url: The canonicalized URL. VT normalizes URLs (removing extra parameters) to ensure it's comparing the same "root" resource.
+{% endhighlight %}
 
 CySA+ Analysis Exercise: The "Gray" Area
 Look at the ZeroFox or SOCRadar entries in your JSON:
