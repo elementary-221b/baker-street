@@ -1479,3 +1479,32 @@ a.newer-posts:hover {
     font-size: 21px;
   }
 }
+
+/* --- The Detective's Copy Button Patch --- */
+
+/* 1. Ensure the container can hold an absolute-positioned button */
+pre {
+  position: relative; 
+}
+
+/* 2. Style the button itself */
+.copy-code-button {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background-color: #263959; /* Matching your theme's dark blue */
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  opacity: 0.5; /* Subtle until hovered */
+  transition: opacity 0.3s ease;
+  z-index: 10;
+}
+
+.copy-code-button:hover {
+  opacity: 1;
+  background-color: #ce887b; /* Matching your accent 'highlighter-rouge' color */
+}
