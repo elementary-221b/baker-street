@@ -1480,31 +1480,26 @@ a.newer-posts:hover {
   }
 }
 
-/* --- The Final Forensic Patch --- */
-
-/* Force the code container to be a reference point */
-pre {
+/* Target the specific class from your HTML */
+code.highlighter-rouge {
     position: relative !important;
-    overflow: visible !important; /* Prevents the button from being clipped */
+    display: inline-block !important; /* Allows the button to sit inside */
+    padding-right: 50px !important;   /* Makes room for the button */
+    vertical-align: middle;
 }
 
-/* The Button: Dressed in 'Moriarty Red' for visibility */
 .copy-code-button {
     position: absolute !important;
-    top: 5px !important;
+    top: 50% !important;
     right: 5px !important;
+    transform: translateY(-50%) !important; /* Centers it vertically */
     z-index: 999 !important;
-    background-color: #ce887b !important; /* Your theme's accent color */
+    background-color: #ce887b !important; 
     color: white !important;
-    border: 1px solid #263959 !important;
+    border: none !important;
     border-radius: 4px !important;
-    padding: 4px 8px !important;
-    font-size: 11px !important;
+    padding: 2px 6px !important;
+    font-size: 10px !important;
     cursor: pointer !important;
-    display: inline-block !important; /* Ensure it isn't hidden */
-    line-height: 1 !important;
-}
-
-.copy-code-button:hover {
-    background-color: #263959 !important;
+    line-height: 1.2 !important;
 }
