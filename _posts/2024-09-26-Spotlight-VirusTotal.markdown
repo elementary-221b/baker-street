@@ -1,14 +1,14 @@
 ---
 layout: post
-title: Spotlight VirusTotal
+title: Spotlight: VirusTotal
 date: 2024-09-01 00:00:00 +0300
 description: You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. # Add post description (optional)
-img: website.jpg # Add image post (optional)
+img: vt.jpg # Add image post (optional)
 fig-caption: # Add figcaption (optional)
 tags: [URL Scan, IoC, Threat Detection] # add tag
 ---
 
-As a **CySA+ (Cybersecurity Analyst)**, your value lies in the ability to pivot from an alert to actionable intelligence. This blog post integrates a live VirusTotal v3 API tool to help you analyze indicators of compromise (IoCs) and provides advanced implementation strategies for small business environments.
+A quick spotlight on the VirusTotal tool and integrations. This blog post integrates a live VirusTotal v3 API tool to help you analyze indicators of compromise (IoCs) and provides advanced implementation strategies for small business environments.
 
 ### The Power of VirusTotal (VT)
 VirusTotal is an aggregator that inspects items with over 70 antivirus scanners and URL/domain blocklisting services. Key capabilities include:
@@ -18,7 +18,7 @@ VirusTotal is an aggregator that inspects items with over 70 antivirus scanners 
 
 ---
 
-## 🛠 Interactive Analysis Tool
+## Interactive Analysis Tool
 *Analyze a URL against the VirusTotal engine in real-time. Results are returned via the v3 API.*
 
 <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; border: 1px solid #333; color: white;">
@@ -110,8 +110,7 @@ undetected: Engines that scanned the site but found nothing suspicious.
 
 suspicious: Engines that didn't find a direct threat but flagged the URL for "unusual" behavior (like a new domain or suspicious redirects).
 
-[!TIP]
-The 2% Rule: In high-traffic environments, a single "Malicious" hit out of 70+ engines is often a False Positive. Analysts typically look for a consensus of 2 or more reputable engines (like Kaspersky, Fortinet, or Google) before escalating.
+>The 2% Rule: In high-traffic environments, a single "Malicious" hit out of 70+ engines is often a False Positive. Analysts typically look for a consensus of 2 or more reputable engines (like Kaspersky, Fortinet, or Google) before escalating.
 
 2. Engine-Specific Results (results)
 This section lists every individual security vendor.
@@ -155,7 +154,7 @@ Why is it "Unrated"? This means the vendor has no current data on the site. As a
 
 ---
 
-## 🔍 CySA+ Intelligence & TTPs
+## CySA+ Intelligence & TTPs
 Effective analysis requires more than just checking for a "Red" flag. Apply these core concepts from the **CySA+ (CS0-003)** objectives:
 
 1. **Indicator Enrichment:** Don't stop at the URL. Use the API response to find the **SHA-256 hash** of the final payload.
@@ -164,7 +163,7 @@ Effective analysis requires more than just checking for a "Red" flag. Apply thes
 
 ---
 
-## 🚀 Advanced Implementation Strategies
+## Advanced Implementation Strategies
 For small businesses or advanced home labs, move beyond manual lookups with these unique setups:
 
 ### 1. Browser-Level Enforcement (VT4Browsers)
