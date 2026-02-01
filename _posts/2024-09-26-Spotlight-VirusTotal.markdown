@@ -21,49 +21,33 @@ VirusTotal is an aggregator that inspects items with over 70 antivirus scanners 
 ## 🛠 Interactive Analysis Tool
 *Analyze a URL against the VirusTotal engine in real-time. Results are returned via the v3 API.*
 
-<div id="vt-container" style="background: #1e1e1e; color: #00ff00; padding: 25px; border-radius: 10px; border: 1px solid #333;">
-    <h3 style="color: #00ff00; border-bottom: 1px solid #333; padding-bottom: 10px;">VT URL Scanner</h3>
-    <p style="font-size: 0.9em; color: #888;">Enter a URL below to query the VT database.</p>
-    <div style="display: flex; gap: 10px; margin-bottom: 15px;">
-        <input type="text" id="vtUrlInput" placeholder="http://suspicious-site.com" 
-               style="flex-grow: 1; padding: 10px; border-radius: 5px; border: 1px solid #444; background: #2d2d2d; color: #fff;">
-        <button onclick="scanUrl()" 
-                style="padding: 10px 20px; background: #28a745; border: none; border-radius: 5px; color: white; cursor: pointer; font-weight: bold;">
-            Analyze
-        </button>
-    </div>
-    <div id="results" style="background: #000; padding: 15px; border-radius: 5px; font-family: 'Courier New', monospace; height: 250px; overflow-y: auto; font-size: 0.85em; border: 1px solid #222;">
-        [Awaiting Input...]
+<div style="background: #1a1a1a; padding: 20px; border-radius: 8px; border: 1px solid #333; color: white;">
+    <h3>Live Threat Triage</h3>
+    <input type="text" id="userInput" placeholder="https://example.com" style="width: 70%; padding: 10px; background: #333; color: white; border: none;">
+    <button onclick="runLiveScan()" style="padding: 10px; background: #007bff; border: none; cursor: pointer;">Scan Now</button>
+    <div id="liveResult" style="margin-top: 15px; font-family: monospace; font-size: 0.8em; white-space: pre-wrap; background: #000; padding: 10px; max-height: 300px; overflow: auto;">
+        Waiting for input...
     </div>
 </div>
 
 <script>
-async function scanUrl() {
-    const urlToScan = document.getElementById('vtUrlInput').value;
-    const resultsDiv = document.getElementById('results');
-    
-    // Safety check for empty input
-    if (!urlToScan) { alert("Please enter a URL"); return; }
-    
-    resultsDiv.innerText = "> Initializing scan...\n> Requesting analysis from VirusTotal v3...";
-    
-    // Injecting the API key via Jekyll Liquid (from your environment variable)
-    const apiKey = "{{ site.vt_api_key }}"; 
+async function runLiveScan() {
+    const url = document.getElementById('userInput').value;
+    const display = document.getElementById('liveResult');
+    display.innerText = "Querying Cloudflare Proxy...";
 
     try {
-        const response = await fetch('https://www.virustotal.com/api/v3/urls', {
+        const response = await fetch('https://vt-proxy-api.michael-watson-26.workers.dev', {
             method: 'POST',
-            headers: {
-                'x-apikey': apiKey,
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: new URLSearchParams({ 'url': urlToScan })
+            body: JSON.stringify({ urlToScan: url })
         });
-        
         const data = await response.json();
-        resultsDiv.innerText = JSON.stringify(data, null, 2);
+        
+        // Pretty print the malicious/harmless count
+        const stats = data.data.attributes.last_analysis_stats;
+        display.innerText = `Verdict: ${stats.malicious} Malicious / ${stats.harmless} Harmless\n\nFull JSON:\n` + JSON.stringify(data, null, 2);
     } catch (err) {
-        resultsDiv.innerText = ">> Error: " + err.message + "\nCheck console for CORS or API key issues.";
+        display.innerText = "Error: " + err.message;
     }
 }
 </script>
