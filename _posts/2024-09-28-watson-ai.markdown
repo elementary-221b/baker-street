@@ -108,7 +108,7 @@ In the world of prompting, most people are still "crawling" through the fog. Let
     <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 8px; border: 1px solid #333;">
         <iframe 
             style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
-            src="https://www.youtube.com/watch?v=pwWBcsxEoLk" 
+            src="https://www.youtube.com/embed/pwWBcsxEoLk" 
             title="You SUCK at Prompting AI" 
             frameborder="0" 
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
@@ -153,3 +153,4 @@ Google Research found that AI often trips over complex details. To solve this, u
 Wharton professor Ethan Mollick argues that we spend too much time on "Prompting" and not enough on "Problem Formulation."
 * **Don't just prompt:** Describe the *process* you want the AI to follow. 
 * **Chain of Density:** When asking for summaries, tell the AI to "Iteratively refine this, adding 3 new unique entities each time while keeping the word count the same."
+
