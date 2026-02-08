@@ -2,7 +2,7 @@
 layout: post
 title: "Get Hard: Hardening Approach to Windows OS Security"
 date: 2026-02-08
-img: 
+img: Windows_Hardening.png
 tags: [Windows-Hardening, Security-Plus, CySA-Plus, Automation, Blue-Team]
 categories: [Cybersecurity, System-Administration]
 description: "From Registry tweaks to building custom autounattend.xml files, learn how to minimize the attack surface of Windows 11."
