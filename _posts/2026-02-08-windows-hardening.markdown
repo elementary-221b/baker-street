@@ -59,40 +59,111 @@ Projects like **ReviOS** and **AtlasOS** have gained popularity for "stripping d
 The gold standard for a Security Architect is a reproducible build. Using an `autounattend.xml` file allows you to bake security into the OS during the installation phase. This tool helps you conceptualize the hardening logic used by the [Schneegans Generator](https://schneegans.de/windows/unattend-generator/).
 
 ### Build Your Hardened Baseline
-<div id="generator-tool" style="background: #f4f4f4; padding: 20px; border-radius: 8px; color: #333; font-family: sans-serif;">
-    <h4>Select Your Security Features:</h4>
-    <div style="margin-bottom: 10px;">
-        <input type="checkbox" id="telemetry" checked> <label for="telemetry">Disable Telemetry & Data Collection (CySA+ Privacy)</label><br>
-        <input type="checkbox" id="defender" checked> <label for="defender">Enable Tamper Protection & Cloud-Based Protection</label><br>
-        <input type="checkbox" id="uac" checked> <label for="uac">Enforce Maximum UAC (Zero Trust Principle)</label><br>
-        <input type="checkbox" id="smb"> <label for="smb">Disable SMBv1 (Legacy Protocol Mitigation)</label><br>
+<div id="generator-tool" style="background: #1e1e1e; padding: 25px; border-radius: 12px; color: #e0e0e0; font-family: 'Segoe UI', sans-serif; border: 1px solid #333;">
+    <h4 style="color: #007bff; margin-top: 0;">1. Select Security Features:</h4>
+    <div style="display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 20px;">
+        <label><input type="checkbox" id="telemetry" checked> <b>Disable Telemetry</b> (Privacy: Minimize Metadata Exfiltration)</label>
+        <label><input type="checkbox" id="defender" checked> <b>Hardened Defender</b> (Enable Tamper & Cloud Protection)</label>
+        <label><input type="checkbox" id="uac" checked> <b>Zero Trust UAC</b> (Enforce Credentials on Secure Desktop)</label>
+        <label><input type="checkbox" id="smb"> <b>Disable SMBv1/NetBIOS</b> (Mitigate Legacy Lateral Movement)</label>
+        <label><input type="checkbox" id="bloatware" checked> <b>Purge Bloatware</b> (Reduce Attack Surface/Code Execution paths)</label>
     </div>
-    <button onclick="generateSnippet()" style="background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer;">Generate XML Snippet</button>
     
-    <pre id="output-box" style="margin-top: 20px; background: #272822; color: #f8f8f2; padding: 15px; border-radius: 5px; white-space: pre-wrap; display: none; font-size: 0.8em;"></pre>
+    <button onclick="generateXML()" style="background: #007bff; color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%;">Generate Hardened XML</button>
+    
+    <h4 style="margin-top: 25px;">2. Your Hardened Configuration:</h4>
+    <pre id="output-box" style="background: #090909; color: #a6e22e; padding: 15px; border-radius: 5px; white-space: pre-wrap; display: none; font-size: 0.85em; border: 1px solid #444; overflow-x: auto;"></pre>
 </div>
 
 <script>
-function generateSnippet() {
+function generateXML() {
     const telemetry = document.getElementById('telemetry').checked;
     const defender = document.getElementById('defender').checked;
     const uac = document.getElementById('uac').checked;
     const smb = document.getElementById('smb').checked;
-    
-    let xml = `\n<RunSynchronous>\n`;
+    const bloatware = document.getElementById('bloatware').checked;
+
+    let commands = [];
     let count = 1;
-    
+
+    // Zero Trust Principle: Least Privilege & Secure Defaults
+    if(uac) {
+        commands.push({
+            desc: "Zero Trust: Enforce Max UAC Credentials",
+            path: "reg add \"HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\" /v ConsentPromptBehaviorAdmin /t REG_DWORD /d 1 /f"
+        });
+    }
+
+    // CySA+ Privacy: Anti-Exfiltration
     if(telemetry) {
-        xml += `  <RunSynchronousCommand wcm:action="add">\n    <Order>${count++}</Order>\n    <Description>Disable Telemetry</Description>\n    <Path>reg add "HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DataCollection" /v AllowTelemetry /t REG_DWORD /d 0 /f</Path>\n  </RunSynchronousCommand>\n`;
+        commands.push({
+            desc: "Privacy: Disable Telemetry",
+            path: "reg add \"HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DataCollection\" /v AllowTelemetry /t REG_DWORD /d 0 /f"
+        });
     }
+
+    // Defense in Depth: Attack Surface Reduction
     if(smb) {
-        xml += `  <RunSynchronousCommand wcm:action="add">\n    <Order>${count++}</Order>\n    <Description>Disable SMBv1</Description>\n    <Path>powershell -Command "Disable-WindowsOptionalFeature -Online -FeatureName SMB1Protocol"</Path>\n  </RunSynchronousCommand>\n`;
+        commands.push({
+            desc: "Mitigation: Disable SMBv1",
+            path: "powershell -Command \"Disable-WindowsOptionalFeature -Online -FeatureName SMB1Protocol -NoRestart\""
+        });
     }
-    // ... logic for other checkboxes ...
-    xml += `</RunSynchronous>`;
-    
+
+    // Secure Bootstrapping: Bloatware Removal
+    if(bloatware) {
+        commands.push({
+            desc: "Attack Surface: Remove Bloatware",
+            path: "powershell -Command \"Get-AppxProvisionedPackage -Online | Where-Object {$_.PackageName -match 'Zune|Bing|Skype|MicrosoftSolitaireCollection'} | Remove-AppxProvisionedPackage -Online\""
+        });
+    }
+
+    let xmlContent = `<?xml version="1.0" encoding="utf-8"?>
+<unattend xmlns="urn:schemas-microsoft-com:unattend">
+    <settings pass="specialize">
+        <component name="Microsoft-Windows-Deployment" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
+            <RunSynchronous>`;
+
+    commands.forEach(cmd => {
+        xmlContent += `
+                <RunSynchronousCommand wcm:action="add">
+                    <Order>${count++}</Order>
+                    <Description>${cmd.desc}</Description>
+                    <Path>${cmd.path}</Path>
+                </RunSynchronousCommand>`;
+    });
+
+    xmlContent += `
+            </RunSynchronous>
+        </component>
+    </settings>
+
+    <settings pass="oobeSystem">
+        <component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
+            <OOBE>
+                <HideEULAPage>true</HideEULAPage>
+                <HideLocalAdministrationPage>false</HideLocalAdministrationPage>
+                <HideOEMRegistrationScreen>true</HideOEMRegistrationScreen>
+                <HideOnlineAccountScreens>true</HideOnlineAccountScreens>
+                <HideWirelessSetupInOOBE>true</HideWirelessSetupInOOBE>
+                <ProtectYourPC>1</ProtectYourPC> </OOBE>
+            <UserAccounts>
+                <LocalAccounts>
+                    <LocalAccount wcm:action="add">
+                        <Password><Value>HardenedPass123!</Value><PlainText>true</PlainText></Password>
+                        <Description>Secure Admin Account</Description>
+                        <DisplayName>Admin</DisplayName>
+                        <Group>Administrators</Group>
+                        <Name>Admin</Name>
+                    </LocalAccount>
+                </LocalAccounts>
+            </UserAccounts>
+        </component>
+    </settings>
+</unattend>`;
+
     const box = document.getElementById('output-box');
-    box.innerText = xml;
+    box.innerText = xmlContent;
     box.style.display = 'block';
 }
 </script>
