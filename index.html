@@ -1,22 +1,36 @@
 ---
 layout: main
 ---
+
 {% for post in site.posts %}
   {% if post.pinned == true %}
-    <div class="pinned-post">
-       <h2><a href="{{ post.url | relative_url }}">[PINNED] {{ post.title }}</a></h2>
-       <p>{{ post.excerpt | strip_html | truncate: 160 }}</p>
+  <article class="post pinned" style="border-left: 5px solid #263959;">
+    {% if post.img %}
+      <a class="post-thumbnail" style="background-image: url({{"/assets/img/" | prepend: site.baseurl | append : post.img}})" href="{{post.url | prepend: site.baseurl}}"></a>
+    {% endif %}
+    <div class="post-content">
+      <h2 class="post-title"><a href="{{post.url | prepend: site.baseurl}}"><i class="fa fa-thumb-tack"></i> {{post.title}}</a></h2>
+      <p>{{ post.content | strip_html | truncatewords: 15 }}</p>
+      <span class="post-date">{{post.date | date: '%Y, %b %d'}}&nbsp;&nbsp;&nbsp;—&nbsp;</span>
+      <span class="post-words">{% capture words %}{{ post.content | number_of_words }}{% endcapture %}{% unless words contains "-" %}{{ words | plus: 250 | divided_by: 250 | append: " minute read" }}{% endunless %}</span>
     </div>
-    <hr>
+  </article>
   {% endif %}
 {% endfor %}
 
 {% for post in paginator.posts %}
   {% unless post.pinned == true %}
-    <div class="post">
-       <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
-       <p>{{ post.excerpt | strip_html | truncate: 160 }}</p>
+  <article class="post">
+    {% if post.img %}
+      <a class="post-thumbnail" style="background-image: url({{"/assets/img/" | prepend: site.baseurl | append : post.img}})" href="{{post.url | prepend: site.baseurl}}"></a>
+    {% endif %}
+    <div class="post-content">
+      <h2 class="post-title"><a href="{{post.url | prepend: site.baseurl}}">{{post.title}}</a></h2>
+      <p>{{ post.content | strip_html | truncatewords: 15 }}</p>
+      <span class="post-date">{{post.date | date: '%Y, %b %d'}}&nbsp;&nbsp;&nbsp;—&nbsp;</span>
+      <span class="post-words">{% capture words %}{{ post.content | number_of_words }}{% endcapture %}{% unless words contains "-" %}{{ words | plus: 250 | divided_by: 250 | append: " minute read" }}{% endunless %}</span>
     </div>
+  </article>
   {% endunless %}
 {% endfor %}
 
