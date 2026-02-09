@@ -215,74 +215,127 @@ Use this to **select common Windows 11 registry tweaks** and then generate a rea
 
 ---
 
-## 1. Select your Windows 11 registry tweaks
+1. Select your Windows 11 registry tweaks
+<style>
+.reg-container { font-family: sans-serif; background: #f6f8fa; border: 1px solid #d0d7de; padding: 20px; border-radius: 6px; color: #24292f; }
+.reg-section { margin-bottom: 20px; }
+.reg-option-item { margin-bottom: 12px; display: block; cursor: pointer; }
+.reg-option-item input { margin-right: 10px; }
+.reg-option-item small { display: block; margin-left: 28px; color: #57606a; }
+#generate-btn { background-color: #2da44e; color: white; border: 1px solid rgba(27,31,36,0.15); padding: 8px 16px; border-radius: 6px; font-weight: 600; cursor: pointer; }
+#generate-btn:hover { background-color: #2c974b; }
+#output-area { width: 100%; height: 200px; margin-top: 15px; font-family: monospace; font-size: 12px; background: #ffffff; border: 1px solid #d0d7de; padding: 10px; border-radius: 6px; }
+.action-btns { margin-top: 10px; }
+</style>
 
+<div class="reg-container">
 <form id="reg-form">
+<div class="reg-section">
+<h3>Explorer & Taskbar</h3>
+<label class="reg-option-item">
+<input type="checkbox" class="reg-option" data-id="classic-context-menu">
+<strong>Enable classic right‑click context menu</strong>
+<small>Removes the new compact context menu and shows the full legacy menu immediately.</small>
+</label>
+<label class="reg-option-item">
+<input type="checkbox" class="reg-option" data-id="taskbar-small-icons">
+<strong>Use small taskbar icons</strong>
+<small>Makes taskbar icons smaller. Requires sign‑out/sign‑in.</small>
+</label>
+<label class="reg-option-item">
+<input type="checkbox" class="reg-option" data-id="disable-taskbar-chat">
+<strong>Disable Chat icon on taskbar</strong>
+<small>Removes the built‑in Chat (Microsoft Teams) button.</small>
+</label>
+</div>
 
-### Explorer & Taskbar
-
-- <label>
-    <input type="checkbox" class="reg-option" data-id="classic-context-menu">
-    **Enable classic right‑click context menu**
-  </label>  
-  <small>Removes the new compact context menu and shows the full legacy menu immediately.</small>
-
-- <label>
-    <input type="checkbox" class="reg-option" data-id="taskbar-small-icons">
-    **Use small taskbar icons**
-  </label>  
-  <small>Makes taskbar icons smaller. Requires sign‑out/sign‑in.</small>
-
-- <label>
-    <input type="checkbox" class="reg-option" data-id="disable-taskbar-chat">
-    **Disable Chat icon on taskbar**
-  </label>  
-  <small>Removes the built‑in Chat (Microsoft Teams) button.</small>
-
-### Privacy & Telemetry
-
-- <label>
+<div class="reg-section">
+  <h3>Privacy & Telemetry</h3>
+  <label class="reg-option-item">
     <input type="checkbox" class="reg-option" data-id="disable-telemetry">
-    **Reduce telemetry (AllowTelemetry = 0)**
-  </label>  
-  <small>Sets telemetry level to the lowest allowed for your edition.</small>
-
-- <label>
+    <strong>Reduce telemetry (AllowTelemetry = 0)</strong>
+    <small>Sets telemetry level to the lowest allowed for your edition.</small>
+  </label>
+  <label class="reg-option-item">
     <input type="checkbox" class="reg-option" data-id="disable-lockscreen-tips">
-    **Disable lock screen tips & fun facts**
-  </label>  
-  <small>Stops Windows from showing tips, tricks, and suggestions on the lock screen.</small>
+    <strong>Disable lock screen tips & fun facts</strong>
+    <small>Stops Windows from showing tips and suggestions on the lock screen.</small>
+  </label>
+</div>
 
-### UI & Misc
-
-- <label>
+<div class="reg-section">
+  <h3>UI & Misc</h3>
+  <label class="reg-option-item">
     <input type="checkbox" class="reg-option" data-id="disable-rounded-snap-layouts">
-    **Disable Snap Layouts on hover**
-  </label>  
-  <small>Stops the Snap Layouts popup when hovering over maximize.</small>
-
-- <label>
+    <strong>Disable Snap Layouts on hover</strong>
+    <small>Stops the Snap Layouts popup when hovering over maximize.</small>
+  </label>
+  <label class="reg-option-item">
     <input type="checkbox" class="reg-option" data-id="show-seconds-taskbar-clock">
-    **Show seconds on taskbar clock**
-  </label>  
-  <small>Displays seconds in the system tray clock (Windows 11 22H2+).</small>
+    <strong>Show seconds on taskbar clock</strong>
+    <small>Displays seconds in the system tray clock (22H2+).</small>
+  </label>
+</div>
 
-<br>
-
-<button type="button" id="generate-btn">Generate .reg file content</button>
-
+<button type="button" id="generate-btn">Generate Registry Content</button>
 </form>
+</div>
 
----
+2. Generated .reg file content
+<textarea id="output-area" readonly placeholder="; Your .reg file will appear here..."></textarea>
 
-## 2. Generated `.reg` file content
+<div class="action-btns">
+<button onclick="copyToClipboard()" style="cursor:pointer">Copy to Clipboard</button>
+<button onclick="downloadRegFile()" style="cursor:pointer">Download .reg File</button>
+</div>
 
-Copy everything from the box below into a file named, for example, `win11-tweaks.reg`, then double‑click it and accept the prompts to apply.
+<script>
+const registryData = {
+'classic-context-menu': '[HKEY_CURRENT_USER\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32]\n@=""',
+'taskbar-small-icons': '[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced]\n"TaskbarSi"=dword:00000000',
+'disable-taskbar-chat': '[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced]\n"TaskbarMn"=dword:00000000',
+'disable-telemetry': '[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DataCollection]\n"AllowTelemetry"=dword:00000000',
+'disable-lockscreen-tips': '[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager]\n"SubscribedContent-338387Enabled"=dword:00000000',
+'disable-rounded-snap-layouts': '[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced]\n"EnableSnapAssistFlyout"=dword:00000000',
+'show-seconds-taskbar-clock': '[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced]\n"ShowSecondsInSystemClock"=dword:00000001'
+};
 
-```text
-; Your .reg file will appear here after you click "Generate .reg file content".
-; Make your selections above first.
-```
+document.getElementById('generate-btn').addEventListener('click', () => {
+const checkboxes = document.querySelectorAll('.reg-option:checked');
+let output = "Windows Registry Editor Version 5.00\n\n; Windows 11 Tweaks generated by GitHub Tool\n\n";
+
+if (checkboxes.length === 0) {
+  alert(&quot;Please select at least one tweak!&quot;);
+  return;
+}
+
+checkboxes.forEach(cb =&gt; {
+  const id = cb.getAttribute(&#39;data-id&#39;);
+  if (registryData[id]) {
+    output += `; ${cb.parentElement.querySelector(&#39;strong&#39;).innerText}\n${registryData[id]}\n\n`;
+  }
+});
+
+document.getElementById(&#39;output-area&#39;).value = output.trim();
+});
+
+function copyToClipboard() {
+const textarea = document.getElementById('output-area');
+textarea.select();
+document.execCommand('copy');
+alert("Copied to clipboard!");
+}
+
+function downloadRegFile() {
+const text = document.getElementById('output-area').value;
+if(!text) return alert("Generate content first!");
+const blob = new Blob([text], { type: 'text/plain' });
+const anchor = document.createElement('a');
+anchor.download = 'win11_tweaks.reg';
+anchor.href = window.URL.createObjectURL(blob);
+anchor.click();
+}
+</script>
 
 ## References
 * [Microsoft: Windows Security Baselines](https://learn.microsoft.com/en-us/windows/security/threat-protection/windows-security-baselines)
