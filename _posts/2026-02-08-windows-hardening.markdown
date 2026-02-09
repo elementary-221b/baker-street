@@ -66,38 +66,45 @@ The gold standard for a Security Architect is a reproducible build. Using an `au
 
 # Build Your Hardened Baseline
 
-<div id="generator-tool" style="background: #1a1a1a; padding: 25px; border-radius: 12px; color: #f0f0f0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; border: 1px solid #444;">
-    <h4 style="color: #61afef; margin-top: 0;">1. Security Configuration:</h4>
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;">
-        <label><input type="checkbox" id="telemetry" checked> Disable Telemetry</label>
-        <label><input type="checkbox" id="uac" checked> Zero Trust UAC (Prompt)</label>
-        <label><input type="checkbox" id="smb"> Disable SMBv1 (Safe Check)</label>
-        <label><input type="checkbox" id="lsa" checked> LSA Protection</label>
-        <label><input type="checkbox" id="doh" checked> Enforce DoH (Cloudflare)</label>
-        <label><input type="checkbox" id="egress" checked> Egress Port Block</label>
+<div id="generator-tool" style="background: #1a1a1a; padding: 25px; border-radius: 12px; color: #f0f0f0; font-family: sans-serif; border: 1px solid #444;">
+    <h4 style="color: #61afef; margin-top: 0;">1. Select Security Features:</h4>
+    
+    <div style="display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 20px;">
+        <label style="color: #ff4d4d; font-weight: bold;">
+            <input type="checkbox" id="wipe-disk"> ⚠️ FULL AUTO: Wipe Disk 0 (Sanitize & Clean Install)
+        </label>
+        <hr style="border: 0; border-top: 1px solid #333; width: 100%;">
+        <label><input type="checkbox" id="telemetry" checked> Disable Telemetry (CySA+ Privacy)</label>
+        <label><input type="checkbox" id="uac" checked> Enforce Max UAC (Zero Trust Principle)</label>
+        <label><input type="checkbox" id="lsa" checked> Enable LSA Protection (Credential Guard Lite)</label>
+        <label><input type="checkbox" id="doh" checked> Force DNS-over-HTTPS (Anti-Spoofing)</label>
+        <label><input type="checkbox" id="egress" checked> Strict Egress Filtering (Data Exfiltration Block)</label>
+        <label><input type="checkbox" id="smb"> Disable SMBv1 (Legacy Mitigation)</label>
     </div>
+
+    <button onclick="generateHardenedXML()" style="background: #98c379; color: #1a1a1a; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; font-size: 1.1em;">Generate Hardened XML</button>
     
-    <button onclick="generateHardenedXML()" style="background: #98c379; color: #1a1a1a; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%;">Generate Validated XML</button>
-    
-    <h4 style="margin-top: 25px;">2. Output (Save as autounattend.xml):</h4>
-    <pre id="output-box" style="background: #282c34; color: #abb2bf; padding: 15px; border-radius: 5px; white-space: pre-wrap; display: none; font-size: 0.8em; border: 1px solid #555; max-height: 500px; overflow-y: auto;"></pre>
+    <h4 style="margin-top: 25px;">2. Your autounattend.xml:</h4>
+    <pre id="output-box" style="background: #282c34; color: #abb2bf; padding: 15px; border-radius: 5px; white-space: pre-wrap; display: none; font-size: 0.85em; border: 1px solid #555; max-height: 500px; overflow-y: auto;"></pre>
 </div>
 
 <script>
 function generateHardenedXML() {
-    // 1. Gather User Inputs
-    const wipeDisk = document.getElementById('wipe-disk').checked; // New Toggle
-    const telemetry = document.getElementById('telemetry').checked;
-    const uac = document.getElementById('uac').checked;
-    const smb = document.getElementById('smb').checked;
-    const lsa = document.getElementById('lsa').checked;
-    const doh = document.getElementById('doh').checked;
-    const egress = document.getElementById('egress').checked;
+    // Helper function to safely get checkbox state without crashing
+    const isChecked = (id) => document.getElementById(id) ? document.getElementById(id).checked : false;
+
+    const wipeDisk = isChecked('wipe-disk');
+    const telemetry = isChecked('telemetry');
+    const uac = isChecked('uac');
+    const smb = isChecked('smb');
+    const lsa = isChecked('lsa');
+    const doh = isChecked('doh');
+    const egress = isChecked('egress');
 
     let count = 1;
     let commands = [];
 
-    // 2. Build the Synchronous Commands (Specialize Pass)
+    // Mandatory: BypassNRO for Windows 11 (OOBE Internet Bypass)
     commands.push({
         desc: "Bypass NRO: Enable Local Account Flow",
         path: "reg add \"HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\OOBE\" /v BypassNRO /t REG_DWORD /d 1 /f"
@@ -117,13 +124,12 @@ function generateHardenedXML() {
         commands.push({ desc: "Egress Filtering", path: "powershell -Command \"New-NetFirewallRule -DisplayName 'Block Exfiltration' -Direction Outbound -LocalPort 21,23,25,6667 -Protocol TCP -Action Block\"" });
     }
 
-    // 3. Assemble the XML String
-    // Header & Namespaces
-    let xml = `<?xml version="1.0" encoding="utf-8"?>\n<unattend xmlns="urn:schemas-microsoft-com:unattend" xmlns:wcm="http://schemas-microsoft-com:WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">\n`;
+    let xml = `<?xml version="1.0" encoding="utf-8"?>
+<unattend xmlns="urn:schemas-microsoft-com:unattend" xmlns:wcm="http://schemas-microsoft-com:WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">`;
 
-    // OPTIONAL: windowsPE Pass (Partitioning)
     if (wipeDisk) {
-        xml += `    <settings pass="windowsPE">
+        xml += `
+    <settings pass="windowsPE">
         <component name="Microsoft-Windows-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
             <DiskConfiguration>
                 <Disk wcm:action="add">
@@ -144,11 +150,11 @@ function generateHardenedXML() {
             <ImageInstall><OSImage><InstallTo><DiskID>0</DiskID><PartitionID>3</PartitionID></InstallTo></OSImage></ImageInstall>
             <UserData><AcceptEula>true</AcceptEula></UserData>
         </component>
-    </settings>\n`;
+    </settings>`;
     }
 
-    // Specialize Pass (Hardening)
-    xml += `    <settings pass="specialize">
+    xml += `
+    <settings pass="specialize">
         <component name="Microsoft-Windows-Deployment" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
             <RunSynchronous>`;
     
@@ -190,7 +196,6 @@ function generateHardenedXML() {
     </settings>
 </unattend>`;
 
-    // 4. Output to HTML
     const box = document.getElementById('output-box');
     box.innerText = xml;
     box.style.display = 'block';
