@@ -64,15 +64,7 @@ iwr -useb https://christitus.com/win | iex
 
 The gold standard for a Security Architect is a reproducible build. Using an `autounattend.xml` file allows you to bake security into the OS during the installation phase. This tool helps you conceptualize the hardening logic used by the [Schneegans Generator](https://schneegans.de/windows/unattend-generator/).
 
-### Build Your Hardened Baseline
----
-layout: post
-title: "Ultimate Windows 11 Hardening Generator"
-date: 2026-02-08
-categories: cybersecurity windows
----
-
-# Build Your Hardened Baseline (Enterprise Grade)
+# Build Your Hardened Baseline
 
 <div id="generator-tool" style="background: #1a1a1a; padding: 25px; border-radius: 12px; color: #f0f0f0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; border: 1px solid #444;">
     <h4 style="color: #61afef; margin-top: 0;">1. Security Configuration:</h4>
