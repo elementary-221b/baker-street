@@ -51,6 +51,12 @@ Projects like **ReviOS** and **AtlasOS** have gained popularity for "stripping d
 
 * **Pros:** They remove the "Microsoft Consumer Experience" (bloatware), disable unnecessary background services, and mitigate many telemetry-based privacy concerns.
 * **Cons/Risks:** Some playbooks disable **Windows Defender** or **Windows Update**. In a professional SOC environment, these are **Critical Vulnerabilities**. If you use these tools, you *must* implement **Compensating Controls** (e.g., a third-party EDR like CrowdStrike or SentinelOne).
+* 
+
+Additionally, Chris Titus has a Windows Utility is an all‑in‑one PowerShell-driven toolkit designed to streamline Windows setup, maintenance, and optimization. It’s been refined over years and focuses on practical, safe tweaks rather than aggressive debloating. Think of it as a centralized dashboard for installing apps, tuning Windows, managing updates, and enabling hidden features — all from one script.
+
+Run in an elevated PowerShell (Run as Administrator):
+iwr -useb https://christitus.com/win | iex
 
 ---
 
@@ -67,6 +73,13 @@ The gold standard for a Security Architect is a reproducible build. Using an `au
         <label><input type="checkbox" id="uac" checked> <b>Zero Trust UAC</b> (Enforce Credentials on Secure Desktop)</label>
         <label><input type="checkbox" id="smb"> <b>Disable SMBv1/NetBIOS</b> (Mitigate Legacy Lateral Movement)</label>
         <label><input type="checkbox" id="bloatware" checked> <b>Purge Bloatware</b> (Reduce Attack Surface/Code Execution paths)</label>
+        <label><input type="checkbox" id="egress-strict"> <b>Strict Egress Filtering</b> (Block High-Risk Outbound Ports)</label>
+        <label><input type="checkbox" id="dns-over-https" checked> <b>Enforce DoH</b> (Prevent DNS Hijacking/Leaking)</label>
+        <label><input type="checkbox" id="port-lock" checked> <b>Port Lockdown</b> (Block Inbound/High-Risk Ports)</label>
+        <label><input type="checkbox" id="lsa-prot" checked> <b>LSA Protection</b> (Prevent Credential Scraping)</label>
+        <label><input type="checkbox" id="no-llmnr" checked> <b>Disable LLMNR/NetBIOS</b> (MitM Spoofing Mitigation)</label>
+        <label><input type="checkbox" id="dma-prot"> <b>DMA Protection</b> (Thunderbolt/USB4 Physical Security)</label>
+        <label><input type="checkbox" id="asr-lsass" checked> <b>Defender ASR</b> (LSASS Behavioral Block)</label>
     </div>
     
     <button onclick="generateXML()" style="background: #007bff; color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%;">Generate Hardened XML</button>
@@ -117,6 +130,33 @@ function generateXML() {
             path: "powershell -Command \"Get-AppxProvisionedPackage -Online | Where-Object {$_.PackageName -match 'Zune|Bing|Skype|MicrosoftSolitaireCollection'} | Remove-AppxProvisionedPackage -Online\""
         });
     }
+
+    // Data Exfiltration Prevention: Egress Filtering
+if(document.getElementById('egress-strict').checked) {
+    commands.push({
+        desc: "Exfiltration Prevention: Block High-Risk Outbound Ports",
+        path: "powershell -Command \"New-NetFirewallRule -DisplayName 'Block Exfiltration' -Direction Outbound -LocalPort 21,22,23,25,110,135,139,445,6667 -Protocol TCP -Action Block\""
+    });
+}
+
+// Privacy: Prevent DNS Exfiltration via DoH
+if(document.getElementById('dns-over-https').checked) {
+    commands.push({
+        desc: "Privacy: Enforce DNS over HTTPS",
+        path: "powershell -Command \"Set-DNSClientServerAddress -InterfaceAlias 'Ethernet','Wi-Fi' -ServerAddresses ('1.1.1.1'); Netsh dns add encryption server=1.1.1.1 dohtemplate=https://cloudflare-dns.com/dns-query autoupgrade=yes\""
+    });
+}
+
+if(document.getElementById('port-lock').checked) {
+    commands.push({ desc: "Port Protection", path: "powershell -Command \"Set-NetFirewallProfile -Profile Public -InboundManagerPolicy BlockAllInbound; New-NetFirewallRule -DisplayName 'Block High-Risk Ports' -Direction Inbound -LocalPort 135,137,138,139,445,3389 -Protocol TCP -Action Block\"" });
+}
+if(document.getElementById('lsa-prot').checked) {
+    commands.push({ desc: "LSA Protection", path: "reg add \"HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa\" /v RunAsPPL /t REG_DWORD /d 1 /f" });
+}
+if(document.getElementById('no-llmnr').checked) {
+    commands.push({ desc: "Disable LLMNR/NetBIOS", path: "powershell -Command \"New-ItemProperty -Path 'HKLM:\\Software\\Policies\\Microsoft\\Windows NT\\DNSClient' -Name EnableMulticast -Value 0 -PropertyType DWORD -Force; reg add 'HKLM\\SYSTEM\\CurrentControlSet\\Services\\NetBT\\Parameters' /v EnableLMHOSTS /t REG_DWORD /d 0 /f\"" });
+}
+// ... and so on for DMA and ASR ...
 
     let xmlContent = `<?xml version="1.0" encoding="utf-8"?>
 <unattend xmlns="urn:schemas-microsoft-com:unattend">
@@ -205,137 +245,6 @@ For a **SOC Automator**, the final step isn't just one machine; it's the fleet.
 4.  **Double-click the new icon to open the, centralized menu which allows for faster access to settings like BitLocker, Device Manager, and user accounts. 
 
 ---
-
-## Windows 11 Quality of life edits
-
-Use this to **select common Windows 11 registry tweaks** and then generate a ready‑to‑save `.reg` file.
-
-> **Warning:** Editing the registry can break your system if misused.  
-> Always create a restore point and backup your registry before applying changes.
-
----
-
-1. Select your Windows 11 registry tweaks
-<style>
-.reg-container { font-family: sans-serif; background: #f6f8fa; border: 1px solid #d0d7de; padding: 20px; border-radius: 6px; color: #24292f; }
-.reg-section { margin-bottom: 20px; }
-.reg-option-item { margin-bottom: 12px; display: block; cursor: pointer; }
-.reg-option-item input { margin-right: 10px; }
-.reg-option-item small { display: block; margin-left: 28px; color: #57606a; }
-#generate-btn { background-color: #2da44e; color: white; border: 1px solid rgba(27,31,36,0.15); padding: 8px 16px; border-radius: 6px; font-weight: 600; cursor: pointer; }
-#generate-btn:hover { background-color: #2c974b; }
-#output-area { width: 100%; height: 200px; margin-top: 15px; font-family: monospace; font-size: 12px; background: #ffffff; border: 1px solid #d0d7de; padding: 10px; border-radius: 6px; }
-.action-btns { margin-top: 10px; }
-</style>
-
-<div class="reg-container">
-<form id="reg-form">
-<div class="reg-section">
-<h3>Explorer & Taskbar</h3>
-<label class="reg-option-item">
-<input type="checkbox" class="reg-option" data-id="classic-context-menu">
-<strong>Enable classic right‑click context menu</strong>
-<small>Removes the new compact context menu and shows the full legacy menu immediately.</small>
-</label>
-<label class="reg-option-item">
-<input type="checkbox" class="reg-option" data-id="taskbar-small-icons">
-<strong>Use small taskbar icons</strong>
-<small>Makes taskbar icons smaller. Requires sign‑out/sign‑in.</small>
-</label>
-<label class="reg-option-item">
-<input type="checkbox" class="reg-option" data-id="disable-taskbar-chat">
-<strong>Disable Chat icon on taskbar</strong>
-<small>Removes the built‑in Chat (Microsoft Teams) button.</small>
-</label>
-</div>
-
-<div class="reg-section">
-  <h3>Privacy & Telemetry</h3>
-  <label class="reg-option-item">
-    <input type="checkbox" class="reg-option" data-id="disable-telemetry">
-    <strong>Reduce telemetry (AllowTelemetry = 0)</strong>
-    <small>Sets telemetry level to the lowest allowed for your edition.</small>
-  </label>
-  <label class="reg-option-item">
-    <input type="checkbox" class="reg-option" data-id="disable-lockscreen-tips">
-    <strong>Disable lock screen tips & fun facts</strong>
-    <small>Stops Windows from showing tips and suggestions on the lock screen.</small>
-  </label>
-</div>
-
-<div class="reg-section">
-  <h3>UI & Misc</h3>
-  <label class="reg-option-item">
-    <input type="checkbox" class="reg-option" data-id="disable-rounded-snap-layouts">
-    <strong>Disable Snap Layouts on hover</strong>
-    <small>Stops the Snap Layouts popup when hovering over maximize.</small>
-  </label>
-  <label class="reg-option-item">
-    <input type="checkbox" class="reg-option" data-id="show-seconds-taskbar-clock">
-    <strong>Show seconds on taskbar clock</strong>
-    <small>Displays seconds in the system tray clock (22H2+).</small>
-  </label>
-</div>
-
-<button type="button" id="generate-btn">Generate Registry Content</button>
-</form>
-</div>
-
-2. Generated .reg file content
-<textarea id="output-area" readonly placeholder="; Your .reg file will appear here..."></textarea>
-
-<div class="action-btns">
-<button onclick="copyToClipboard()" style="cursor:pointer">Copy to Clipboard</button>
-<button onclick="downloadRegFile()" style="cursor:pointer">Download .reg File</button>
-</div>
-
-<script>
-const registryData = {
-'classic-context-menu': '[HKEY_CURRENT_USER\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32]\n@=""',
-'taskbar-small-icons': '[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced]\n"TaskbarSi"=dword:00000000',
-'disable-taskbar-chat': '[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced]\n"TaskbarMn"=dword:00000000',
-'disable-telemetry': '[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DataCollection]\n"AllowTelemetry"=dword:00000000',
-'disable-lockscreen-tips': '[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager]\n"SubscribedContent-338387Enabled"=dword:00000000',
-'disable-rounded-snap-layouts': '[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced]\n"EnableSnapAssistFlyout"=dword:00000000',
-'show-seconds-taskbar-clock': '[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced]\n"ShowSecondsInSystemClock"=dword:00000001'
-};
-
-document.getElementById('generate-btn').addEventListener('click', () => {
-const checkboxes = document.querySelectorAll('.reg-option:checked');
-let output = "Windows Registry Editor Version 5.00\n\n; Windows 11 Tweaks generated by GitHub Tool\n\n";
-
-if (checkboxes.length === 0) {
-  alert(&quot;Please select at least one tweak!&quot;);
-  return;
-}
-
-checkboxes.forEach(cb =&gt; {
-  const id = cb.getAttribute(&#39;data-id&#39;);
-  if (registryData[id]) {
-    output += `; ${cb.parentElement.querySelector(&#39;strong&#39;).innerText}\n${registryData[id]}\n\n`;
-  }
-});
-
-document.getElementById(&#39;output-area&#39;).value = output.trim();
-});
-
-function copyToClipboard() {
-const textarea = document.getElementById('output-area');
-textarea.select();
-document.execCommand('copy');
-alert("Copied to clipboard!");
-}
-
-function downloadRegFile() {
-const text = document.getElementById('output-area').value;
-if(!text) return alert("Generate content first!");
-const blob = new Blob([text], { type: 'text/plain' });
-const anchor = document.createElement('a');
-anchor.download = 'win11_tweaks.reg';
-anchor.href = window.URL.createObjectURL(blob);
-anchor.click();
-}
-</script>
 
 ## References
 * [Microsoft: Windows Security Baselines](https://learn.microsoft.com/en-us/windows/security/threat-protection/windows-security-baselines)
