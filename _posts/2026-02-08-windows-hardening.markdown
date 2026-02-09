@@ -196,6 +196,94 @@ For a **SOC Automator**, the final step isn't just one machine; it's the fleet.
 
 ---
 
+## Bonus: How to Enable God Mode
+
+1.  **Right-click on your desktop, select New, and then Folder.
+2.  **Rename the folder by copying and pasting the following string (including the brackets):
+>GodMode.{ED7BA470-8E54-465E-825C-99712043E01C}.
+3.  **Press Enter. The folder icon will change to a Control Panel-style icon.
+4.  **Double-click the new icon to open the, centralized menu which allows for faster access to settings like BitLocker, Device Manager, and user accounts. 
+
+---
+
+## Windows 11 Quality of life edits
+
+Use this to **select common Windows 11 registry tweaks** and then generate a ready‑to‑save `.reg` file.
+
+> **Warning:** Editing the registry can break your system if misused.  
+> Always create a restore point and backup your registry before applying changes.
+
+---
+
+## 1. Select your Windows 11 registry tweaks
+
+<form id="reg-form">
+
+### Explorer & Taskbar
+
+- <label>
+    <input type="checkbox" class="reg-option" data-id="classic-context-menu">
+    **Enable classic right‑click context menu**
+  </label>  
+  <small>Removes the new compact context menu and shows the full legacy menu immediately.</small>
+
+- <label>
+    <input type="checkbox" class="reg-option" data-id="taskbar-small-icons">
+    **Use small taskbar icons**
+  </label>  
+  <small>Makes taskbar icons smaller. Requires sign‑out/sign‑in.</small>
+
+- <label>
+    <input type="checkbox" class="reg-option" data-id="disable-taskbar-chat">
+    **Disable Chat icon on taskbar**
+  </label>  
+  <small>Removes the built‑in Chat (Microsoft Teams) button.</small>
+
+### Privacy & Telemetry
+
+- <label>
+    <input type="checkbox" class="reg-option" data-id="disable-telemetry">
+    **Reduce telemetry (AllowTelemetry = 0)**
+  </label>  
+  <small>Sets telemetry level to the lowest allowed for your edition.</small>
+
+- <label>
+    <input type="checkbox" class="reg-option" data-id="disable-lockscreen-tips">
+    **Disable lock screen tips & fun facts**
+  </label>  
+  <small>Stops Windows from showing tips, tricks, and suggestions on the lock screen.</small>
+
+### UI & Misc
+
+- <label>
+    <input type="checkbox" class="reg-option" data-id="disable-rounded-snap-layouts">
+    **Disable Snap Layouts on hover**
+  </label>  
+  <small>Stops the Snap Layouts popup when hovering over maximize.</small>
+
+- <label>
+    <input type="checkbox" class="reg-option" data-id="show-seconds-taskbar-clock">
+    **Show seconds on taskbar clock**
+  </label>  
+  <small>Displays seconds in the system tray clock (Windows 11 22H2+).</small>
+
+<br>
+
+<button type="button" id="generate-btn">Generate .reg file content</button>
+
+</form>
+
+---
+
+## 2. Generated `.reg` file content
+
+Copy everything from the box below into a file named, for example, `win11-tweaks.reg`, then double‑click it and accept the prompts to apply.
+
+```text
+; Your .reg file will appear here after you click "Generate .reg file content".
+; Make your selections above first.
+```
+
 ## References
 * [Microsoft: Windows Security Baselines](https://learn.microsoft.com/en-us/windows/security/threat-protection/windows-security-baselines)
 * [Schneegans Unattend Generator](https://schneegans.de/windows/unattend-generator/)
