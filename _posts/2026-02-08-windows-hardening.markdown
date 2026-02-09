@@ -65,107 +65,103 @@ iwr -useb https://christitus.com/win | iex
 The gold standard for a Security Architect is a reproducible build. Using an `autounattend.xml` file allows you to bake security into the OS during the installation phase. This tool helps you conceptualize the hardening logic used by the [Schneegans Generator](https://schneegans.de/windows/unattend-generator/).
 
 ### Build Your Hardened Baseline
-<div id="generator-tool" style="background: #1e1e1e; padding: 25px; border-radius: 12px; color: #e0e0e0; font-family: 'Segoe UI', sans-serif; border: 1px solid #333;">
-    <h4 style="color: #007bff; margin-top: 0;">1. Select Security Features:</h4>
-    <div style="display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 20px;">
-        <label><input type="checkbox" id="telemetry" checked> <b>Disable Telemetry</b> (Privacy: Minimize Metadata Exfiltration)</label>
-        <label><input type="checkbox" id="defender" checked> <b>Hardened Defender</b> (Enable Tamper & Cloud Protection)</label>
-        <label><input type="checkbox" id="uac" checked> <b>Zero Trust UAC</b> (Enforce Credentials on Secure Desktop)</label>
-        <label><input type="checkbox" id="smb"> <b>Disable SMBv1/NetBIOS</b> (Mitigate Legacy Lateral Movement)</label>
-        <label><input type="checkbox" id="bloatware" checked> <b>Purge Bloatware</b> (Reduce Attack Surface/Code Execution paths)</label>
-        <label><input type="checkbox" id="egress-strict"> <b>Strict Egress Filtering</b> (Block High-Risk Outbound Ports)</label>
-        <label><input type="checkbox" id="dns-over-https" checked> <b>Enforce DoH</b> (Prevent DNS Hijacking/Leaking)</label>
-        <label><input type="checkbox" id="port-lock" checked> <b>Port Lockdown</b> (Block Inbound/High-Risk Ports)</label>
-        <label><input type="checkbox" id="lsa-prot" checked> <b>LSA Protection</b> (Prevent Credential Scraping)</label>
-        <label><input type="checkbox" id="no-llmnr" checked> <b>Disable LLMNR/NetBIOS</b> (MitM Spoofing Mitigation)</label>
-        <label><input type="checkbox" id="dma-prot"> <b>DMA Protection</b> (Thunderbolt/USB4 Physical Security)</label>
-        <label><input type="checkbox" id="asr-lsass" checked> <b>Defender ASR</b> (LSASS Behavioral Block)</label>
+---
+layout: post
+title: "Ultimate Windows 11 Hardening Generator"
+date: 2026-02-08
+categories: cybersecurity windows
+---
+
+# Build Your Hardened Baseline (Enterprise Grade)
+
+<div id="generator-tool" style="background: #1a1a1a; padding: 25px; border-radius: 12px; color: #f0f0f0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; border: 1px solid #444;">
+    <h4 style="color: #61afef; margin-top: 0;">1. Security Configuration:</h4>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;">
+        <label><input type="checkbox" id="telemetry" checked> Disable Telemetry</label>
+        <label><input type="checkbox" id="uac" checked> Zero Trust UAC (Prompt)</label>
+        <label><input type="checkbox" id="smb"> Disable SMBv1 (Safe Check)</label>
+        <label><input type="checkbox" id="lsa" checked> LSA Protection</label>
+        <label><input type="checkbox" id="doh" checked> Enforce DoH (Cloudflare)</label>
+        <label><input type="checkbox" id="egress" checked> Egress Port Block</label>
     </div>
     
-    <button onclick="generateXML()" style="background: #007bff; color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%;">Generate Hardened XML</button>
+    <button onclick="generateHardenedXML()" style="background: #98c379; color: #1a1a1a; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%;">Generate Validated XML</button>
     
-    <h4 style="margin-top: 25px;">2. Your Hardened Configuration:</h4>
-    <pre id="output-box" style="background: #090909; color: #a6e22e; padding: 15px; border-radius: 5px; white-space: pre-wrap; display: none; font-size: 0.85em; border: 1px solid #444; overflow-x: auto;"></pre>
+    <h4 style="margin-top: 25px;">2. Output (Save as autounattend.xml):</h4>
+    <pre id="output-box" style="background: #282c34; color: #abb2bf; padding: 15px; border-radius: 5px; white-space: pre-wrap; display: none; font-size: 0.8em; border: 1px solid #555; max-height: 500px; overflow-y: auto;"></pre>
 </div>
 
 <script>
-function generateXML() {
+function generateHardenedXML() {
+    // 1. Gather User Inputs
+    const wipeDisk = document.getElementById('wipe-disk').checked; // New Toggle
     const telemetry = document.getElementById('telemetry').checked;
-    const defender = document.getElementById('defender').checked;
     const uac = document.getElementById('uac').checked;
     const smb = document.getElementById('smb').checked;
-    const bloatware = document.getElementById('bloatware').checked;
+    const lsa = document.getElementById('lsa').checked;
+    const doh = document.getElementById('doh').checked;
+    const egress = document.getElementById('egress').checked;
 
-    let commands = [];
     let count = 1;
+    let commands = [];
 
-    // Zero Trust Principle: Least Privilege & Secure Defaults
-    if(uac) {
-        commands.push({
-            desc: "Zero Trust: Enforce Max UAC Credentials",
-            path: "reg add \"HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\" /v ConsentPromptBehaviorAdmin /t REG_DWORD /d 1 /f"
-        });
-    }
+    // 2. Build the Synchronous Commands (Specialize Pass)
+    commands.push({
+        desc: "Bypass NRO: Enable Local Account Flow",
+        path: "reg add \"HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\OOBE\" /v BypassNRO /t REG_DWORD /d 1 /f"
+    });
 
-    // CySA+ Privacy: Anti-Exfiltration
-    if(telemetry) {
-        commands.push({
-            desc: "Privacy: Disable Telemetry",
-            path: "reg add \"HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DataCollection\" /v AllowTelemetry /t REG_DWORD /d 0 /f"
-        });
-    }
-
-    // Defense in Depth: Attack Surface Reduction
+    if(uac) commands.push({ desc: "Zero Trust UAC", path: "reg add \"HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\" /v ConsentPromptBehaviorAdmin /t REG_DWORD /d 1 /f" });
+    if(telemetry) commands.push({ desc: "Privacy: Disable Telemetry", path: "reg add \"HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\DataCollection\" /v AllowTelemetry /t REG_DWORD /d 0 /f" });
+    if(lsa) commands.push({ desc: "LSA Protection", path: "reg add \"HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa\" /v RunAsPPL /t REG_DWORD /d 1 /f" });
+    
     if(smb) {
-        commands.push({
-            desc: "Mitigation: Disable SMBv1",
-            path: "powershell -Command \"Disable-WindowsOptionalFeature -Online -FeatureName SMB1Protocol -NoRestart\""
-        });
+        commands.push({ desc: "SMBv1 Safe Removal", path: "powershell -Command \"if (Get-WindowsOptionalFeature -Online -FeatureName SMB1Protocol) { Disable-WindowsOptionalFeature -Online -FeatureName SMB1Protocol -NoRestart -ErrorAction SilentlyContinue }\"" });
+    }
+    if(doh) {
+        commands.push({ desc: "Encrypted DNS", path: "powershell -Command \"Get-NetAdapter | Where-Object { $_.Status -eq 'Up' } | Set-DNSClientServerAddress -ServerAddresses ('1.1.1.1','1.0.0.1'); Netsh dns add encryption server=1.1.1.1 dohtemplate=https://cloudflare-dns.com/dns-query autoupgrade=yes\"" });
+    }
+    if(egress) {
+        commands.push({ desc: "Egress Filtering", path: "powershell -Command \"New-NetFirewallRule -DisplayName 'Block Exfiltration' -Direction Outbound -LocalPort 21,23,25,6667 -Protocol TCP -Action Block\"" });
     }
 
-    // Secure Bootstrapping: Bloatware Removal
-    if(bloatware) {
-        commands.push({
-            desc: "Attack Surface: Remove Bloatware",
-            path: "powershell -Command \"Get-AppxProvisionedPackage -Online | Where-Object {$_.PackageName -match 'Zune|Bing|Skype|MicrosoftSolitaireCollection'} | Remove-AppxProvisionedPackage -Online\""
-        });
+    // 3. Assemble the XML String
+    // Header & Namespaces
+    let xml = `<?xml version="1.0" encoding="utf-8"?>\n<unattend xmlns="urn:schemas-microsoft-com:unattend" xmlns:wcm="http://schemas-microsoft-com:WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">\n`;
+
+    // OPTIONAL: windowsPE Pass (Partitioning)
+    if (wipeDisk) {
+        xml += `    <settings pass="windowsPE">
+        <component name="Microsoft-Windows-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
+            <DiskConfiguration>
+                <Disk wcm:action="add">
+                    <DiskID>0</DiskID>
+                    <WillWipeDisk>true</WillWipeDisk>
+                    <CreatePartitions>
+                        <CreatePartition wcm:action="add"><Order>1</Order><Type>EFI</Type><Size>100</Size></CreatePartition>
+                        <CreatePartition wcm:action="add"><Order>2</Order><Type>MSR</Type><Size>16</Size></CreatePartition>
+                        <CreatePartition wcm:action="add"><Order>3</Order><Type>Primary</Type><Extend>true</Extend></CreatePartition>
+                    </CreatePartitions>
+                    <ModifyPartitions>
+                        <ModifyPartition wcm:action="add"><Order>1</Order><PartitionID>1</PartitionID><Label>System</Label><Format>FAT32</Format></ModifyPartition>
+                        <ModifyPartition wcm:action="add"><Order>2</Order><PartitionID>2</PartitionID></ModifyPartition>
+                        <ModifyPartition wcm:action="add"><Order>3</Order><PartitionID>3</PartitionID><Label>Windows</Label><Format>NTFS</Format></ModifyPartition>
+                    </ModifyPartitions>
+                </Disk>
+            </DiskConfiguration>
+            <ImageInstall><OSImage><InstallTo><DiskID>0</DiskID><PartitionID>3</PartitionID></InstallTo></OSImage></ImageInstall>
+            <UserData><AcceptEula>true</AcceptEula></UserData>
+        </component>
+    </settings>\n`;
     }
 
-    // Data Exfiltration Prevention: Egress Filtering
-if(document.getElementById('egress-strict').checked) {
-    commands.push({
-        desc: "Exfiltration Prevention: Block High-Risk Outbound Ports",
-        path: "powershell -Command \"New-NetFirewallRule -DisplayName 'Block Exfiltration' -Direction Outbound -LocalPort 21,22,23,25,110,135,139,445,6667 -Protocol TCP -Action Block\""
-    });
-}
-
-// Privacy: Prevent DNS Exfiltration via DoH
-if(document.getElementById('dns-over-https').checked) {
-    commands.push({
-        desc: "Privacy: Enforce DNS over HTTPS",
-        path: "powershell -Command \"Set-DNSClientServerAddress -InterfaceAlias 'Ethernet','Wi-Fi' -ServerAddresses ('1.1.1.1'); Netsh dns add encryption server=1.1.1.1 dohtemplate=https://cloudflare-dns.com/dns-query autoupgrade=yes\""
-    });
-}
-
-if(document.getElementById('port-lock').checked) {
-    commands.push({ desc: "Port Protection", path: "powershell -Command \"Set-NetFirewallProfile -Profile Public -InboundManagerPolicy BlockAllInbound; New-NetFirewallRule -DisplayName 'Block High-Risk Ports' -Direction Inbound -LocalPort 135,137,138,139,445,3389 -Protocol TCP -Action Block\"" });
-}
-if(document.getElementById('lsa-prot').checked) {
-    commands.push({ desc: "LSA Protection", path: "reg add \"HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa\" /v RunAsPPL /t REG_DWORD /d 1 /f" });
-}
-if(document.getElementById('no-llmnr').checked) {
-    commands.push({ desc: "Disable LLMNR/NetBIOS", path: "powershell -Command \"New-ItemProperty -Path 'HKLM:\\Software\\Policies\\Microsoft\\Windows NT\\DNSClient' -Name EnableMulticast -Value 0 -PropertyType DWORD -Force; reg add 'HKLM\\SYSTEM\\CurrentControlSet\\Services\\NetBT\\Parameters' /v EnableLMHOSTS /t REG_DWORD /d 0 /f\"" });
-}
-// ... and so on for DMA and ASR ...
-
-    let xmlContent = `<?xml version="1.0" encoding="utf-8"?>
-<unattend xmlns="urn:schemas-microsoft-com:unattend">
-    <settings pass="specialize">
+    // Specialize Pass (Hardening)
+    xml += `    <settings pass="specialize">
         <component name="Microsoft-Windows-Deployment" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
             <RunSynchronous>`;
-
+    
     commands.forEach(cmd => {
-        xmlContent += `
+        xml += `
                 <RunSynchronousCommand wcm:action="add">
                     <Order>${count++}</Order>
                     <Description>${cmd.desc}</Description>
@@ -173,11 +169,10 @@ if(document.getElementById('no-llmnr').checked) {
                 </RunSynchronousCommand>`;
     });
 
-    xmlContent += `
+    xml += `
             </RunSynchronous>
         </component>
     </settings>
-
     <settings pass="oobeSystem">
         <component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
             <OOBE>
@@ -186,15 +181,16 @@ if(document.getElementById('no-llmnr').checked) {
                 <HideOEMRegistrationScreen>true</HideOEMRegistrationScreen>
                 <HideOnlineAccountScreens>true</HideOnlineAccountScreens>
                 <HideWirelessSetupInOOBE>true</HideWirelessSetupInOOBE>
-                <ProtectYourPC>1</ProtectYourPC> </OOBE>
+                <ProtectYourPC>3</ProtectYourPC>
+            </OOBE>
             <UserAccounts>
                 <LocalAccounts>
                     <LocalAccount wcm:action="add">
-                        <Password><Value>HardenedPass123!</Value><PlainText>true</PlainText></Password>
-                        <Description>Secure Admin Account</Description>
-                        <DisplayName>Admin</DisplayName>
+                        <Password><Value>Hardened_2026!</Value><PlainText>true</PlainText></Password>
+                        <Description>Secure Operator</Description>
+                        <DisplayName>Operator</DisplayName>
                         <Group>Administrators</Group>
-                        <Name>Admin</Name>
+                        <Name>Operator</Name>
                     </LocalAccount>
                 </LocalAccounts>
             </UserAccounts>
@@ -202,8 +198,9 @@ if(document.getElementById('no-llmnr').checked) {
     </settings>
 </unattend>`;
 
+    // 4. Output to HTML
     const box = document.getElementById('output-box');
-    box.innerText = xmlContent;
+    box.innerText = xml;
     box.style.display = 'block';
 }
 </script>
