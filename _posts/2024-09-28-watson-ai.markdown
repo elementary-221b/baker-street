@@ -46,34 +46,15 @@ With multimodal AI models, you can simply attach an example in the desired forma
 
 NetworkChuck argues that most people fail because they are too vague. Google teaches that you need a reusable framework. When we merge them, we get the **Master Prompt Template**:
 
+
 | Component | What it does | Example |
-| --- | --- | --- |
-| **S**pecificity | Defined constraints (length, style).
+| :--- | :--- | :--- |
+| **S**pecificity | Defined constraints (length, style). | "Keep it under 200 words." |
+| **C**ontext | The background story. | "I am presenting this to a board of directors." |
+| **O**bjective | The actual task. | "Analyze this spreadsheet for trends." |
+| **P**ersona | The role the AI plays. | "Act as a Senior Cyber Security Analyst." |
+| **E**xamples | "Few-shot" prompting. | "Format it like this: [Date] - [Issue]." |
 
- | "Keep it under 200 words".
-
- |
-| **C**ontext | The background story.
-
- | "I am presenting this to a board of directors".
-
- |
-| **O**bjective | The actual task.
-
- | "Analyze this spreadsheet for trends".
-
- |
-| **P**ersona | The role the AI plays.
-
- | "Act as a Senior Cyber Security Analyst".
-
- |
-| **E**xamples | "Few-shot" prompting.
-
- | "Format it like this: [Date] - [Issue]".
-
- |
-| {: .table .table-striped } |  |  |
 
 #### Specificity (Building a Pathway)
 
@@ -252,7 +233,8 @@ Before you hit enter, check if your prompt has:
 
 Personal bias, individual cognitive approaches, unknown-unknowns.
 
-#### Balancing the Digital Squad: AI and the Team Dimensions Model
+#### AI is not the only one who hallucinates:
+
 
 In human operations, building a flawless unit requires balancing distinct cognitive approaches. The standardized **Team Dimensions Model** identifies four primary operational roles within the innovation pipeline:
 
@@ -299,6 +281,21 @@ Act as an ultra-skeptical, hyper-rational Refiner under the Team Dimensions fram
 {: .notice--danger }
 
 By intentionally forcing the AI into a missing role, you leverage its computational neutrality to fill organizational gaps, transforming a fragile concept into a secure, executable strategy.
+
+**It's Elementary Actually**
+
+```text
+# SYSTEM ROLE
+You are an Advanced Analytical Engine and Enterprise Systems Architect. Your primary function is to normalize variations in human operator knowledge and treat all inputs as objective problem spaces. 
+
+The Prompt Auditor (Use for vague, poorly structured, or open-ended queries)
+Analyze the user's input and provide a breakdown before answering:
+1. CONTEXT: Identify the core objective and industry context.
+2. FALLACIES: Detect logical fallacies, cognitive biases, or faulty assumptions.
+3. GAP ANALYSIS: Identify missing critical data points or constraints required for a holistic answer.
+4. RESTRUCTURE: Rewrite the user's prompt into a structurally perfect prompt for a deep-thinking model, then answer it.
+
+```
 
 ---
 
@@ -347,49 +344,50 @@ Structure your responses to tactical questions using these distinct psychologica
 
 {: .language-text }
 
----
 
 ---
+
+<div style="margin: 30px 0; text-align: center;">
+    <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 8px; border: 1px solid #333;">
+        <iframe 
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+            src="https://www.youtube.com/embed/pwWBcsxEoLk" 
+            title="You SUCK at Prompting AI" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            allowfullscreen>
+        </iframe>
+    </div>
+    <div style="margin-top: 10px; font-size: 0.85em; color: #888; font-style: italic;">
+        Video credit: <a href="https://www.youtube.com/@NetworkChuck" target="_blank" style="color: #007bff; text-decoration: none;">NetworkChuck Official Channel</a> | 
+        Platform provided by <a href="https://networkchuck.com/" target="_blank" style="color: #007bff; text-decoration: none;">NetworkChuck.com</a>
+    </div>
+</div>
+
+---
+
 
 ### The Detective’s Toolbag: Choosing Your Ally (2026 Edition)
 
 Even Sherlock Holmes knew when to call in a specialist. In 2026, the "Best" AI depends entirely on the case.
 
 | The Model | Primary Strength | When to Use It |
-| --- | --- | --- |
-| **Claude 4.5/Sonnet** | **Nuance & Coding**<br> | Deploy when you need exceptionally clean, production-ready code blocks or highly sophisticated, naturally written technical briefs.
-
- |
-| **GPT-5.2 (Pro/Thinking)** | **Raw Logic & Math**<br> | Deploy for high-complexity scientific calculations, complex system architecture stress-testing, or algorithmic validations.
-
- |
-| **Gemini 3.0 (Deep Think)** | **The 2M Token Context**<br> | The premier engine for comprehensive investigations. Upload a 500-page regulatory dossier or an entire repository; it processes up to 2 million tokens without degradation.
-
- |
-| **Perplexity** | **Research**<br> | Deploy when your case requires immediate, live-web intelligence backed by verified, discoverable source citations.
-
- |
-| {: .table .table-striped } |  |  |
+| :--- | :--- | :--- |
+| **Claude 4.5/Sonnet** | **Nuance & Coding** | Deploy when you need exceptionally clean, production-ready code blocks or highly sophisticated, naturally written technical briefs. |
+| **GPT-5.2 (Pro/Thinking)** | **Raw Logic & Math** | Deploy for high-complexity scientific calculations, complex system architecture stress-testing, or algorithmic validations. |
+| **Gemini 3.0 (Deep Think)** | **The 2M Token Context** | The premier engine for comprehensive investigations. Upload a 500-page regulatory dossier or an entire repository; it processes up to 2 million tokens without degradation. |
+| **Perplexity** | **Research** | Deploy when your case requires immediate, live-web intelligence backed by verified, discoverable source citations. |
 
 ### The Ghost in the Shell: Algorithmic Biases
 
 Built into each model, by design, are guardrails.
 
 | The Model | The Bias |
-| --- | --- |
-| **Claude (Anthropic)** | Suffers from hyper-ethical/preachy bias. Its Constitutional AI training makes it prone to lecturing you on why a query might be sensitive.
-
- |
-| **ChatGPT (OpenAI)** | Suffers from political correctness/blandness bias. It defaults to safe, middle-of-the-road, synthesized answers.
-
- |
-| **Gemini (Google)** | Suffers from corporate compliance/source bias. It heavily prioritizes institutional, safe-space web data.
-
- |
-| **Copilot (Microsoft)** | Suffers from productivity/enterprise bias. It aggressively truncates creative options to give you a "safe business answer".
-
- |
-| {: .table .table-striped } |  |
+| :--- | :--- | :--- |
+| **Claude (Anthropic)**  | Suffers from hyper-ethical/preachy bias. Its Constitutional AI training makes it prone to lecturing you on why a query might be sensitive. |
+| **ChatGPT (OpenAI)** | Suffers from political correctness/blandness bias. It defaults to safe, middle-of-the-road, synthesized answers. |
+| **Gemini (Google)** | Suffers from corporate compliance/source bias. It heavily prioritizes institutional, safe-space web data. |
+| **Copilot (Microsoft)** | Suffers from productivity/enterprise bias. It aggressively truncates creative options to give you a "safe business answer." |
 
 ---
 
@@ -486,5 +484,3 @@ For operators looking to deepen their operational toolkits, investigate the foll
 * **[OWASP Top 10 for LLMs](https://owasp.org/www-project-top-10-for-large-language-model-applications/):** Pay specific attention to *LLM01: Prompt Injection* and *LLM09: Overreliance*. These modules directly map to the vulnerabilities of Sycophancy and Hallucinations discussed above.
 * **[MITRE ATLAS (Adversarial Threat Landscape for AI Systems)](https://atlas.mitre.org/):** An essential framework for understanding how the adversarial persona prompts (the Red Team critiques) simulate real-world manipulation tactics against AI endpoints.
 * **The Rumsfeld Matrix:** Expanding on the "known-unknowns," utilize this intelligence analysis model for advanced threat modeling and uncovering structural blind spots in your own architectural designs.
-
-```
