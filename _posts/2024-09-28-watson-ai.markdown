@@ -10,27 +10,27 @@ tags: [LLM, AI, WATSONX, IBM]
 
 ### "We marveled at our own magnificence as we gave birth to AI"
 
-Prompting is the new coding[cite: 1]. If you're just typing "Write a blog post about cats," you're leaving 90% of the AI's power on the table[cite: 1]. To get "God-tier" results, we need to combine the structured logic from the industry leaders[cite: 1]. Most operators treat LLMs like automated search indexes, firing off shallow inquiries and wondering why the results lack depth[cite: 1]. To solve complex problems, we must understand the mechanics of how we talk to the machine and why we choose specific operational styles[cite: 1].
+Prompting is the new coding. If you're just typing "Write a blog post about AI," you're leaving 90% of the AI's power on the table. To get "God-Tier" results, we need to combine the structured logic from the industry leaders. Most operators treat LLMs like automated search indexes, firing off shallow inquiries and wondering why the results lack depth. To solve complex problems, we must understand the mechanics of how we talk to the machine and why we choose specific operational styles.
 
-In the landscape of advanced AI interaction, your choice of prompting style dictates the structural integrity of the machine's response[cite: 1]. Operators alternate between distinct prompting archetypes based on the complexity, risk profile, and objective of the case[cite: 1].
+In the landscape of advanced AI interaction, your choice of prompting style dictates the structural integrity of the machine's response. Operators alternate between distinct prompting archetypes based on the complexity, risk profile, and objective of the case.
 
 ---
 
 ### Where It All Begins: The Reconnaissance Phase
 
-* **Zero-Shot Prompting (Unauthenticated Scanning):** Direct execution without reference examples[cite: 1].
-> Why choose it: Chosen for rapid baseline discovery, surface-level summaries, or high-velocity automation of straightforward tasks where structural nuance is secondary to speed[cite: 1].
+* **Zero-Shot Prompting (Unauthenticated Scanning):** Direct execution without reference examples.
+> Why choose it: Chosen for rapid baseline discovery, surface-level summaries, or high-velocity automation of straightforward tasks where structural nuance is secondary to speed.
 
 This is how most interact with AI agents, akin to firing a blunt-force, unauthenticated ping against a server. 
 
-* The Mistake: Treating AI like a search engine[cite: 1].
-* **The Poor Prompt:** "Write a blog post about cyber security"[cite: 1].
-* **The Result:** A generic, 5th-grade level essay that sounds like a Wikipedia entry[cite: 1].
+* The Mistake: Treating AI like a search engine.
+* **The Poor Prompt:** "Write a blog post about cyber security".
+* **The Result:** A generic, 5th-grade level essay that sounds like a Wikipedia entry.
 
-* **Few-Shot Prompting (Providing Known-Good Signatures):** Pre-loading the context window with explicit input-to-output precedents[cite: 1].
-> Why choose it: Selected when navigating strict formatting rules, specialized notation styles, or precise linguistic guardrails that cannot be easily articulated through raw instructions alone[cite: 1].
+* **Few-Shot Prompting (Providing Known-Good Signatures):** Pre-loading the context window with explicit input-to-output precedents.
+> Why choose it: Selected when navigating strict formatting rules, specialized notation styles, or precise linguistic guardrails that cannot be easily articulated through raw instructions alone.
 
-Give the AI 2-3 examples of the style you want before asking for the result, effectively feeding the AI a set of verified cryptographic hashes or behavioral signatures to match[cite: 1]:
+Give the AI 2-3 examples of the style you want before asking for the result, effectively feeding the AI a set of verified cryptographic hashes or behavioral signatures to match:
 ```text
 Example 1: [Input] -> [Output]
 Example 2: [Input] -> [Output]
