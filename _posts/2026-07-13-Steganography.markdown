@@ -5,7 +5,7 @@ date: 2026-07-13 10:00:00 -0400
 categories: [Cybersecurity, Steganography, CompTIA]
 tags: [unicode, javascript, tools, obscurity]
 author: "Elementary"
-img:  # Add image post (optional)
+img: Prof_Armchair.png # Add image post (optional)
 fig-caption: # Add figcaption (optional)
 tags: [Steganography, Obscurity, CompTIA] # add tag
 ---
