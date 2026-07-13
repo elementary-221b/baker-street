@@ -291,6 +291,23 @@ Remember, Watson: data is only secure when it is encrypted. Obscurity is merely 
 
 ---
 
-For a comprehensive tool that allows visitors to explore **Least Significant Bit (LSB)** image steganography, you can build a client-side JavaScript application directly within your Jekyll blog post. This technique leverages the red, green, and blue components of each pixel in an image to store hidden bits, offering a robust platform for demonstrating Security through Obscurity.
+##Further Reading
 
-The following interactive laboratory will allow you to hide and reveal messages by manipulating standard image files.
+
+* [CompTIA Blog:] (https://www.comptia.org/en-us/blog/the-ancient-practice-of-steganography/)
+Read The Ancient Practice of Steganography for a foundational look at how this data-hiding technique transitioned from ancient paper to digital media.
+
+* [CompTIA Exam Guidelines:] 
+Review the CompTIA Security+ SY0-701 Exam Objectives for the official syllabus breakdown on obfuscation.
+
+* [EC-Council:] (https://www.comptia.org/en-us/blog/the-ancient-practice-of-steganography/)
+Explore the Guide to Steganography for insights on how ethical hackers and malicious actors use steganography, including malicious code hidden in EXIF metadata.
+
+* [Professor Messer:] (https://www.professormesser.com/security-plus/sy0-601/sy0-601-video/steganography-4/)
+Watch the Security+ SY0-601 Steganography Video Training to see a visual breakdown of image, audio, and laser printer steganography.
+
+* [upGrad:] (https://www.upgrad.com/blog/steganography/)
+Check out the Steganography Role in Cyber Security Guide for clear definitions of key steganographic terminology like cover objects, stego objects, and the extraction process.
+
+* [Edureka:] (https://www.edureka.co/blog/steganography-tutorial)
+Read the Steganography Tutorial to learn about the historical roots of steganography, including null ciphers and microdots used during World War II
