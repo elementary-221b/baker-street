@@ -95,11 +95,180 @@ Below is a fully functional steganography tool. Type a secret message, encode it
 
 Always remember: when you have eliminated the impossible, whatever remains, however improbable, must be the truth. Happy hunting!
 
-```
+---
+
+"There is nothing more deceptive than an obvious fact," Sherlock Holmes once remarked to Watson. In the realm of cybersecurity, the most deceptive facts are often hidden in plain sight. A photograph of a sprawling London street may appear to be exactly that—but beneath the surface, hidden in the very pixels themselves, lies a secret ledger.
+
+Welcome to the laboratory of **Least Significant Bit (LSB) Steganography**.
+
+## The Anatomy of a Pixel: CompTIA Principles
+In the pursuit of **CompTIA Security+** mastery, one must understand the limits of *Security through Obscurity*. Obfuscation is the art of making something difficult to notice. 
+
+In digital imagery, a single pixel is typically composed of Red, Green, and Blue (RGB) values. Each color is represented by 8 bits, allowing for values from 0 to 255. 
+* Imagine a Red pixel with a value of `254` in binary: `11111110`
+* If we change the last bit (the Least Significant Bit) to a `1` to hide part of our secret message, the value becomes `255` (`11111111`).
+* The human eye cannot detect the difference between Red 254 and Red 255. 
+
+By hijacking the last bit of every color channel across an entire image, we can hide massive amounts of data inside a seemingly innocent photograph. The image becomes our "Carrier."
+
+## The Baker Street Darkroom: Interactive LSB Tool
+Below is a functional client-side laboratory. All processing happens entirely within your browser using the HTML5 Canvas API; no data is sent to any server. 
+
+**Instructions:**
+1. Upload a Cover Image.
+2. Enter your secret message.
+3. Generate and download the "Stegano Image" (it will save as a lossless PNG to preserve the bits).
+4. Refresh the page, switch to the Extract tab, and upload the Stegano Image to reveal the truth.
+
+<div id="steg-lab" style="border: 2px solid #333; padding: 20px; border-radius: 8px; background: #1e1e1e; color: #fff; font-family: monospace;">
+    <h3>🔎 The Baker Street Darkroom</h3>
+    <div style="margin-bottom: 15px;">
+        <button onclick="setMode('hide')" style="padding: 10px; cursor: pointer;">Hide Message</button>
+        <button onclick="setMode('extract')" style="padding: 10px; cursor: pointer;">Extract Message</button>
+    </div>
+
+    <div id="hide-panel">
+        <label>1. Upload Cover Image:</label><br>
+        <input type="file" id="cover-image" accept="image/png, image/jpeg" style="margin-bottom: 10px;"><br>
+        
+        <label>2. Secret Message:</label><br>
+        <textarea id="secret-message" rows="4" style="width: 100%; padding: 5px; margin-bottom: 10px;" placeholder="The stolen jewels are under the floorboards..."></textarea><br>
+        
+        <button onclick="encodeLSB()" style="padding: 10px; background: #4CAF50; color: white; border: none; cursor: pointer;">Embed Data into Image</button>
+        <br><br>
+        
+        <label>3. Stegano Result:</label><br>
+        <canvas id="encode-canvas" style="max-width: 100%; border: 1px dashed #555; display: none; margin-bottom: 10px;"></canvas>
+        <br>
+        <a id="download-link" style="display: none; padding: 10px; background: #ff9800; color: white; text-decoration: none; cursor: pointer;">Download Hidden Image (PNG)</a>
+    </div>
+
+    <div id="extract-panel" style="display: none;">
+        <label>1. Upload Suspect Stegano Image:</label><br>
+        <input type="file" id="suspect-image" accept="image/png" style="margin-bottom: 10px;"><br>
+        
+        <button onclick="decodeLSB()" style="padding: 10px; background: #2196F3; color: white; border: none; cursor: pointer;">Analyze Pixels & Extract</button>
+        <br><br>
+        <canvas id="decode-canvas" style="display: none;"></canvas>
+        
+        <label>2. Revealed Message:</label><br>
+        <textarea id="revealed-message" rows="4" style="width: 100%; padding: 5px;" readonly></textarea>
+    </div>
+</div>
+
+<script>
+    function setMode(mode) {
+        document.getElementById('hide-panel').style.display = mode === 'hide' ? 'block' : 'none';
+        document.getElementById('extract-panel').style.display = mode === 'extract' ? 'block' : 'none';
+    }
+
+    function stringToBinaryArray(str) {
+        const bits = [];
+        // Append a null character as an end-of-message delimiter
+        const text = str + '\0'; 
+        for (let i = 0; i < text.length; i++) {
+            let bin = text.charCodeAt(i).toString(2).padStart(8, '0');
+            for (let b of bin) bits.push(parseInt(b));
+        }
+        return bits;
+    }
+
+    function encodeLSB() {
+        const fileInput = document.getElementById('cover-image');
+        const message = document.getElementById('secret-message').value;
+        if (!fileInput.files[0] || !message) { alert("Please provide an image and a message."); return; }
+
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            const img = new Image();
+            img.onload = function() {
+                const canvas = document.getElementById('encode-canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.width = img.width;
+                canvas.height = img.height;
+                ctx.drawImage(img, 0, 0);
+
+                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                const data = imageData.data;
+                const bits = stringToBinaryArray(message);
+
+                if (bits.length > (data.length / 4) * 3) {
+                    alert("Message is too long for this image size.");
+                    return;
+                }
+
+                let bitIdx = 0;
+                for (let i = 0; i < data.length && bitIdx < bits.length; i++) {
+                    // Skip the Alpha channel (every 4th byte) to preserve transparency
+                    if ((i + 1) % 4 === 0) continue; 
+                    
+                    // Clear the LSB and set it to our secret bit
+                    data[i] = (data[i] & 254) | bits[bitIdx];
+                    bitIdx++;
+                }
+
+                ctx.putImageData(imageData, 0, 0);
+                canvas.style.display = 'block';
+                
+                const downloadLink = document.getElementById('download-link');
+                downloadLink.href = canvas.toDataURL("image/png");
+                downloadLink.download = "stegano_evidence.png";
+                downloadLink.style.display = 'inline-block';
+            }
+            img.src = event.target.result;
+        }
+        reader.readAsDataURL(fileInput.files[0]);
+    }
+
+    function decodeLSB() {
+        const fileInput = document.getElementById('suspect-image');
+        if (!fileInput.files[0]) { alert("Please upload an image to analyze."); return; }
+
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            const img = new Image();
+            img.onload = function() {
+                const canvas = document.getElementById('decode-canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.width = img.width;
+                canvas.height = img.height;
+                ctx.drawImage(img, 0, 0);
+
+                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                const data = imageData.data;
+                
+                let currentByte = 0;
+                let bitCount = 0;
+                let msg = '';
+
+                for (let i = 0; i < data.length; i++) {
+                    if ((i + 1) % 4 === 0) continue; // Skip Alpha
+
+                    // Extract the LSB and shift it into our current byte
+                    currentByte = (currentByte << 1) | (data[i] & 1);
+                    bitCount++;
+
+                    if (bitCount === 8) {
+                        if (currentByte === 0) break; // Found our null delimiter
+                        msg += String.fromCharCode(currentByte);
+                        currentByte = 0;
+                        bitCount = 0;
+                    }
+                }
+
+                document.getElementById('revealed-message').value = msg || "No hidden LSB data found, or data was corrupted.";
+            }
+            img.src = event.target.result;
+        }
+        reader.readAsDataURL(fileInput.files[0]);
+    }
+</script>
+
+Remember, Watson: data is only secure when it is encrypted. Obscurity is merely a disguise. Combine the two, however, and you create a puzzle worthy of a master.
 
 ---
 
-### 4. Detail at least three scenarios where this solution could fail.
+### Where this solution could fail.
 
 1. **Platform Unicode Normalization:** Social media platforms (like Twitter or Instagram) often strip undefined or trailing variation selectors to prevent rendering bugs, which deletes the hidden payload.
 2. **OS Clipboard Sanitization:** Basic text editors or strict terminal environments may drop non-printable characters during a copy/paste operation, stripping the steganographic data.
@@ -107,7 +276,7 @@ Always remember: when you have eliminated the impossible, whatever remains, howe
 
 ---
 
-### 5. Provide immediate mitigation strategies for each failure mode.
+### Mitigation strategies for each failure mode.
 
 1. **Platform Normalization:** Avoid auto-sanitizing platforms. Transmit the encoded emoji via raw messaging protocols (email source, uncompressed chat clients) or wrap the string in a Base64 block before sending (though this ruins the visual disguise).
 2. **Clipboard Sanitization:** Implement direct DOM clipboard APIs (`navigator.clipboard.writeText(encoded)`) in your tool to ensure the raw string is copied directly to the system buffer without browser interference.
@@ -115,24 +284,13 @@ Always remember: when you have eliminated the impossible, whatever remains, howe
 
 ---
 
-### 6. Anticipate the next two logical engineering/troubleshooting steps.
+### The Next Steps.
 
 1. **Layered Cryptography:** Implement AES-256 (via WebCrypto API) to encrypt the user's secret message *before* it is translated into Variation Selectors. This upgrades the tool from simple Obfuscation to true Data Security.
 2. **DOM Scanning Extension:** Build a browser extension that autonomously scans the DOM's text nodes for strings of variation selectors, instantly highlighting "suspicious" emojis on a webpage.
 
 ---
 
-### 7. Provide the verification commands (e.g., systemctl, tcpdump) for those steps.
+For a comprehensive tool that allows visitors to explore **Least Significant Bit (LSB)** image steganography, you can build a client-side JavaScript application directly within your Jekyll blog post. This technique leverages the red, green, and blue components of each pixel in an image to store hidden bits, offering a robust platform for demonstrating Security through Obscurity.
 
-To troubleshoot and verify the byte-length of your hidden emojis in the browser console, use the following JavaScript diagnostic commands:
-
-```javascript
-// Verify the true length of a copied emoji (A standard emoji is 1-2 lengths. An encoded one will be much larger)
-console.log([..."🕵️‍♂️"].length); // Should output 2 or 3 depending on ZWJ
-console.log([..."🕵️‍♂️󠁳󠁥󠁣󠁲󠁥󠁴"].length); // An encoded emoji will reveal its hidden length
-
-// Hex dump the string to verify variation selectors are present
-let suspect = document.getElementById('suspect-input').value;
-for (let char of suspect) {
-    console.log(char.codePointAt(0).toString(16)); // Look for fe00-fe0f or e0100-e01ef
-}
+The following interactive laboratory will allow you to hide and reveal messages by manipulating standard image files.
