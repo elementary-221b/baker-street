@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Obscurity and Unicode Steganography
+title: Urban Camouflage
 date: 2026-07-13 10:00:00 -0400
 categories: [Cybersecurity, Steganography, CompTIA]
 tags: [unicode, javascript, tools, obscurity]
@@ -12,7 +12,7 @@ tags: [Steganography, Obscurity, CompTIA] # add tag
 
 "You see, but you do not observe." This immortal observation by Sherlock Holmes has never been more applicable than in the modern theater of cybersecurity. To the untrained eye, a simple smiley face emoji is a harmless greeting. To the astute cyber-sleuth, it is a locked vault. 
 
-The game, dear reader, is afoot. Today, we delve into the shadows of **Steganography**—the ancient art of hiding messages in plain sight.
+Today, we delve into the shadows of **Steganography**—the ancient art of hiding messages in plain sight.
 
 ## The Science of Deduction: CompTIA Security+ Principles
 Before we examine the magnifying glass, we must understand the theory. In industry standards like **CompTIA Security+**, a clear distinction is drawn between *Encryption* and *Obfuscation*. 
@@ -99,7 +99,7 @@ Always remember: when you have eliminated the impossible, whatever remains, howe
 
 "There is nothing more deceptive than an obvious fact," Sherlock Holmes once remarked to Watson. In the realm of cybersecurity, the most deceptive facts are often hidden in plain sight. A photograph of a sprawling London street may appear to be exactly that—but beneath the surface, hidden in the very pixels themselves, lies a secret ledger.
 
-Welcome to the laboratory of **Least Significant Bit (LSB) Steganography**.
+Welcome to the laboratory.
 
 ## The Anatomy of a Pixel: CompTIA Principles
 In the pursuit of **CompTIA Security+** mastery, one must understand the limits of *Security through Obscurity*. Obfuscation is the art of making something difficult to notice. 
@@ -264,7 +264,7 @@ Below is a functional client-side laboratory. All processing happens entirely wi
     }
 </script>
 
-Remember, Watson: data is only secure when it is encrypted. Obscurity is merely a disguise. Combine the two, however, and you create a puzzle worthy of a master.
+Remember: data is only secure when it is encrypted. Obscurity is merely a disguise. Combine the two, however, and you create a puzzle worthy of a master.
 
 ---
 
@@ -291,7 +291,7 @@ Remember, Watson: data is only secure when it is encrypted. Obscurity is merely 
 
 ---
 
-##Further Reading
+## Further Reading
 
 
 * [CompTIA Blog:](https://www.comptia.org/en-us/blog/the-ancient-practice-of-steganography/)
