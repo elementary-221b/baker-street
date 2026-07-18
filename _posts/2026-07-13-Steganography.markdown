@@ -30,7 +30,7 @@ Enter **Unicode Variation Selectors**. The Unicode standard includes 256 invisib
 Below is a fully functional steganography tool. Type a secret message, encode it into an emoji, and copy the result. To the naked eye, you have copied a single character. Paste it into the Decode tab to reveal the truth. Elementary!
 
 <div id="steg-lab" style="border: 2px solid #333; padding: 20px; border-radius: 8px; background: #1e1e1e; color: #fff; font-family: monospace;">
-    <h3>🕵️‍♂️ Baker Street Steganography Console</h3>
+    <h3>🕵️‍♂️ Baker Street Steganography Console v2.0</h3>
     <div style="margin-bottom: 15px;">
         <button onclick="setMode('encode')" style="padding: 10px; cursor: pointer;">Encode</button>
         <button onclick="setMode('decode')" style="padding: 10px; cursor: pointer;">Decode</button>
@@ -66,14 +66,9 @@ Below is a fully functional steganography tool. Type a secret message, encode it
     function encodeMessage() {
         const emoji = document.getElementById('emoji-input').value || '🕵️‍♂️';
         const message = document.getElementById('secret-input').value;
-        
-        // 1. Convert string to strict UTF-8 bytes (handles smart quotes, other emojis, etc.)
         const utf8Bytes = new TextEncoder().encode(message);
+        let encoded = emoji + '\u200B'; // Zero-Width Space Boundary
         
-        // 2. Add a Zero-Width Space (\u200B) as a boundary marker to protect the Carrier Emoji
-        let encoded = emoji + '\u200B';
-        
-        // 3. Map the 8-bit values to the Variation Selector blocks
         for (let byte of utf8Bytes) {
             let vs = byte < 16 ? (0xFE00 + byte) : (0xE0100 + (byte - 16));
             encoded += String.fromCodePoint(vs);
@@ -83,19 +78,16 @@ Below is a fully functional steganography tool. Type a secret message, encode it
 
     function decodeMessage() {
         const suspect = document.getElementById('suspect-input').value;
-        
-        // 1. Locate the invisible boundary marker
         let payloadStart = suspect.indexOf('\u200B');
+        
         if (payloadStart === -1) {
-            document.getElementById('decode-output').value = "Error: Boundary missing. This is either standard text or the carrier was heavily stripped.";
+            document.getElementById('decode-output').value = "Error: Boundary missing. The carrier was stripped or this is standard text.";
             return;
         }
         
-        // 2. Isolate the payload (ignore the carrier emoji entirely)
         let payload = suspect.slice(payloadStart + 1);
         let bytes = [];
         
-        // 3. Extract the bytes
         for (let char of payload) {
             let code = char.codePointAt(0);
             if (code >= 0xFE00 && code <= 0xFE0F) {
@@ -105,11 +97,9 @@ Below is a fully functional steganography tool. Type a secret message, encode it
             }
         }
         
-        // 4. Convert UTF-8 bytes back to a readable string
         if (bytes.length > 0) {
             try {
-                let secret = new TextDecoder().decode(new Uint8Array(bytes));
-                document.getElementById('decode-output').value = secret;
+                document.getElementById('decode-output').value = new TextDecoder().decode(new Uint8Array(bytes));
             } catch (e) {
                 document.getElementById('decode-output').value = "Error: Malformed UTF-8 data extracted.";
             }
