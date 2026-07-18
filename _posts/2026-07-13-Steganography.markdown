@@ -39,21 +39,27 @@ Below is a fully functional steganography tool. Type a secret message, encode it
     <div id="encode-panel">
         <label>Carrier Emoji:</label><br>
         <input type="text" id="emoji-input" value="🕵️‍♂️" style="width: 50px; padding: 5px; margin-bottom: 10px;"><br>
+		
         <label>Secret Message:</label><br>
         <textarea id="secret-input" rows="4" style="width: 100%; padding: 5px; margin-bottom: 10px;" placeholder="The butler did it..."></textarea><br>
+		
         <button onclick="encodeMessage()" style="padding: 10px; background: #4CAF50; color: white; border: none; cursor: pointer;">Hide Message</button>
         <br><br>
+		
         <label>Result (Copy this):</label><br>
+		<canvas id="encode-canvas" style="max-width: 100%; border: 1px dashed #555; display: none; margin-bottom: 10px;"></canvas>
+		<br>
         <textarea id="encode-output" rows="2" style="width: 100%; padding: 5px;" readonly></textarea>
     </div>
 
     <div id="decode-panel" style="display: none;">
-		<label>Suspect Emoji:</label><br>
-		<input type="text" id="emoji-input" style="width: 50px; padding: 5px; margin-bottom: 10px;"><br>
-        <label>Paste Suspect Emoji Here:</label><br>
+		<label>Paste Suspect Emoji Here:</label><br>
         <textarea id="suspect-input" rows="4" style="width: 100%; padding: 5px; margin-bottom: 10px;"></textarea><br>
+		
         <button onclick="decodeMessage()" style="padding: 10px; background: #2196F3; color: white; border: none; cursor: pointer;">Reveal Message</button>
         <br><br>
+		<canvas id="decode-canvas" style="display: none;"></canvas>
+		
         <label>Decoded Secret:</label><br>
         <textarea id="decode-output" rows="4" style="width: 100%; padding: 5px;" readonly></textarea>
     </div>
