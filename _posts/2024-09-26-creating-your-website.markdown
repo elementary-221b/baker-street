@@ -1,57 +1,50 @@
 ---
 layout: post
-title: Create Your Website
-date: 2026-07-14 00:00:00 +0300
-description: You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. # Add post description (optional)
-img: website.jpg # Add image post (optional)
-fig-caption: # Add figcaption (optional)
-tags: [Google, HTML, GITHUB] # add tag
+title: "The Brief Case: Create Your Website"
+date: 2026-07-15 00:00:00 +0300
+description: "A singular investigation into building secure web assets for the grand sum of zero pence."
+image: website.jpg
+fig-caption: "Deploying secure, modern static web applications to the cloud."
+tags: [Security, HTML, GitHub, Jekyll, Web-Dev]
 ---
 
-## Tell Me A Story
+## The Digital Footprint Challenge
 
-It is a capital mistake, my dear reader, to theorize before one has data. Yet, the modern world demands an immediate digital presence. Happily, we have observed that there are two singularly efficient methods for constructing a website entirely *for free*. Let us examine the evidence.
+It is a capital mistake, my dear reader, to theorize before one has data. Yet, the modern world demands an immediate digital presence. Let us examine the evidence.
+
+In the modern tech landscape, an immediate, polished digital presence is no longer optional—it is your extended resume. Fortunately, you do not need an enterprise budget to establish a professional web presence. You can deploy a high-performance, responsive website entirely for free. 
+
+This guide breaks down exactly how to build and host your site using two industry-standard methods. Afterward, we will look under the hood to see how these architectures interact with the web security principles found in the **CompTIA Security+** and **PenTest+** frameworks.
 
 ---
 
 ## **Part 1: Establishing Your Web Presence**
 
-Whether you desire absolute, granular control over every line of code, or prefer the rapid, visual assembly of a drag-and-drop canvas, a production-ready site can be summoned from the ether without spending a single shilling.
+Depending on your personal goals, you will likely choose one of two paths: absolute control over every line of source code, or rapid visual assembly using a structured layout engine.
 
-### **Method 1: The Developer’s Route — GitHub Pages**
+### **Method 1: The Developer’s Choice — GitHub Pages**
 
-GitHub Pages hosts static websites directly from a Git repository. It remains the absolute industry standard for developer portfolios and open-source documentation.
+GitHub Pages serves static web files directly from a cloud repository. It is the gold standard for software developers, IT professionals, and technical portfolios.
 
-#### **Step 1: Account Creation**
+> **Learner Definition:** 
+> * **Repository (Repo):** A digital project folder hosted in the cloud that tracks every change made to your files.
+> * **Commit:** Saving and uploading a snapshot of your updated files to your repository.
 
-1. Direct your browser to **[github.com](https://github.com)** and click **Sign up**.
-
-
-2. Provide your email, construct an ironclad password, and select a unique moniker. Verify your identity using the dispatch sent to your inbox.
-
-
+#### **Step 1: Account Setup**
+1. Visit **[github.com](https://github.com)** and click **Sign up**.
+2. Provide your email, create a strong password, and choose a clean, professional username. 
+3. **Security Tip:** Immediately enable **Two-Factor Authentication (2FA)** in your account settings to prevent unauthorized takeovers of your web code.
 
 #### **Step 2: Repository Creation**
-
-1. Once logged in, observe the **+** icon in the upper right-hand corner, and select **New repository**.
-
-
-2. **The Crucial Clue:** You must name this repository precisely `yourusername.github.io` (substituting "yourusername" with your actual GitHub username). GitHub’s automated engines rely entirely on this exact string to map your files to the root domain.
-
-
-3. Set the visibility to **Public** and select the option to **Add a README file**.
-
-
+1. Log in, click the **+** icon in the upper-right corner, and select **New repository**.
+2. **Critical Warning:** Name your repository exactly `yourusername.github.io` (replace `yourusername` with your literal, case-sensitive GitHub username). If this string does not match your username perfectly, GitHub's automation engines will not map your files to your free web domain.
+3. Set the visibility to **Public** and check the box to **Add a README file**.
 4. Click **Create repository**.
 
+#### **Step 3: The Template Setup**
+Writing frontend code from scratch is inefficient when establishing a baseline site. We will deploy three fundamental building blocks. Create these files directly inside your cloud repository:
 
-
-#### **Step 3: The Template Speed Trick**
-
-To write HTML entirely from a blank slate is an elementary waste of energy. We shall employ a pre-built static template to bypass hours of labor. You may commit these three ready-made files directly into your repository:
-
-**`index.html`** (The Structural Skeleton)
-
+**`index.html`** (The Structure)
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -63,14 +56,14 @@ To write HTML entirely from a blank slate is an elementary waste of energy. We s
 </head>
 <body>
     <header>
-        <h1>Welcome to My Fast-Tracked Website</h1>
-        <p>Hosted on GitHub Pages</p>
+        <h1>Welcome to My Personal Website</h1>
+        <p>Hosted Securely via GitHub Pages</p>
     </header>
     <main>
         <section class="content">
-            <h2>About This Site</h2>
-            <p>This is a lightweight, responsive website template ready for deployment.</p>
-            <button id="interactiveBtn">Verify Interaction</button>
+            <h2>About This Space</h2>
+            <p>This is a lightweight, responsive static web template ready for secure customization.</p>
+            <button id="interactiveBtn">Test System Interaction</button>
         </section>
     </main>
     <script src="script.js"></script>
@@ -79,11 +72,11 @@ To write HTML entirely from a blank slate is an elementary waste of energy. We s
 
 ```
 
-**`styles.css`** (The Aesthetic Raiment)
+**`styles.css`** (The Design)
 
 ```css
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f4f7f6;
@@ -98,21 +91,21 @@ header {
 .content {
     max-width: 800px;
     margin: 2rem auto;
-    padding: 1rem;
+    padding: 2rem;
     background: white;
     border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
     text-align: center;
 }
 button {
-    padding: 10px 20px;
+    padding: 12px 24px;
     font-size: 16px;
     background-color: #0366d6;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 6px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.2s ease;
 }
 button:hover {
     background-color: #005cc5;
@@ -120,14 +113,15 @@ button:hover {
 
 ```
 
-**`script.js`** (The Engine of Action)
+**`script.js`** (The Interaction)
 
 ```javascript
 document.addEventListener("DOMContentLoaded", () => {
     const btn = document.getElementById('interactiveBtn');
-    if(btn) {
+    if (btn) {
         btn.addEventListener('click', () => {
-            alert('JavaScript is successfully running on your deployed site!');
+            console.log('System verification checklist passed.');
+            alert('JavaScript is executing safely on your deployed domain!');
         });
     }
 });
@@ -136,108 +130,56 @@ document.addEventListener("DOMContentLoaded", () => {
 
 #### **Step 4: Upload and Deploy**
 
-1. Within your newly minted repository, click **Add file** > **Create new file**.
+1. Inside your repository web page, click **Add file** > **Create new file**.
+2. Name the file `index.html`, paste the HTML block from above, and click **Commit changes**.
+3. Repeat this exact process for both `styles.css` and `script.js`.
+4. Navigate to the **Settings** tab of your repository, then click **Pages** in the left sidebar.
+5. Under **Build and deployment**, ensure the source is set to **Deploy from a branch**, select your `main` branch, and hit **Save**.
+6. Wait 1 to 2 minutes. Your site will automatically go live at `https://yourusername.github.io`.
 
+#### **Step 5: Scaling with Jekyll**
 
-2. Name the file `index.html`, paste the HTML structure provided above, and select **Commit changes**.
-
-
-3. Repeat this identical process for both `styles.css` and `script.js`.
-
-
-4. Navigate to the **Settings** tab of your repository, and select **Pages** from the left-hand sidebar.
-
-
-5. Under "Source", ensure "Deploy from a branch" is selected, choose the **main** (or **master**) branch, and click **Save**.
-
-
-6. Give the system a few moments—precision engines require time to run—and your site will appear live at `[https://yourusername.github.io](https://yourusername.github.io)`.
-
-
-
-#### **Step 5: Customizing Your Canvas**
-
-* **Option A: Pure HTML/CSS/JS** — The simplest approach. Edit your files locally or directly on GitHub to watch the changes propagate.
-
-
-* **Option B: Jekyll (GitHub Pages Native)** — GitHub Pages natively compiles Jekyll themes. You may configure your entire site's parameters globally by modifying the `_config.yml` file.
-
-
+Because you are using a Jekyll-powered theme environment, your project can easily scale. You can abstract repetitive elements into layouts and manage your entire application configuration globally inside a `_config.yml` file as your content expands.
 
 ---
 
-### **Method 2: The Visual Route — Google Sites**
+### **Method 2: The Visual Speed Path — Google Sites**
 
-If writing code strikes you as an unnecessary complication, Google Sites offers a visual assembly method that is wonderfully rapid.
+If you prefer to bypass writing direct code, Google Sites allows you to visually assemble a responsive dashboard in minutes.
 
-#### **Step 1: Account Registration**
+#### **Step 1: Authorization**
 
-1. If you do not possess a Google account, navigate to **accounts.google.com**, select **Create account**, and follow the logical prompts.
+1. Log into your standard Google Account, or create one at **accounts.google.com**.
+2. Ensure you have activated account recovery protections to guard your associated cloud assets.
 
+#### **Step 2: Selecting a Template**
 
+1. Navigate directly to **[sites.google.com](https://sites.google.com)**.
+2. Expand the **Template gallery** in the top right. Select a layout like **Portfolio** or **Project**. Modifying a pre-built visual hierarchy is significantly faster than starting from an empty grid.
 
-#### **Step 2: The Template Gambit**
+#### **Step 3: Configuration & Customization**
 
-1. Navigate to **[sites.google.com](https://sites.google.com)**.
+1. **Layout Controls:** Drag, drop, and resize structural elements, forms, and image blocks directly from the **Insert** panel on the right.
+2. **Ecosystem Integration:** Embed assets like YouTube media, Google Maps, or document drives natively without wrestling with raw, unvalidated `<iframe>` embed codes.
+3. **Themes:** Use the **Themes** tab to swap your typography palettes and style kits globally, keeping your design strictly uniform.
 
+#### **Step 4: Going Live**
 
-2. **The Secret to Speed:** Avoid starting from a blank page. Click on the **Template gallery** in the upper right. Choose a pre-designed layout (such as "Portfolio" or "Project"). A pre-built visual hierarchy is far easier to edit than an empty void.
-
-
-
-#### **Step 3: Customization**
-
-1. **Layout:** Drag and drop structural blocks, text fields, and imagery from the right-hand **Insert** menu.
-
-
-2. **Integration:** Because this tool resides within the Google ecosystem, you can embed YouTube videos, Maps, and Drive documents without touching inline iframe codes.
-
-
-3. **Themes:** Use the **Themes** tab to instantly alter your color palettes and typography globally, ensuring consistency without writing CSS.
-
-
-
-#### **Step 4: Publication**
-
-1. Click the blue **Publish** button in the top right.
-
-
-2. Choose your web address suffix (e.g., `my-custom-portfolio`).
-
-
-3. Ensure the viewing permissions are set to **Anyone**.
-
-
-4. Click **Publish**. Your creation is now live at `[https://sites.google.com/view/your-site-name](https://sites.google.com/view/your-site-name)`.
-
-
+1. Click the blue **Publish** button in the top-right toolbar.
+2. Choose a unique web address suffix (e.g., `my-secure-portfolio`).
+3. Under **Who can view my site**, ensure it is set to **Public**.
+4. Click **Publish**. Your deployment is live at `https://sites.google.com/view/your-site-name`.
 
 ---
 
-### **Platform Comparison**
+### **Platform Breakdown**
 
 | Feature | GitHub Pages | Google Sites |
-| --- | --- | --- |
-| **Best For** | Developers, bloggers, IT professionals
-
- | Beginners, rapid wikis, visual design
-
- |
-| **Customization** | Unlimited (Complete code control)
-
- | Restricted to structured grid layouts
-
- |
-| **Asset Storage** | Git Repositories
-
- | Google Drive
-
- |
-| **Custom Domain** | Free to connect
-
- | Free to connect
-
- |
+| :--- | :--- | :--- |
+| **Ideal For** | Developers, technical portfolios, engineers | Rapid setups, visual designers, project wikis |
+| **Control Model** | Code-First Sovereignty (Full HTML/CSS/JS control) | Zero-Code Velocity (Strict drag-and-drop grid) |
+| **Data Storage** | Managed Git Repository | Integrated Google Drive |
+| **Custom Domain** | Free to link custom DNS records | Free to link custom DNS records |
 
 ---
 
@@ -260,51 +202,64 @@ If writing code strikes you as an unnecessary complication, Google Sites offers 
 
 ---
 
-## **Part 2: CompTIA Security+ Web Security Concepts**
+## **Part 2: CompTIA Security+ Application Concepts**
 
-Once your web asset is online, it becomes a target. The CompTIA Security+ framework teaches us that we must take a proactive, defensive stance. This is divided into hardening (reducing our attack surface) and vulnerability management (uncovering weaknesses before others do).
+Once your web asset is live on the public internet, it interacts with global web ecosystems. The **CompTIA Security+** framework highlights that defensive web administration requires proactive hardening and regular vulnerability analysis.
 
-### **1. Web Infrastructure Hardening**
+### **1. Core Architectural Protections**
 
-Hardening is the art of locking down your server configuration so tightly that no intruder can slip through the cracks.
+When using managed hosting like GitHub Pages or Google Sites, the cloud platform handles **infrastructure hardening** (patching the underlying server operating systems, mitigating DDoS attacks, and managing hardware ACLs). However, developers are still responsible for the security settings within their control.
 
-* **Enforcing HTTPS (TLS Encryption):** Data transmitted over HTTP is sent in plain, readable text—a gift to any eavesdropper. Security+ standards dictate using TLS (Transport Layer Security) to encrypt data in transit. On GitHub Pages, this is easily accomplished by checking the **Enforce HTTPS** box within your repository settings.
+* **Enforcing TLS Encryption (HTTPS):** Sending data over unencrypted HTTP exposes traffic to man-in-the-middle eavesdropping. Security standards mandate using TLS (Transport Layer Security). On GitHub Pages, ensure you check the **Enforce HTTPS** checkbox in your repository page settings to guarantee all user traffic is fully encrypted in transit.
+* **Access Governance:** Apply the **Principle of Least Privilege (PoLP)**. Do not give external tools or collaborators administrative ownership over your main source repository or drive folders unless strictly necessary.
 
+### **2. Security Guardrails**
 
-* **Implementing HTTP Security Headers:** Instruct the visitor’s browser on how to behave securely.
+> **Exam Focus Callouts:**
+> * **XSS (Cross-Site Scripting):** An attack where a malicious actor injects unauthorized scripts into a trusted website, which then execute in an innocent visitor's browser.
+> * **CSP (Content Security Policy):** An HTTP header or meta tag that defines exactly which domains are allowed to execute scripts on your web application, completely blocking unauthorized XSS vectors.
+> * **HSTS (HTTP Strict Transport Security):** A configuration directive that forces browsers to only communicate with a site via secure HTTPS connections, preventing protocol-downgrade attacks.
+> 
+> 
 
+### **3. Vulnerability Verification**
 
-* **HSTS (HTTP Strict Transport Security):** Forces the browser to communicate exclusively via encrypted HTTPS.
+Defenders continuously assess their web applications using specific auditing styles:
 
+* **SAST (Static Application Security Testing):** Analyzing the raw source code of your website while it is at rest to discover bugs, unvalidated inputs, or accidentally committed security keys *before* deployment.
+* **DAST (Dynamic Application Security Testing):** Testing a live, running application by actively interacting with it to find operational runtime flaws like broken link redirects or access management oversights.
 
-* **CSP (Content Security Policy):** Mitigates Cross-Site Scripting (XSS) attacks by explicitly dictating which domains are allowed to run scripts on your page.
+---
 
+## **Part 3: Advanced Analysis — The Red Team View**
 
+To build resilient defenses, security engineers must understand the mindset of an attacker. A **CompTIA PenTest+** practitioner uses structured methodologies to analyze a target's exposed internet profile.
 
+### **1. Footprinting and Reconnaissance**
 
-* **Input Validation & Output Encoding:** The golden rule of web security is simple: *never trust user input*. Every web form, search query, and API endpoint must validate incoming data and safely encode outgoing data so malicious scripts cannot execute in the browser.
+Before executing an exploit, an adversary builds a comprehensive profile of an organization’s internet presence.
 
+* **OSINT Search Engines:** Tools like **Shodan** and **Censys** index internet-connected devices, certificates, and domains worldwide. Pentesters scan these platforms to find unpatched servers, forgotten staging environments, or misconfigured open ports without making direct contact with a target network.
+* **Subdomain Enumeration:** Using automated scanning suites like **Amass** or **Sublist3r**, attackers look for secondary assets (e.g., `test-environment.company.com`). These secondary pages are often less protected than a primary homepage but share identical network permissions.
 
-* **Principle of Least Privilege (PoLP):** Apply strict Access Control Lists (ACLs) to your backend. The web server software should only possess permission to read the files it actively serves, and absolutely nothing more.
+### **2. Web Interception Analysis**
 
+When exploring application logic, security testing shifts from automated network sweeps to targeted verification.
 
+* **Proxy Manipulation:** Platforms like **Burp Suite Professional** or **OWASP ZAP** act as local interception proxies. They allow an engineer to capture an outgoing web request, inspect its structure, and safely modify parameter inputs to test how a server processes unvalidated data.
 
-### **2. Checking for Vulnerabilities**
+```
+[ User Browser ] ---> [ Interception Proxy (Burp Suite) ] ---> [ Live Server ]
+                            (Analyze & Edit Inputs)
 
-An effective investigator does not wait for a crime to happen; they search for the vulnerabilities beforehand.
+```
 
-* **Vulnerability Scanning:** Utilize automated tools (such as Nessus or Qualys) to sweep the server for known CVEs (Common Vulnerabilities and Exposures), checking for unpatched software or outdated libraries.
+### **3. The Enterprise Horizon (Full-Stack Risks)**
 
+While your static website is naturally immune to database threats due to its architecture, complex web applications encounter significantly broader attack vectors:
 
-* **Configuration Audits:** Regularly verify that admin interfaces are hidden from public view and default credentials have been changed.
-
-
-* **Application Security Testing:**
-* **SAST (Static Application Security Testing):** Analyzing the source code at rest to catch security flaws before deployment.
-
-
-* **DAST (Dynamic Application Security Testing):** Interacting with the live, running application to find runtime flaws like SQL injection or broken access controls.
-
+* **SQL Injection (SQLi):** An exploit where an attacker inputs malicious database queries into a form field to manipulate backend databases.
+* **Living off the Land (LotL):** Sophisticated actors minimize their footprint on a compromised machine by utilizing native administrative tools already present on the system (like PowerShell on Windows or Bash on Linux) to execute scripts, ensuring they blend seamlessly with normal system behavior.
 
 ---
 
@@ -327,92 +282,27 @@ An effective investigator does not wait for a crime to happen; they search for t
 
 ---
 
-## **Part 3: Advanced Pentesting — The Red Team Perspective**
+## **Certification Mapping & Resources**
 
-While defense is commendable, an advanced Red Team approaches security by thinking like the adversary. They employ sophisticated tactics to bypass defenses and simulate real-world Advanced Persistent Threats (APTs).
-
-### **1. Advanced Reconnaissance (OSINT & Active Profiling)**
-
-Before an attacker sends a single hostile payload, they map the target's entire footprint.
-
-* **Shodan & Censys:** These are specialized search engines that index internet-connected devices. Pentesters use them to locate exposed databases, staging domains, and misconfigured interfaces without making direct contact with the target network.
-
-
-* **Subdomain Enumeration:** Using tools like **Amass** or **Sublist3r** to discover obscure subdomains (such as `dev-test.target.com`) which are often far more vulnerable than the main production site.
-
-
-
-### **2. Web Exploitation Arsenal**
-
-When attacking web applications directly, standard automated scanners are too noisy to go unnoticed. Red Teams rely on manual traffic manipulation.
-
-* **Burp Suite Professional & OWASP ZAP:** The ultimate tools of the trade. These act as local interception proxies, letting you pause a web request, alter its parameters to bypass client-side validation, and send it on to the server to test for logic flaws or privilege escalation.
-
-
-* **Blind SQL Injection:** When a database refuses to throw obvious error messages, attackers use tools like **SQLmap** to ask the database boolean questions, measuring the time it takes for the server to reply to extract data character by character.
-
-
-
-### **3. Living Off the Land (LotL) & Evasion**
-
-Modern Endpoint Detection and Response (EDR) systems will instantly flag known malware. Consequently, a sophisticated attacker does not drop recognizable malicious executable files onto a compromised server.
-
-* **LotL Techniques:** Attackers utilize legitimate administrative tools already present on the operating system (like PowerShell on Windows or Python and Bash on Linux) to carry out their commands. This makes it incredibly difficult for defenders to separate malicious actions from routine administration.
-
-
-* **Command and Control (C2) Frameworks:** Once inside, Red Teams deploy lightweight "beacons" via frameworks like **Cobalt Strike** or **Mythic**. These beacons disguise their communications by hiding command traffic inside normal, encrypted HTTPS web traffic (Port 443), blending seamlessly with everyday network traffic.
-
-
-
----
-
-## **Certification Concepts & Resources**
-
-**Specific CompTIA Certification Concepts Covered:**
+### **CompTIA Domain Framework Match**
 
 * **CompTIA Security+ (SY0-701):**
-
-* Domain 2: Security Architecture (Encryption, Web Application Firewalls, Least Privilege).
-
-
-* Domain 3: Security Engineering (Secure Coding Practices, HSTS, CSP, Input Validation).
-
-
-* Domain 4: Security Operations (Vulnerability Scanning, SAST/DAST).
-
-
+* **Domain 2 (Security Architecture):** HTTPS/TLS requirements, Principle of Least Privilege.
+* **Domain 3 (Security Engineering):** Secure frontend design habits, understanding basic XSS vectors, and CSP.
+* **Domain 4 (Security Operations):** Implementing baseline SAST and DAST evaluation methodologies.
 
 
 * **CompTIA PenTest+ (PT0-002):**
-
-* Domain 2: Information Gathering and Vulnerability Identification (OSINT, Subdomain Enumeration).
-
-
-* Domain 3: Attacks and Exploits (Proxy Interception, Web Application Attacks, SQLi, SSRF).
-
-
-* Domain 4: Reporting and Communication (Mitigation Strategies).
+* **Domain 2 (Information Gathering):** OSINT asset tracking and subdomain discovery mechanics.
+* **Domain 3 (Attacks and Exploits):** Intercepting proxies and analyzing application responses.
 
 
 
+### **Technical References & Practice Environments**
 
+* **Deployment Docs:** [Official GitHub Pages Overview](https://pages.github.com/) | [Google Sites Help](https://support.google.com/sites/)
+* **Security Frameworks:** [OWASP Top 10 Vulnerabilities Guide](https://owasp.org/www-project-top-ten/) | [MITRE ATT&CK Attacker Matrix](https://attack.mitre.org/)
+* **Interactive Training Labs:**
+* [PortSwigger Web Security Academy](https://portswigger.net/web-security) (Excellent, hands-on lab environments for tracking vulnerabilities)
+* [Caido Security Tooling Labs](https://labs.cai.do/)
 
-**Resources for Further Reading:**
-
-* **Web Setup:** [GitHub Pages Documentation](https://pages.github.com/) | [Google Sites Help Center](https://support.google.com/sites/)
-
-* **Security Guidelines:** [OWASP Top 10](https://owasp.org/www-project-top-ten/) (Open Worldwide Application Security Project)
-
-
-* **Certification Standards:** [CompTIA Security+ Objectives](https://www.comptia.org/certifications/security)
-
-* **Pentesting Tools:** [PortSwigger (Burp Suite)](https://portswigger.net/) | [MITRE ATT&CK Framework](https://attack.mitre.org/)
-
-
-**Interactive Practice Labs:**
-
-* [Zero Trust Web Lab](https://ztw.ctbb.show/)
-
-* [Caido Labs](https://labs.cai.do/)
-
-* [PortSwigger Web Security Academy](https://portswigger.net/web-security)
