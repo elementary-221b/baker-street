@@ -3,7 +3,7 @@ layout: post
 title: "The Brief Case: Create Your Website"
 date: 2026-07-15 00:00:00 +0300
 description: "A singular investigation into building secure web assets for the grand sum of zero pence."
-image: website.jpg
+img: website.jpg
 fig-caption: "Deploying secure, modern static web applications to the cloud."
 tags: [Security, HTML, GitHub, Jekyll, Web-Dev]
 ---
