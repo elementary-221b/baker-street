@@ -30,91 +30,110 @@ Enter **Unicode Variation Selectors**. The Unicode standard includes 256 invisib
 Below is a fully functional steganography tool. Type a secret message, encode it into an emoji, and copy the result. To the naked eye, you have copied a single character. Paste it into the Decode tab to reveal the truth. Elementary!
 
 <div id="steg-lab" style="border: 2px solid #333; padding: 20px; border-radius: 8px; background: #1e1e1e; color: #fff; font-family: monospace;">
-    <h3>🕵️‍♂️ Baker Street Steganography Console v2.0</h3>
+    <h3>🕵️‍♂️ Baker Street Steganography Console</h3>
+    
+    <!-- Navigation Tabs -->
     <div style="margin-bottom: 15px;">
-        <button onclick="setMode('encode')" style="padding: 10px; cursor: pointer;">Encode</button>
-        <button onclick="setMode('decode')" style="padding: 10px; cursor: pointer;">Decode</button>
+        <button id="steg-tab-encode" style="padding: 10px; cursor: pointer; background: #555; color: white; border: 1px solid #777;">Encode Mode</button>
+        <button id="steg-tab-decode" style="padding: 10px; cursor: pointer; background: #333; color: white; border: 1px solid #777;">Decode Mode</button>
     </div>
 
+    <!-- ENCODE PANEL -->
     <div id="encode-panel">
         <label>Carrier Emoji:</label><br>
         <input type="text" id="emoji-input" value="🕵️‍♂️" style="width: 50px; padding: 5px; margin-bottom: 10px;"><br>
-		
         <label>Secret Message:</label><br>
         <textarea id="secret-input" rows="4" style="width: 100%; padding: 5px; margin-bottom: 10px;" placeholder="The butler did it..."></textarea><br>
-		
-        <button onclick="encodeMessage()" style="padding: 10px; background: #4CAF50; color: white; border: none; cursor: pointer;">Hide Message</button>
+        <button id="steg-action-encode" style="padding: 10px; background: #4CAF50; color: white; border: none; cursor: pointer;">Hide Message</button>
         <br><br>
-		
         <label>Result (Copy this):</label><br>
-		<canvas id="encode-canvas" style="max-width: 100%; border: 1px dashed #555; display: none; margin-bottom: 10px;"></canvas>
-		<br>
         <textarea id="encode-output" rows="2" style="width: 100%; padding: 5px;" readonly></textarea>
     </div>
 
+    <!-- DECODE PANEL -->
     <div id="decode-panel" style="display: none;">
-		<label>Paste Suspect Emoji Here:</label><br>
+        <label>Paste Suspect Emoji Here:</label><br>
         <textarea id="suspect-input" rows="4" style="width: 100%; padding: 5px; margin-bottom: 10px;"></textarea><br>
-		
-        <button onclick="decodeMessage()" style="padding: 10px; background: #2196F3; color: white; border: none; cursor: pointer;">Reveal Message</button>
+        <button id="steg-action-decode" style="padding: 10px; background: #2196F3; color: white; border: none; cursor: pointer;">Reveal Message</button>
         <br><br>
-		<canvas id="decode-canvas" style="display: none;"></canvas>
-		
         <label>Decoded Secret:</label><br>
         <textarea id="decode-output" rows="4" style="width: 100%; padding: 5px;" readonly></textarea>
     </div>
 </div>
 
 <script>
-    function setMode(mode) {
-        document.getElementById('encode-panel').style.display = mode === 'encode' ? 'block' : 'none';
-        document.getElementById('decode-panel').style.display = mode === 'decode' ? 'block' : 'none';
-    }
+    // Wait for the entire DOM to load before attaching logic
+    document.addEventListener("DOMContentLoaded", function() {
+        
+        // 1. Tab Switching Logic
+        const tabEncode = document.getElementById("steg-tab-encode");
+        const tabDecode = document.getElementById("steg-tab-decode");
+        const panelEncode = document.getElementById("encode-panel");
+        const panelDecode = document.getElementById("decode-panel");
 
-    function encodeMessage() {
-        const emoji = document.getElementById('emoji-input').value || '🕵️‍♂️';
-        const message = document.getElementById('secret-input').value;
-        const utf8Bytes = new TextEncoder().encode(message);
-        let encoded = emoji + '\u200B'; // Zero-Width Space Boundary
-        
-        for (let byte of utf8Bytes) {
-            let vs = byte < 16 ? (0xFE00 + byte) : (0xE0100 + (byte - 16));
-            encoded += String.fromCodePoint(vs);
-        }
-        document.getElementById('encode-output').value = encoded;
-    }
+        tabEncode.addEventListener("click", function() {
+            panelEncode.style.display = "block";
+            panelDecode.style.display = "none";
+            tabEncode.style.background = "#555";
+            tabDecode.style.background = "#333";
+        });
 
-    function decodeMessage() {
-        const suspect = document.getElementById('suspect-input').value;
-        let payloadStart = suspect.indexOf('\u200B');
-        
-        if (payloadStart === -1) {
-            document.getElementById('decode-output').value = "Error: Boundary missing. The carrier was stripped or this is standard text.";
-            return;
-        }
-        
-        let payload = suspect.slice(payloadStart + 1);
-        let bytes = [];
-        
-        for (let char of payload) {
-            let code = char.codePointAt(0);
-            if (code >= 0xFE00 && code <= 0xFE0F) {
-                bytes.push(code - 0xFE00);
-            } else if (code >= 0xE0100 && code <= 0xE01EF) {
-                bytes.push(code - 0xE0100 + 16);
+        tabDecode.addEventListener("click", function() {
+            panelEncode.style.display = "none";
+            panelDecode.style.display = "block";
+            tabEncode.style.background = "#333";
+            tabDecode.style.background = "#555";
+        });
+
+        // 2. Encode Execution Logic
+        document.getElementById("steg-action-encode").addEventListener("click", function() {
+            const emoji = document.getElementById('emoji-input').value || '🕵️‍♂️';
+            const message = document.getElementById('secret-input').value;
+            if (!message) return;
+
+            const utf8Bytes = new TextEncoder().encode(message);
+            let encoded = emoji + '\u200B'; // Zero-Width Space Boundary
+            
+            for (let byte of utf8Bytes) {
+                let vs = byte < 16 ? (0xFE00 + byte) : (0xE0100 + (byte - 16));
+                encoded += String.fromCodePoint(vs);
             }
-        }
-        
-        if (bytes.length > 0) {
-            try {
-                document.getElementById('decode-output').value = new TextDecoder().decode(new Uint8Array(bytes));
-            } catch (e) {
-                document.getElementById('decode-output').value = "Error: Malformed UTF-8 data extracted.";
+            document.getElementById('encode-output').value = encoded;
+        });
+
+        // 3. Decode Execution Logic
+        document.getElementById("steg-action-decode").addEventListener("click", function() {
+            const suspect = document.getElementById('suspect-input').value;
+            let payloadStart = suspect.indexOf('\u200B');
+            
+            if (payloadStart === -1) {
+                document.getElementById('decode-output').value = "Error: Boundary missing. The carrier was stripped or this is standard text.";
+                return;
             }
-        } else {
-            document.getElementById('decode-output').value = "No hidden data found after the boundary.";
-        }
-    }
+            
+            let payload = suspect.slice(payloadStart + 1);
+            let bytes = [];
+            
+            for (let char of payload) {
+                let code = char.codePointAt(0);
+                if (code >= 0xFE00 && code <= 0xFE0F) {
+                    bytes.push(code - 0xFE00);
+                } else if (code >= 0xE0100 && code <= 0xE01EF) {
+                    bytes.push(code - 0xE0100 + 16);
+                }
+            }
+            
+            if (bytes.length > 0) {
+                try {
+                    document.getElementById('decode-output').value = new TextDecoder().decode(new Uint8Array(bytes));
+                } catch (e) {
+                    document.getElementById('decode-output').value = "Error: Malformed UTF-8 data extracted.";
+                }
+            } else {
+                document.getElementById('decode-output').value = "No hidden data found after the boundary.";
+            }
+        });
+    });
 </script>
 
 Always remember: when you have eliminated the impossible, whatever remains, however improbable, must be the truth. Happy hunting!
