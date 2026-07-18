@@ -48,6 +48,8 @@ Below is a fully functional steganography tool. Type a secret message, encode it
     </div>
 
     <div id="decode-panel" style="display: none;">
+		<label>Suspect Emoji:</label><br>
+		<input type="text" id="emoji-input" style="width: 50px; padding: 5px; margin-bottom: 10px;"><br>
         <label>Paste Suspect Emoji Here:</label><br>
         <textarea id="suspect-input" rows="4" style="width: 100%; padding: 5px; margin-bottom: 10px;"></textarea><br>
         <button onclick="decodeMessage()" style="padding: 10px; background: #2196F3; color: white; border: none; cursor: pointer;">Reveal Message</button>
