@@ -66,11 +66,15 @@ Below is a fully functional steganography tool. Type a secret message, encode it
     function encodeMessage() {
         const emoji = document.getElementById('emoji-input').value || '🕵️‍♂️';
         const message = document.getElementById('secret-input').value;
-        let encoded = emoji;
         
-        for (let i = 0; i < message.length; i++) {
-            let byte = message.charCodeAt(i);
-            // Map 0-15 to U+FE00-U+FE0F, and 16-255 to U+E0100-U+E01EF
+        // 1. Convert string to strict UTF-8 bytes (handles smart quotes, other emojis, etc.)
+        const utf8Bytes = new TextEncoder().encode(message);
+        
+        // 2. Add a Zero-Width Space (\u200B) as a boundary marker to protect the Carrier Emoji
+        let encoded = emoji + '\u200B';
+        
+        // 3. Map the 8-bit values to the Variation Selector blocks
+        for (let byte of utf8Bytes) {
             let vs = byte < 16 ? (0xFE00 + byte) : (0xE0100 + (byte - 16));
             encoded += String.fromCodePoint(vs);
         }
@@ -79,17 +83,39 @@ Below is a fully functional steganography tool. Type a secret message, encode it
 
     function decodeMessage() {
         const suspect = document.getElementById('suspect-input').value;
-        let secret = "";
         
-        for (let char of suspect) {
+        // 1. Locate the invisible boundary marker
+        let payloadStart = suspect.indexOf('\u200B');
+        if (payloadStart === -1) {
+            document.getElementById('decode-output').value = "Error: Boundary missing. This is either standard text or the carrier was heavily stripped.";
+            return;
+        }
+        
+        // 2. Isolate the payload (ignore the carrier emoji entirely)
+        let payload = suspect.slice(payloadStart + 1);
+        let bytes = [];
+        
+        // 3. Extract the bytes
+        for (let char of payload) {
             let code = char.codePointAt(0);
             if (code >= 0xFE00 && code <= 0xFE0F) {
-                secret += String.fromCharCode(code - 0xFE00);
+                bytes.push(code - 0xFE00);
             } else if (code >= 0xE0100 && code <= 0xE01EF) {
-                secret += String.fromCharCode(code - 0xE0100 + 16);
+                bytes.push(code - 0xE0100 + 16);
             }
         }
-        document.getElementById('decode-output').value = secret || "No hidden variation selectors found.";
+        
+        // 4. Convert UTF-8 bytes back to a readable string
+        if (bytes.length > 0) {
+            try {
+                let secret = new TextDecoder().decode(new Uint8Array(bytes));
+                document.getElementById('decode-output').value = secret;
+            } catch (e) {
+                document.getElementById('decode-output').value = "Error: Malformed UTF-8 data extracted.";
+            }
+        } else {
+            document.getElementById('decode-output').value = "No hidden data found after the boundary.";
+        }
     }
 </script>
 
