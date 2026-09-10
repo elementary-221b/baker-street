@@ -2,6 +2,7 @@
 layout: post
 title: "Applying Filters: The SQL"
 date: 2026-07-31 12:00:00 -0400
+img: sql-joke.jpg # Add image post
 categories: [Cybersecurity, SQL]
 tags: [sql, mariadb, security-operations, log-analysis, database-security, google-cybersecurity]
 description: "A comprehensive guide on applying SQL filters (AND, OR, NOT, LIKE) to investigate security incidents, analyze login attempts, and audit organizational devices."
