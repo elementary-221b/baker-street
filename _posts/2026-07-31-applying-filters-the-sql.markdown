@@ -208,8 +208,8 @@ Output:
 ## Conclusion & Attachment Reference
 
 ### Downloadable Resources & Attachments
-- [SQL Security Quick Reference Cheat Sheet](sql_security_cheat_sheet.md)
-- [Database Schema & Practice Query Script](schema_and_queries.sql)
+- [SQL Security Quick Reference Cheat Sheet]({{site.baseurl}}/assets/attachments/sql_security_cheat_sheet.md)
+- [Database Schema & Practice Query Script]({{site.baseurl}}/assets/attachments/schema_and_queries.sql)
 
 ---
 
