@@ -35,7 +35,7 @@ Tracks authentication activity across all enterprise assets.
 
 **Terminal Representation in MariaDB:**
 
-[IMAGE]
+![sql table]({{site.baseurl}}/assets/img/1_log_in_table.png)
 
 ### 2. The \`employees\` Table
 Maintains organizational asset allocation and personnel mapping.
@@ -48,7 +48,7 @@ Maintains organizational asset allocation and personnel mapping.
 | \`department\` | VARCHAR | Department name (e.g., Marketing, Finance, Sales, IT) |
 | \`office\` | VARCHAR | Physical building and room designation (e.g., East-170) |
 
-[IMAGE]
+![sql table]({{site.baseurl}}/assets/img/2_employees_table.png)
 
 ---
 
@@ -56,10 +56,11 @@ Maintains organizational asset allocation and personnel mapping.
 
 When interacting with MariaDB in a Linux terminal environment:
 
-\`\`\`bash
+{% highlight ruby %}
+bash
 # Connect to the target database
 sudo mysql organization
-\`\`\`
+{% endhighlight %}
 
 Useful CLI Shortcuts:
 - **\`CTRL + L\`**: Clears the terminal screen.
@@ -73,14 +74,16 @@ Useful CLI Shortcuts:
 ### Scenario 1: Investigating After-Hours Failed Login Attempts
 **Objective:** Identify potential brute-force or unauthorized access attempts occurring after regular business hours (after 18:00).
 
-\`\`\`sql
+{% highlight ruby %}
+sql
 SELECT *
 FROM log_in_attempts
 WHERE login_time > '18:00' AND success = FALSE;
-\`\`\`
+{% endhighlight %}
 
 Output:
-[IMAGE]
+
+![sql table]({{site.baseurl}}/assets/img/Scenario_1_Failed_Login_Attempts.png)
 
 Analysis:
 
@@ -92,14 +95,16 @@ Analysis:
 ### Scenario 2: Auditing Suspicious Dates
 **Objective:** A suspicious authentication anomaly occurred on 2022-05-09. We need to inspect all activity on that day as well as the preceding day (2022-05-08).
 
-\`\`\`sql
+{% highlight ruby %}
+sql
 SELECT *
 FROM log_in_attempts
 WHERE login_date = '2022-05-09' OR login_date = '2022-05-08';
-\`\`\`
+{% endhighlight %}
 
 Output:
-[IMAGE]
+
+![sql table]({{site.baseurl}}/assets/img/Scenario_2_Login_Attempts_on_Specific_Dates.png)
 
 Analysis:
 
@@ -108,14 +113,16 @@ Analysis:
 ### Scenario 3: Anomalous Foreign Access Attempts (Excluding Mexico)
 **Objective:** Security telemetry indicates potential unauthorized access originating outside Mexico. Notice that Mexico appears as both MEX and MEXICO in raw records.
 
-\`\`\`sql
+{% highlight ruby %}
+sql
 SELECT *
 FROM log_in_attempts
 WHERE NOT country LIKE 'MEX%';
-\`\`\`
+{% endhighlight %}
 
 Output:
-[IMAGE]
+
+![sql table]({{site.baseurl}}/assets/img/Scenario_3_Login_Attempts_Outside_of_Mexico.png)
 
 Analysis:
 
@@ -125,38 +132,44 @@ Analysis:
 ### Scenario 4: Targeted Hardware Patching (Marketing Department, East Building)
 **Objective:** Identify specific employee workstations in the Marketing department located in the East building for critical patching.
 
-\`\`\`sql
+{% highlight ruby %}
+sql
 SELECT *
 FROM employees
 WHERE department = 'Marketing' AND office LIKE 'East%';
-\`\`\`
+{% endhighlight %}
 
 Output:
-[IMAGE]
+
+![sql table]({{site.baseurl}}/assets/img/Scenario_4_Employees in Marketing East Building.png)
 
 ### Scenario 5: Multi-Department Patch Deployment (Finance and Sales)
 **Objective:**  Retrieve device details for personnel in Finance or Sales to execute department-specific software updates.
 
-\`\`\`sql
+{% highlight ruby %}
+sql
 SELECT *
 FROM employees
 WHERE department = 'Finance' OR department = 'Sales';
-\`\`\`
+{% endhighlight %}
 
 Output:
-[IMAGE]
+
+![sql table]({{site.baseurl}}/assets/img/Scenario_5_Employees in Sales and Finance.png)
 
 ### Scenario 6: Non-IT Asset Audit
 Target all systems belonging to non-IT personnel for general security policy enforcement.
 
-\`\`\`sql
+{% highlight ruby %}
+sql
 SELECT *
 FROM employees
 WHERE NOT department = 'Information Technology';
-\`\`\`
+{% endhighlight %}
 
 Output:
-[IMAGE]
+
+![sql table]({{site.baseurl}}/assets/img/Scenario_6_Employees not in Information Technoloy.png)
 
 ---
 
